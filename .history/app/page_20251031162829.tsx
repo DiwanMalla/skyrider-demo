@@ -1,13 +1,12 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { Memory } from "@/components/Memory";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight, BookOpen, Users, Zap } from "lucide-react";
 
 export default function Home() {
@@ -101,7 +100,7 @@ export default function Home() {
     },
   ];
 
-  const containerVariants: Variants = {
+  const containerVariants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -112,7 +111,7 @@ export default function Home() {
     },
   };
 
-  const itemVariants: Variants = {
+  const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     show: {
       opacity: 1,
@@ -200,13 +199,10 @@ export default function Home() {
             <div className="md:col-span-5 lg:col-span-6">
               {/* Hero image from public/cover.png */}
               <div className="rounded-xl overflow-hidden shadow-lg">
-                <Image
+                <img
                   src="/cover.png"
                   alt="Skyrider hero"
                   className="w-full h-auto object-cover"
-                  width={1200}
-                  height={800}
-                  priority
                 />
               </div>
             </div>

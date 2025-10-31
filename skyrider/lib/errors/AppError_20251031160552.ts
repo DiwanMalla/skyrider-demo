@@ -6,7 +6,7 @@ export class AppError extends Error {
     public message: string,
     public statusCode: number = 500,
     public code: string = 'INTERNAL_ERROR',
-    public details?: Record<string, any>,
+    public details?: Record<string, unknown>,
   ) {
     super(message)
     this.name = 'AppError'
@@ -24,7 +24,7 @@ export class AppError extends Error {
 }
 
 export class ValidationError extends AppError {
-  constructor(message: string, details?: Record<string, any>) {
+  constructor(message: string, details?: Record<string, unknown>) {
     super(message, 400, 'VALIDATION_ERROR', details)
     this.name = 'ValidationError'
   }

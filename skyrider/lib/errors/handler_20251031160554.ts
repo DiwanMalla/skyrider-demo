@@ -1,4 +1,4 @@
-import { AppError, ValidationError } from './AppError'
+import { AppError } from './AppError'
 import { logger } from '@/lib/logger/logger'
 
 export interface ErrorResponse {
@@ -7,7 +7,7 @@ export interface ErrorResponse {
     message: string
     code: string
     statusCode: number
-    details?: Record<string, any>
+    details?: Record<string, unknown>
   }
 }
 

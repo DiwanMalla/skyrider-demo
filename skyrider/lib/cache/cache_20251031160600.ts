@@ -1,4 +1,4 @@
-import { unstable_cache } from "next/cache";
+import { unstable_cache } from 'next/cache'
 
 /**
  * Cache helper for Server Components and Route Handlers
@@ -6,8 +6,8 @@ import { unstable_cache } from "next/cache";
  */
 
 export interface CacheOptions {
-  revalidate?: number; // seconds
-  tags?: string[];
+  revalidate?: number // seconds
+  tags?: string[]
 }
 
 /**
@@ -19,23 +19,22 @@ export interface CacheOptions {
 export function createCachedFn<T extends unknown[], R>(
   fn: (...args: T) => Promise<R>,
   keyParts: string[],
-  options: CacheOptions = {}
+  options: CacheOptions = {},
 ) {
-  const { revalidate = 60, tags = [] } = options;
+  const { revalidate = 60, tags = [] } = options
 
   return unstable_cache(fn, keyParts, {
     revalidate,
     tags,
-  });
+  })
 }
 
 /**
  * Cache key builder utility
  */
 export const cacheKeys = {
-  results: (examId: string, classId?: string) =>
-    ["results", examId, classId].filter(Boolean),
-  exam: (examId: string) => ["exam", examId],
-  class: (classId: string) => ["class", classId],
-  student: (studentId: string) => ["student", studentId],
-};
+  results: (examId: string, classId?: string) => ['results', examId, classId].filter(Boolean),
+  exam: (examId: string) => ['exam', examId],
+  class: (classId: string) => ['class', classId],
+  student: (studentId: string) => ['student', studentId],
+}

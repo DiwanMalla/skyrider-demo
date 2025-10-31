@@ -1,13 +1,12 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { Memory } from "@/components/Memory";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight, BookOpen, Users, Zap } from "lucide-react";
 
 export default function Home() {
@@ -101,7 +100,7 @@ export default function Home() {
     },
   ];
 
-  const containerVariants: Variants = {
+  const containerVariants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -112,7 +111,7 @@ export default function Home() {
     },
   };
 
-  const itemVariants: Variants = {
+  const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     show: {
       opacity: 1,
@@ -159,57 +158,79 @@ export default function Home() {
       {/* Main content */}
       <div className="relative z-10">
         {/* Navigation */}
-        <Navbar />
-
-        {/* Hero section */}
-        <section className="pt-24 pb-12 px-4 md:pt-32 md:pb-20">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            <div className="md:col-span-7 lg:col-span-6">
-              <motion.h1
-                ref={titleRef}
-                className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-6"
-              >
-                Skyrider High School
-              </motion.h1>
-
-              <motion.p
-                ref={subtitleRef}
-                className="text-lg text-slate-600 mb-6 max-w-2xl"
-              >
-                Empowering minds and shaping futures — a modern high school
-                experience focused on learning, community, and growth.
-              </motion.p>
-
-              <motion.div ref={ctaRef} className="flex flex-wrap gap-4">
-                <Link
-                  href="/about"
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-md bg-emerald-600 text-white font-semibold hover:bg-emerald-700"
-                >
-                  Learn more
-                  <ArrowRight size={16} />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-md border border-slate-200 text-slate-900 bg-white hover:bg-slate-50"
-                >
-                  Contact us
-                </Link>
-              </motion.div>
-            </div>
-
-            <div className="md:col-span-5 lg:col-span-6">
-              {/* Hero image from public/cover.png */}
-              <div className="rounded-xl overflow-hidden shadow-lg">
-                <Image
-                  src="/cover.png"
-                  alt="Skyrider hero"
-                  className="w-full h-auto object-cover"
-                  width={1200}
-                  height={800}
-                  priority
-                />
+        <nav className="fixed top-0 w-full backdrop-blur-sm bg-white/80 border-b border-slate-200/50 px-6 py-4 z-50">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Image
+                src="/logo.png"
+                alt="Skyrider Logo"
+                width={40}
+                height={40}
+                className="rounded-lg"
+              />
+              <div className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-sky-600 bg-clip-text text-transparent">
+                Skyrider
               </div>
             </div>
+            <div className="flex gap-6 items-center">
+              <Link
+                href="/about"
+                className="text-slate-600 hover:text-slate-900 transition-colors text-sm font-medium"
+              >
+                About
+              </Link>
+              <Link
+                href="/contact"
+                className="text-slate-600 hover:text-slate-900 transition-colors text-sm font-medium"
+              >
+                Contact
+              </Link>
+            </div>
+          </div>
+        </nav>
+
+        {/* Hero section */}
+        <section className="pt-32 pb-20 px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.h1
+              ref={titleRef}
+              className="text-5xl md:text-6xl font-bold text-slate-900 leading-tight mb-6"
+            >
+              Welcome to{" "}
+              <span className="bg-gradient-to-r from-emerald-600 to-sky-600 bg-clip-text text-transparent">
+                Skyrider High School
+              </span>
+            </motion.h1>
+
+            <motion.p
+              ref={subtitleRef}
+              className="text-xl text-slate-600 mb-8 leading-relaxed max-w-2xl mx-auto"
+            >
+              Empowering minds, shaping futures. A modern high school dedicated
+              to academic excellence and holistic development.
+            </motion.p>
+
+            <motion.div
+              ref={ctaRef}
+              className="flex gap-4 justify-center flex-wrap"
+            >
+              <Link
+                href="/results"
+                className="px-8 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-emerald-600/30 transition-all flex items-center gap-2 group"
+              >
+                View Results
+                <ArrowRight
+                  size={18}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
+              </Link>
+              <Link
+                href="/about"
+                className="px-8 py-3 border-2 border-slate-200 text-slate-900 rounded-lg font-semibold hover:border-slate-300 hover:bg-slate-50 transition-all"
+              >
+                Learn More
+              </Link>
+            </motion.div>
           </div>
         </section>
 
@@ -305,7 +326,57 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <Footer />
+        <footer className="py-12 px-6 bg-slate-900 text-white border-t border-slate-800">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+              <div>
+                <h3 className="font-bold text-lg mb-4">Skyrider High School</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  Modern education platform dedicated to academic excellence
+                </p>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-4">Quick Links</h4>
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <Link
+                      href="/"
+                      className="text-slate-400 hover:text-white transition-colors"
+                    >
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/results"
+                      className="text-slate-400 hover:text-white transition-colors"
+                    >
+                      Results
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/about"
+                      className="text-slate-400 hover:text-white transition-colors"
+                    >
+                      About
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-4">Contact</h4>
+                <p className="text-slate-400 text-sm">
+                  Email: info@skyrider.edu.np
+                </p>
+                <p className="text-slate-400 text-sm">Phone: +977-1-XXXXXXX</p>
+              </div>
+            </div>
+            <div className="border-t border-slate-800 pt-8 text-center text-slate-400 text-sm">
+              <p>&copy; 2025 Skyrider High School. All rights reserved.</p>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );

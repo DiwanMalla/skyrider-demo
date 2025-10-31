@@ -5,18 +5,10 @@
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error'
 
-interface LogEntry {
-  timestamp: string
-  level: LogLevel
-  message: string
-  context?: Record<string, any>
-  stack?: string
-}
-
 class Logger {
   private isDevelopment = process.env.NODE_ENV === 'development'
 
-  private formatMessage(level: LogLevel, message: string, context?: Record<string, any>) {
+  private formatMessage(level: LogLevel, message: string, context?: Record<string, unknown>) {
     const timestamp = new Date().toISOString()
     const levelUpper = level.toUpperCase()
 
@@ -34,21 +26,21 @@ class Logger {
     })
   }
 
-  debug(message: string, context?: Record<string, any>) {
+  debug(message: string, context?: Record<string, unknown>) {
     if (this.isDevelopment) {
       console.log(this.formatMessage('debug', message, context))
     }
   }
 
-  info(message: string, context?: Record<string, any>) {
+  info(message: string, context?: Record<string, unknown>) {
     console.info(this.formatMessage('info', message, context))
   }
 
-  warn(message: string, context?: Record<string, any>) {
+  warn(message: string, context?: Record<string, unknown>) {
     console.warn(this.formatMessage('warn', message, context))
   }
 
-  error(message: string, context?: Record<string, any>) {
+  error(message: string, context?: Record<string, unknown>) {
     console.error(this.formatMessage('error', message, context))
   }
 }
