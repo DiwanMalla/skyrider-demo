@@ -13,21 +13,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Skyrider School",
+  title: "Skyrider High School",
   description:
-    "Skyrider School — Excellence in education, empowering minds and shaping futures in Nepal.",
+    "Skyrider High School — modern education, community, and student success in Nepal.",
   openGraph: {
-    title: "Skyrider School",
+    title: "Skyrider High School",
     description:
-      "Skyrider School — Excellence in education, empowering minds and shaping futures in Nepal.",
+      "Skyrider High School — modern education, community, and student success in Nepal.",
     url: "https://skyrider.edu.np/",
-    siteName: "Skyrider School",
+    siteName: "Skyrider High School",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Skyrider School",
+    title: "Skyrider High School",
     description:
-      "Skyrider School — Excellence in education, empowering minds and shaping futures in Nepal.",
+      "Skyrider High School — modern education, community, and student success in Nepal.",
   },
 };
 

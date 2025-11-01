@@ -33,10 +33,6 @@ const SLOGANS = [
     main: "A Right Choice for BIG DREAM",
     sub: "Excellence in Every Step",
   },
-  {
-    main: "Inspiration, Innovation and Discovery",
-    sub: "Nurturing Tomorrow's Leaders Today",
-  },
 ];
 
 export default function Home() {
@@ -85,10 +81,13 @@ export default function Home() {
     }
   }, []);
 
-  // Handle slide change from Banner component
-  const handleSlideChange = (index: number) => {
-    setCurrentSlogan(index % SLOGANS.length);
-  };
+  // Rotate slogans every 5 seconds (synced with banner autoplay)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlogan((prev) => (prev + 1) % SLOGANS.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const features = [
     {
@@ -195,15 +194,15 @@ export default function Home() {
         <section className="relative w-full h-[75vh] md:h-[85vh] overflow-hidden">
           {/* Banner Component */}
           <div className="absolute inset-0 z-0">
-            <Banner onSlideChange={handleSlideChange} />
+            <Banner />
           </div>
 
           {/* Coordinated overlay gradient for text readability */}
-          <div className="absolute inset-0 z-10 bg-gradient-to-b from-slate-900/40 via-slate-900/25 to-slate-900/30 pointer-events-none" />
+          <div className="absolute inset-0 z-10 bg-gradient-to-b from-slate-900/50 via-slate-900/30 to-slate-900/40" />
 
           {/* Hero Content Overlay */}
-          <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pointer-events-auto">
+          <div className="absolute inset-0 z-20 flex items-center justify-center">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <motion.div
                 key={currentSlogan}
                 initial={{ opacity: 0, y: 20 }}
@@ -256,6 +255,25 @@ export default function Home() {
               </motion.div>
             </div>
           </div>
+
+          {/* Animated scroll indicator */}
+          <motion.div
+            className="absolute bottom-8 left-1/2 -translate-x-1/2"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <div className="w-6 h-10 rounded-full border-2 border-white/50 flex items-start justify-center p-2">
+              <motion.div
+                className="w-1.5 h-1.5 bg-white rounded-full"
+                animate={{ y: [0, 12, 0] }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            </div>
+          </motion.div>
         </section>
 
         {/* Features Section */}

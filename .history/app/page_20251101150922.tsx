@@ -199,11 +199,11 @@ export default function Home() {
           </div>
 
           {/* Coordinated overlay gradient for text readability */}
-          <div className="absolute inset-0 z-10 bg-gradient-to-b from-slate-900/40 via-slate-900/25 to-slate-900/30 pointer-events-none" />
+          <div className="absolute inset-0 z-10 bg-gradient-to-b from-slate-900/40 via-slate-900/25 to-slate-900/30" />
 
           {/* Hero Content Overlay */}
-          <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pointer-events-auto">
+          <div className="absolute inset-0 z-20 flex items-center justify-center">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <motion.div
                 key={currentSlogan}
                 initial={{ opacity: 0, y: 20 }}

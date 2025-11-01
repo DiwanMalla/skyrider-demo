@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { Memory } from "@/components/Memory";
 import { Navbar } from "@/components/Navbar";
@@ -9,41 +9,12 @@ import { Footer } from "@/components/Footer";
 import Banner from "@/components/Banner/Banner";
 import Link from "next/link";
 // Image import removed (banner uses dynamic images)
-import {
-  ArrowRight,
-  BookOpen,
-  Users,
-  Zap,
-  Award,
-  Calendar,
-  Globe,
-} from "lucide-react";
-
-// Theme slogans that rotate with banner
-const SLOGANS = [
-  {
-    main: "EDUCATION BRINGS ABILITY",
-    sub: "AND GIVES AMENITY",
-  },
-  {
-    main: "A Different Wing with Life Skills",
-    sub: "Begins with Yoga & Ends with Music",
-  },
-  {
-    main: "A Right Choice for BIG DREAM",
-    sub: "Excellence in Every Step",
-  },
-  {
-    main: "Inspiration, Innovation and Discovery",
-    sub: "Nurturing Tomorrow's Leaders Today",
-  },
-];
+import { ArrowRight, BookOpen, Users, Zap, Award, Calendar, Globe } from "lucide-react";
 
 export default function Home() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const [currentSlogan, setCurrentSlogan] = useState(0);
 
   // GSAP timeline for page load animations
   useEffect(() => {
@@ -84,11 +55,6 @@ export default function Home() {
       );
     }
   }, []);
-
-  // Handle slide change from Banner component
-  const handleSlideChange = (index: number) => {
-    setCurrentSlogan(index % SLOGANS.length);
-  };
 
   const features = [
     {
@@ -135,24 +101,21 @@ export default function Home() {
       id: "mem-1",
       title: "Academic Programs",
       subtitle: "Excellence in Education",
-      content:
-        "Comprehensive curriculum from grades 1-12 with science, arts, and commerce streams",
+      content: "Comprehensive curriculum from grades 1-12 with science, arts, and commerce streams",
       accent: "emerald" as const,
     },
     {
       id: "mem-2",
       title: "Student Life",
       subtitle: "Beyond Academics",
-      content:
-        "Vibrant campus life with sports, clubs, cultural activities, and leadership opportunities",
+      content: "Vibrant campus life with sports, clubs, cultural activities, and leadership opportunities",
       accent: "sky" as const,
     },
     {
       id: "mem-3",
       title: "Admissions",
       subtitle: "Join Our Community",
-      content:
-        "Now accepting applications for the new academic year - discover your potential with us",
+      content: "Now accepting applications for the new academic year - discover your potential with us",
       accent: "indigo" as const,
     },
   ];
@@ -195,67 +158,67 @@ export default function Home() {
         <section className="relative w-full h-[75vh] md:h-[85vh] overflow-hidden">
           {/* Banner Component */}
           <div className="absolute inset-0 z-0">
-            <Banner onSlideChange={handleSlideChange} />
+            <Banner />
           </div>
-
+          
           {/* Coordinated overlay gradient for text readability */}
-          <div className="absolute inset-0 z-10 bg-gradient-to-b from-slate-900/40 via-slate-900/25 to-slate-900/30 pointer-events-none" />
-
+          <div className="absolute inset-0 z-10 bg-gradient-to-b from-slate-900/50 via-slate-900/30 to-slate-900/40" />
+          
           {/* Hero Content Overlay */}
-          <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pointer-events-auto">
-              <motion.div
-                key={currentSlogan}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.6 }}
+          <div className="absolute inset-0 z-20 flex items-center justify-center">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <motion.h1
+                ref={titleRef}
+                className="text-5xl sm:text-6xl md:text-8xl font-extrabold text-white leading-tight mb-6"
+                style={{
+                  textShadow: '0 4px 12px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6)'
+                }}
               >
-                <h1
-                  ref={titleRef}
-                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-3"
-                  style={{
-                    textShadow:
-                      "0 4px 12px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6)",
-                  }}
-                >
-                  <span className="text-emerald-400 drop-shadow-lg">
-                    {SLOGANS[currentSlogan].main}
-                  </span>
-                </h1>
+                <span className="text-emerald-400 drop-shadow-lg">Excellence in Education</span>
+              </motion.h1>
 
-                <p
-                  ref={subtitleRef}
-                  className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white mb-8 max-w-4xl mx-auto font-semibold"
-                  style={{
-                    textShadow:
-                      "0 2px 8px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.6)",
-                  }}
-                >
-                  {SLOGANS[currentSlogan].sub}
-                </p>
-              </motion.div>
-
-              <motion.div
-                ref={ctaRef}
-                className="flex flex-wrap gap-3 sm:gap-4 justify-center"
+              <motion.p
+                ref={subtitleRef}
+                className="text-xl sm:text-2xl md:text-3xl text-white mb-10 max-w-4xl mx-auto font-semibold"
+                style={{
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.6)'
+                }}
               >
+                Empowering minds, shaping futures
+              </motion.p>
+
+              <motion.div ref={ctaRef} className="flex flex-wrap gap-4 justify-center">
                 <Link
                   href="/about"
-                  className="inline-flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+                  className="inline-flex items-center gap-2 px-6 py-4 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
                 >
                   Discover More
-                  <ArrowRight size={18} className="sm:w-5 sm:h-5" />
+                  <ArrowRight size={20} />
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base rounded-lg border-2 border-white text-white bg-white/10 backdrop-blur-sm hover:bg-white/20 font-semibold shadow-xl transition-all"
+                  className="inline-flex items-center gap-2 px-6 py-4 rounded-lg border-2 border-white text-white bg-white/10 backdrop-blur-sm hover:bg-white/20 font-semibold shadow-xl transition-all"
                 >
                   Get in Touch
                 </Link>
               </motion.div>
             </div>
           </div>
+
+          {/* Animated scroll indicator */}
+          <motion.div
+            className="absolute bottom-8 left-1/2 -translate-x-1/2"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <div className="w-6 h-10 rounded-full border-2 border-white/50 flex items-start justify-center p-2">
+              <motion.div
+                className="w-1.5 h-1.5 bg-white rounded-full"
+                animate={{ y: [0, 12, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </div>
+          </motion.div>
         </section>
 
         {/* Features Section */}
@@ -269,11 +232,10 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-                Why Choose Skyrider School?
+                Why Choose Skyrider?
               </h2>
               <p className="text-slate-600 text-lg md:text-xl max-w-3xl mx-auto">
-                A legacy of academic excellence combined with modern facilities
-                and holistic development
+                A legacy of academic excellence combined with modern facilities and holistic development
               </p>
             </motion.div>
 
@@ -352,8 +314,7 @@ export default function Home() {
                 Explore Our School
               </h2>
               <p className="text-slate-600 text-lg md:text-xl max-w-3xl mx-auto">
-                Discover the opportunities and experiences that await you at
-                Skyrider
+                Discover the opportunities and experiences that await you at Skyrider
               </p>
             </motion.div>
 
@@ -394,8 +355,7 @@ export default function Home() {
                 Ready to Begin Your Journey?
               </h2>
               <p className="text-slate-600 text-lg mb-8 max-w-2xl mx-auto">
-                Join our community of learners and discover your potential.
-                Admissions are now open for the upcoming academic year.
+                Join our community of learners and discover your potential. Admissions are now open for the upcoming academic year.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <Link

@@ -33,10 +33,6 @@ const SLOGANS = [
     main: "A Right Choice for BIG DREAM",
     sub: "Excellence in Every Step",
   },
-  {
-    main: "Inspiration, Innovation and Discovery",
-    sub: "Nurturing Tomorrow's Leaders Today",
-  },
 ];
 
 export default function Home() {
@@ -85,10 +81,13 @@ export default function Home() {
     }
   }, []);
 
-  // Handle slide change from Banner component
-  const handleSlideChange = (index: number) => {
-    setCurrentSlogan(index % SLOGANS.length);
-  };
+  // Rotate slogans every 5 seconds (synced with banner autoplay)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlogan((prev) => (prev + 1) % SLOGANS.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const features = [
     {
@@ -195,67 +194,78 @@ export default function Home() {
         <section className="relative w-full h-[75vh] md:h-[85vh] overflow-hidden">
           {/* Banner Component */}
           <div className="absolute inset-0 z-0">
-            <Banner onSlideChange={handleSlideChange} />
+            <Banner />
           </div>
 
           {/* Coordinated overlay gradient for text readability */}
-          <div className="absolute inset-0 z-10 bg-gradient-to-b from-slate-900/40 via-slate-900/25 to-slate-900/30 pointer-events-none" />
+          <div className="absolute inset-0 z-10 bg-gradient-to-b from-slate-900/50 via-slate-900/30 to-slate-900/40" />
 
           {/* Hero Content Overlay */}
-          <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pointer-events-auto">
-              <motion.div
-                key={currentSlogan}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.6 }}
+          <div className="absolute inset-0 z-20 flex items-center justify-center">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <motion.h1
+                ref={titleRef}
+                className="text-5xl sm:text-6xl md:text-8xl font-extrabold text-white leading-tight mb-6"
+                style={{
+                  textShadow:
+                    "0 4px 12px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6)",
+                }}
               >
-                <h1
-                  ref={titleRef}
-                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-3"
-                  style={{
-                    textShadow:
-                      "0 4px 12px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6)",
-                  }}
-                >
-                  <span className="text-emerald-400 drop-shadow-lg">
-                    {SLOGANS[currentSlogan].main}
-                  </span>
-                </h1>
+                <span className="text-emerald-400 drop-shadow-lg">
+                  Excellence in Education
+                </span>
+              </motion.h1>
 
-                <p
-                  ref={subtitleRef}
-                  className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white mb-8 max-w-4xl mx-auto font-semibold"
-                  style={{
-                    textShadow:
-                      "0 2px 8px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.6)",
-                  }}
-                >
-                  {SLOGANS[currentSlogan].sub}
-                </p>
-              </motion.div>
+              <motion.p
+                ref={subtitleRef}
+                className="text-xl sm:text-2xl md:text-3xl text-white mb-10 max-w-4xl mx-auto font-semibold"
+                style={{
+                  textShadow:
+                    "0 2px 8px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.6)",
+                }}
+              >
+                Empowering minds, shaping futures
+              </motion.p>
 
               <motion.div
                 ref={ctaRef}
-                className="flex flex-wrap gap-3 sm:gap-4 justify-center"
+                className="flex flex-wrap gap-4 justify-center"
               >
                 <Link
                   href="/about"
-                  className="inline-flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+                  className="inline-flex items-center gap-2 px-6 py-4 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
                 >
                   Discover More
-                  <ArrowRight size={18} className="sm:w-5 sm:h-5" />
+                  <ArrowRight size={20} />
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base rounded-lg border-2 border-white text-white bg-white/10 backdrop-blur-sm hover:bg-white/20 font-semibold shadow-xl transition-all"
+                  className="inline-flex items-center gap-2 px-6 py-4 rounded-lg border-2 border-white text-white bg-white/10 backdrop-blur-sm hover:bg-white/20 font-semibold shadow-xl transition-all"
                 >
                   Get in Touch
                 </Link>
               </motion.div>
             </div>
           </div>
+
+          {/* Animated scroll indicator */}
+          <motion.div
+            className="absolute bottom-8 left-1/2 -translate-x-1/2"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <div className="w-6 h-10 rounded-full border-2 border-white/50 flex items-start justify-center p-2">
+              <motion.div
+                className="w-1.5 h-1.5 bg-white rounded-full"
+                animate={{ y: [0, 12, 0] }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            </div>
+          </motion.div>
         </section>
 
         {/* Features Section */}
