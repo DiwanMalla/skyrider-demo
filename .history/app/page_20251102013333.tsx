@@ -8,7 +8,6 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import Banner from "@/components/Banner/Banner";
 import { WhatWeOffer } from "@/components/WhatWeOffer";
-import { WhyChooseSection } from "@/components/WhyChooseSection";
 import Link from "next/link";
 // Image import removed (banner uses dynamic images)
 import {
@@ -170,6 +169,20 @@ export default function Home() {
     },
   };
 
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 24,
+        duration: 0.4,
+      },
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Main content */}
@@ -249,8 +262,85 @@ export default function Home() {
         {/* What We Offer Section */}
         <WhatWeOffer />
 
-        {/* Features Section with GSAP */}
-        <WhyChooseSection features={features} />
+        {/* Features Section */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+                Why Choose Skyrider School?
+              </h2>
+              <p className="text-slate-600 text-lg md:text-xl max-w-3xl mx-auto">
+                A legacy of academic excellence combined with modern facilities
+                and holistic development
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+            >
+              {features.map((feature) => {
+                const Icon = feature.icon;
+                return (
+                  <motion.div
+                    key={feature.id}
+                    variants={itemVariants}
+                    className="group p-8 rounded-2xl bg-gradient-to-br from-white to-slate-50 border border-slate-200 hover:border-emerald-300 hover:shadow-xl transition-all cursor-pointer"
+                    whileHover={{ y: -5 }}
+                  >
+                    <div className="p-4 rounded-xl bg-emerald-50 w-fit mb-5 group-hover:bg-emerald-100 group-hover:scale-110 transition-all">
+                      <Icon className="text-emerald-600" size={28} />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-3">
+                      {feature.title}
+                    </h3>
+                    <p className="text-slate-600 leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Stats Section */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-emerald-600 to-emerald-700">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              className="grid grid-cols-2 md:grid-cols-4 gap-8"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              {[
+                { label: "Students", value: "1500+" },
+                { label: "Faculty", value: "80+" },
+                { label: "Years of Excellence", value: "25+" },
+                { label: "Success Rate", value: "95%" },
+              ].map((stat, idx) => (
+                <div key={idx} className="text-center">
+                  <div className="text-4xl md:text-5xl font-extrabold text-white mb-2">
+                    {stat.value}
+                  </div>
+                  <div className="text-emerald-100 font-medium text-sm md:text-base">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
 
         {/* Highlights Section */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50">

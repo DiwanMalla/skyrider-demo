@@ -8,7 +8,6 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import Banner from "@/components/Banner/Banner";
 import { WhatWeOffer } from "@/components/WhatWeOffer";
-import { WhyChooseSection } from "@/components/WhyChooseSection";
 import Link from "next/link";
 // Image import removed (banner uses dynamic images)
 import {
@@ -170,6 +169,20 @@ export default function Home() {
     },
   };
 
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 24,
+        duration: 0.4,
+      },
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Main content */}
@@ -251,6 +264,35 @@ export default function Home() {
 
         {/* Features Section with GSAP */}
         <WhyChooseSection features={features} />
+
+        {/* Stats Section */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-emerald-600 to-emerald-700">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              className="grid grid-cols-2 md:grid-cols-4 gap-8"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              {[
+                { label: "Students", value: "1500+" },
+                { label: "Faculty", value: "80+" },
+                { label: "Years of Excellence", value: "25+" },
+                { label: "Success Rate", value: "95%" },
+              ].map((stat, idx) => (
+                <div key={idx} className="text-center">
+                  <div className="text-4xl md:text-5xl font-extrabold text-white mb-2">
+                    {stat.value}
+                  </div>
+                  <div className="text-emerald-100 font-medium text-sm md:text-base">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
 
         {/* Highlights Section */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50">
