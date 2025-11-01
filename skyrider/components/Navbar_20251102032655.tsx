@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
   Menu,
@@ -12,6 +12,7 @@ import {
   Info,
   Phone,
   Search,
+  GraduationCap,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -78,16 +79,15 @@ export function Navbar() {
             >
               <Link href="/" className="flex items-center gap-3 group">
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  className="relative"
+                  whileHover={{ rotate: [0, -10, 10, 0] }}
+                  transition={{ duration: 0.5 }}
                 >
                   <Image
-                    src="/images/logo.png"
-                    alt="Skyrider School Logo"
-                    width={48}
-                    height={48}
-                    className="h-12 w-auto object-contain"
+                    src="/logo.png"
+                    alt="Skyrider School logo"
+                    width={40}
+                    height={40}
+                    className="rounded-lg shadow-sm"
                   />
                 </motion.div>
                 <motion.span

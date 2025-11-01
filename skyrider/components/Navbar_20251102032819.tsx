@@ -90,13 +90,6 @@ export function Navbar() {
                     className="h-12 w-auto object-contain"
                   />
                 </motion.div>
-                <motion.span
-                  className="font-bold text-lg md:text-xl bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-sky-600 to-indigo-600 group-hover:from-emerald-500 group-hover:via-sky-500 group-hover:to-indigo-500 transition-all duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  Skyrider School
-                </motion.span>
               </Link>
             </motion.div>
 

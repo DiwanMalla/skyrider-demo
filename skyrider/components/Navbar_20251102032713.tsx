@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import {
   Menu,
@@ -12,6 +11,7 @@ import {
   Info,
   Phone,
   Search,
+  GraduationCap,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -78,17 +78,11 @@ export function Navbar() {
             >
               <Link href="/" className="flex items-center gap-3 group">
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  className="relative"
+                  whileHover={{ rotate: [0, -10, 10, 0] }}
+                  transition={{ duration: 0.5 }}
+                  className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-sky-500 flex items-center justify-center shadow-lg"
                 >
-                  <Image
-                    src="/images/logo.png"
-                    alt="Skyrider School Logo"
-                    width={48}
-                    height={48}
-                    className="h-12 w-auto object-contain"
-                  />
+                  <GraduationCap className="w-6 h-6 text-white" />
                 </motion.div>
                 <motion.span
                   className="font-bold text-lg md:text-xl bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-sky-600 to-indigo-600 group-hover:from-emerald-500 group-hover:via-sky-500 group-hover:to-indigo-500 transition-all duration-300"
