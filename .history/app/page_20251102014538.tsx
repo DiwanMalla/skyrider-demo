@@ -188,7 +188,7 @@ export default function Home() {
           </div>
 
           {/* Coordinated overlay gradient for text readability */}
-          <div className="absolute inset-0 z-10 bg-linear-to-b from-slate-900/40 via-slate-900/25 to-slate-900/30 pointer-events-none" />
+          <div className="absolute inset-0 z-10 bg-gradient-to-b from-slate-900/40 via-slate-900/25 to-slate-900/30 pointer-events-none" />
 
           {/* Hero Content Overlay */}
           <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
@@ -255,6 +255,49 @@ export default function Home() {
 
         {/* Academic Programs Section */}
         <AcademicPrograms />
+
+        {/* Highlights Section */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+                Explore Our School
+              </h2>
+              <p className="text-slate-600 text-lg md:text-xl max-w-3xl mx-auto">
+                Discover the opportunities and experiences that await you at
+                Skyrider
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-3 gap-8"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+            >
+              {memories.map((memory) => (
+                <Memory
+                  key={memory.id}
+                  id={memory.id}
+                  title={memory.title}
+                  subtitle={memory.subtitle}
+                  content={memory.content}
+                  accent={memory.accent}
+                  size="md"
+                  onClick={() => console.log(`Clicked: ${memory.id}`)}
+                  removable={false}
+                />
+              ))}
+            </motion.div>
+          </div>
+        </section>
 
         {/* Call to Action Section */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">

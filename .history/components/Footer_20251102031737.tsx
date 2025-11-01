@@ -190,13 +190,13 @@ export function Footer() {
                   <MapPin className="w-5 h-5 text-emerald-400 mt-0.5 shrink-0" />
                   <div className="text-slate-400 text-sm">
                     <p>Ratnanagar-13 (Tandi)</p>
-                    <p>Chitwan, Nepal</p>
+                    <p>Kathmandu, Nepal</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-emerald-400 shrink-0" />
-                  <p className="text-slate-400 text-sm">+977-056562782</p>
+                  <p className="text-slate-400 text-sm">+977-1-1234567</p>
                 </div>
 
                 <div className="flex items-center gap-3">

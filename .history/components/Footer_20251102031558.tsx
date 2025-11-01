@@ -72,9 +72,7 @@ export function Footer() {
 
             {/* Quick Links */}
             <div>
-              <h4 className="font-semibold text-lg mb-6 text-white">
-                Quick Links
-              </h4>
+              <h4 className="font-semibold text-lg mb-6 text-white">Quick Links</h4>
               <ul className="space-y-3">
                 <li>
                   <Link
@@ -126,9 +124,7 @@ export function Footer() {
 
             {/* Student Life */}
             <div>
-              <h4 className="font-semibold text-lg mb-6 text-white">
-                Student Life
-              </h4>
+              <h4 className="font-semibold text-lg mb-6 text-white">Student Life</h4>
               <ul className="space-y-3">
                 <li>
                   <Link
@@ -180,27 +176,25 @@ export function Footer() {
 
             {/* Contact & Newsletter */}
             <div>
-              <h4 className="font-semibold text-lg mb-6 text-white">
-                Get in Touch
-              </h4>
+              <h4 className="font-semibold text-lg mb-6 text-white">Get in Touch</h4>
 
               {/* Contact Info */}
               <div className="space-y-4 mb-6">
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-emerald-400 mt-0.5 shrink-0" />
+                  <MapPin className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
                   <div className="text-slate-400 text-sm">
-                    <p>Ratnanagar-13 (Tandi)</p>
-                    <p>Chitwan, Nepal</p>
+                    <p>123 Education Street</p>
+                    <p>Kathmandu, Nepal</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-emerald-400 shrink-0" />
-                  <p className="text-slate-400 text-sm">+977-056562782</p>
+                  <Phone className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                  <p className="text-slate-400 text-sm">+977-1-1234567</p>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-emerald-400 shrink-0" />
+                  <Mail className="w-5 h-5 text-emerald-400 flex-shrink-0" />
                   <p className="text-slate-400 text-sm">info@skyrider.edu.np</p>
                 </div>
               </div>
@@ -223,6 +217,26 @@ export function Footer() {
               </div>
             </div>
           </div>
+
+          {/* Accreditation & Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-emerald-400 mb-1">15+</div>
+              <div className="text-slate-400 text-sm">Years of Excellence</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-sky-400 mb-1">1000+</div>
+              <div className="text-slate-400 text-sm">Students</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-purple-400 mb-1">50+</div>
+              <div className="text-slate-400 text-sm">Expert Faculty</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-pink-400 mb-1">95%</div>
+              <div className="text-slate-400 text-sm">Success Rate</div>
+            </div>
+          </div>
         </div>
 
         {/* Bottom Bar */}
@@ -230,27 +244,17 @@ export function Footer() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div className="text-slate-400 text-sm">
-                &copy; {new Date().getFullYear()} Skyrider High School. All
-                rights reserved.
+                &copy; {new Date().getFullYear()} Skyrider High School. All rights reserved.
               </div>
 
               <div className="flex items-center gap-6 text-sm">
-                <Link
-                  href="/privacy"
-                  className="text-slate-400 hover:text-white transition-colors"
-                >
+                <Link href="/privacy" className="text-slate-400 hover:text-white transition-colors">
                   Privacy Policy
                 </Link>
-                <Link
-                  href="/terms"
-                  className="text-slate-400 hover:text-white transition-colors"
-                >
+                <Link href="/terms" className="text-slate-400 hover:text-white transition-colors">
                   Terms of Service
                 </Link>
-                <Link
-                  href="/accessibility"
-                  className="text-slate-400 hover:text-white transition-colors"
-                >
+                <Link href="/accessibility" className="text-slate-400 hover:text-white transition-colors">
                   Accessibility
                 </Link>
               </div>
