@@ -43,7 +43,9 @@ const prefersReducedMotion =
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // Framer Motion variants for enter/exit
-const variants = {
+// Use `any` to avoid strict type incompatibilities between motion DOM typings and custom transitions
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const variants: any = {
   hidden: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 6 },
   enter: prefersReducedMotion
     ? { opacity: 1, transition: { duration: 0 } }
