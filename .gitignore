@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# backup files
+*_20*.tsx
+*_20*.ts
+.history/
+skyrider/components/*_20*.tsx
