@@ -23,9 +23,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [dropdownStates, setDropdownStates] = useState<{
-    [key: string]: boolean;
-  }>({});
+  const [dropdownStates, setDropdownStates] = useState<{[key: string]: boolean}>({});
 
   // Track scroll position for navbar styling
   useEffect(() => {
@@ -53,13 +51,13 @@ export function Navbar() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element;
-      if (!target.closest(".dropdown-container")) {
+      if (!target.closest('.dropdown-container')) {
         setDropdownStates({});
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const navItems = [
@@ -163,15 +161,10 @@ export function Navbar() {
                   {link.dropdown ? (
                     <div className="relative dropdown-container">
                       <button
-                        onClick={() =>
-                          setDropdownStates((prev) => ({
-                            ...Object.keys(prev).reduce(
-                              (acc, key) => ({ ...acc, [key]: false }),
-                              {}
-                            ),
-                            [link.label]: !prev[link.label],
-                          }))
-                        }
+                        onClick={() => setDropdownStates(prev => ({
+                          ...prev,
+                          [link.label]: !prev[link.label]
+                        }))}
                         className="relative px-4 py-2 rounded-lg text-slate-700 hover:text-slate-900 font-medium transition-colors duration-200 group flex items-center gap-2"
                       >
                         <link.icon size={16} />
@@ -191,7 +184,7 @@ export function Navbar() {
 
                       {/* Dropdown Menu */}
                       <AnimatePresence>
-                        {dropdownStates[link.label] && (
+                        {dropdownOpen && (
                           <motion.div
                             initial={{ opacity: 0, y: -10, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -208,18 +201,10 @@ export function Navbar() {
                               >
                                 <Link
                                   href={item.href}
-                                  onClick={() =>
-                                    setDropdownStates((prev) => ({
-                                      ...prev,
-                                      [link.label]: false,
-                                    }))
-                                  }
+                                  onClick={() => setDropdownOpen(false)}
                                   className="flex items-center gap-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all duration-200 group"
                                 >
-                                  <item.icon
-                                    size={16}
-                                    className="text-slate-500 group-hover:text-emerald-500"
-                                  />
+                                  <item.icon size={16} className="text-slate-500 group-hover:text-emerald-500" />
                                   {item.label}
                                 </Link>
                               </motion.div>
@@ -348,9 +333,7 @@ export function Navbar() {
                             key={item.href}
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{
-                              delay: (index + subIndex + 1) * 0.1 + 0.2,
-                            }}
+                            transition={{ delay: (index + subIndex + 1) * 0.1 + 0.2 }}
                           >
                             <Link
                               href={item.href!}
@@ -432,7 +415,9 @@ export function Navbar() {
                   <div className="mt-4 max-h-60 overflow-y-auto">
                     {navItems
                       .flatMap((item) =>
-                        item.dropdown ? [item, ...(item.items || [])] : [item]
+                        item.dropdown
+                          ? [item, ...(item.items || [])]
+                          : [item]
                       )
                       .filter((item) =>
                         item.label
@@ -455,7 +440,9 @@ export function Navbar() {
                       ))}
                     {navItems
                       .flatMap((item) =>
-                        item.dropdown ? [item, ...(item.items || [])] : [item]
+                        item.dropdown
+                          ? [item, ...(item.items || [])]
+                          : [item]
                       )
                       .filter((item) =>
                         item.label

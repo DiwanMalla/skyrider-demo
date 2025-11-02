@@ -242,11 +242,11 @@ export function AcademicPrograms() {
 
           <h2
             ref={titleRef}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 via-sky-600 to-indigo-600"
+            className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 via-sky-600 to-indigo-600"
           >
             Complete Educational Journey
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl mx-auto mb-2">
+          <p className="text-slate-600 text-lg md:text-xl max-w-3xl mx-auto mb-2">
             From nursery to higher secondary education, we provide comprehensive
             learning pathways in both Science and Management streams.
           </p>

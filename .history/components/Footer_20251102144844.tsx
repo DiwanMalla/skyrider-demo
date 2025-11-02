@@ -72,115 +72,112 @@ export function Footer() {
               </div>
             </div>
 
-            {/* Quick Links & Student Life - 2 columns on small screens */}
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:contents">
-              {/* Quick Links */}
-              <div className="sm:col-span-1">
-                <h4 className="font-semibold text-base sm:text-lg mb-4 sm:mb-6 text-white">
-                  Quick Links
-                </h4>
-                <ul className="space-y-2 sm:space-y-3">
-                  <li>
-                    <Link
-                      href="/"
-                      className="text-slate-400 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-emerald-400 rounded-full"></span>
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/about"
-                      className="text-slate-400 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-emerald-400 rounded-full"></span>
-                      About Us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/academic-programs"
-                      className="text-slate-400 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-emerald-400 rounded-full"></span>
-                      Academic Programs
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/admissions"
-                      className="text-slate-400 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-emerald-400 rounded-full"></span>
-                      Admissions
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/contact"
-                      className="text-slate-400 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-emerald-400 rounded-full"></span>
-                      Contact
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+            {/* Quick Links */}
+            <div className="sm:col-span-1">
+              <h4 className="font-semibold text-base sm:text-lg mb-4 sm:mb-6 text-white">
+                Quick Links
+              </h4>
+              <ul className="space-y-2 sm:space-y-3">
+                <li>
+                  <Link
+                    href="/"
+                    className="text-slate-400 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-emerald-400 rounded-full"></span>
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/about"
+                    className="text-slate-400 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-emerald-400 rounded-full"></span>
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/academic-programs"
+                    className="text-slate-400 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-emerald-400 rounded-full"></span>
+                    Academic Programs
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/admissions"
+                    className="text-slate-400 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-emerald-400 rounded-full"></span>
+                    Admissions
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/contact"
+                    className="text-slate-400 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-emerald-400 rounded-full"></span>
+                    Contact
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-              {/* Student Life */}
-              <div className="sm:col-span-1">
-                <h4 className="font-semibold text-base sm:text-lg mb-4 sm:mb-6 text-white">
-                  Student Life
-                </h4>
-                <ul className="space-y-2 sm:space-y-3">
-                  <li>
-                    <Link
-                      href="/student-life"
-                      className="text-slate-400 hover:text-sky-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      <Users className="w-3 h-3 sm:w-4 sm:h-4" />
-                      Campus Life
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/sports"
-                      className="text-slate-400 hover:text-sky-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      <Award className="w-3 h-3 sm:w-4 sm:h-4" />
-                      Sports & Activities
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/clubs"
-                      className="text-slate-400 hover:text-sky-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      <Heart className="w-3 h-3 sm:w-4 sm:h-4" />
-                      Clubs & Societies
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/events"
-                      className="text-slate-400 hover:text-sky-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      <BookOpen className="w-3 h-3 sm:w-4 sm:h-4" />
-                      Events & News
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/alumni"
-                      className="text-slate-400 hover:text-sky-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
-                    >
-                      <GraduationCap className="w-3 h-3 sm:w-4 sm:h-4" />
-                      Alumni Network
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+            {/* Student Life */}
+            <div className="sm:col-span-1">
+              <h4 className="font-semibold text-base sm:text-lg mb-4 sm:mb-6 text-white">
+                Student Life
+              </h4>
+              <ul className="space-y-2 sm:space-y-3">
+                <li>
+                  <Link
+                    href="/student-life"
+                    className="text-slate-400 hover:text-sky-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    <Users className="w-3 h-3 sm:w-4 sm:h-4" />
+                    Campus Life
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/sports"
+                    className="text-slate-400 hover:text-sky-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    <Award className="w-3 h-3 sm:w-4 sm:h-4" />
+                    Sports & Activities
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/clubs"
+                    className="text-slate-400 hover:text-sky-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    <Heart className="w-3 h-3 sm:w-4 sm:h-4" />
+                    Clubs & Societies
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/events"
+                    className="text-slate-400 hover:text-sky-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    <BookOpen className="w-3 h-3 sm:w-4 sm:h-4" />
+                    Events & News
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/alumni"
+                    className="text-slate-400 hover:text-sky-400 transition-colors duration-300 flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    <GraduationCap className="w-3 h-3 sm:w-4 sm:h-4" />
+                    Alumni Network
+                  </Link>
+                </li>
+              </ul>
             </div>
 
             {/* Contact & Newsletter */}

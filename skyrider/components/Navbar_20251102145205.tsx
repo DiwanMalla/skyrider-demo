@@ -23,9 +23,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [dropdownStates, setDropdownStates] = useState<{
-    [key: string]: boolean;
-  }>({});
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // Track scroll position for navbar styling
   useEffect(() => {
@@ -49,32 +47,12 @@ export function Navbar() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [searchOpen]);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (!target.closest(".dropdown-container")) {
-        setDropdownStates({});
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   const navItems = [
     { href: "/", label: "Home", icon: Home },
+    { href: "/courses", label: "Courses", icon: BookOpen },
+    { href: "/tutors", label: "Tutors", icon: Users },
     {
-      label: "Classes",
-      icon: BookOpen,
-      dropdown: true,
-      items: [
-        { href: "/courses", label: "Courses", icon: BookOpen },
-        { href: "/tutors", label: "Tutors", icon: Users },
-      ],
-    },
-    {
-      label: "Resources",
+      label: "News & Events",
       icon: Calendar,
       dropdown: true,
       items: [
@@ -161,17 +139,9 @@ export function Navbar() {
                   className="relative"
                 >
                   {link.dropdown ? (
-                    <div className="relative dropdown-container">
+                    <div className="relative">
                       <button
-                        onClick={() =>
-                          setDropdownStates((prev) => ({
-                            ...Object.keys(prev).reduce(
-                              (acc, key) => ({ ...acc, [key]: false }),
-                              {}
-                            ),
-                            [link.label]: !prev[link.label],
-                          }))
-                        }
+                        onClick={() => setDropdownOpen(!dropdownOpen)}
                         className="relative px-4 py-2 rounded-lg text-slate-700 hover:text-slate-900 font-medium transition-colors duration-200 group flex items-center gap-2"
                       >
                         <link.icon size={16} />
@@ -179,7 +149,7 @@ export function Navbar() {
                         <ChevronDown
                           size={14}
                           className={`transition-transform duration-200 ${
-                            dropdownStates[link.label] ? "rotate-180" : ""
+                            dropdownOpen ? "rotate-180" : ""
                           }`}
                         />
                         <motion.div
@@ -191,13 +161,13 @@ export function Navbar() {
 
                       {/* Dropdown Menu */}
                       <AnimatePresence>
-                        {dropdownStates[link.label] && (
+                        {dropdownOpen && (
                           <motion.div
                             initial={{ opacity: 0, y: -10, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: -10, scale: 0.95 }}
                             transition={{ duration: 0.2 }}
-                            className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-200/50 backdrop-blur-sm overflow-hidden z-50 dropdown-container"
+                            className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-200/50 backdrop-blur-sm overflow-hidden z-50"
                           >
                             {link.items?.map((item, index) => (
                               <motion.div
@@ -208,18 +178,10 @@ export function Navbar() {
                               >
                                 <Link
                                   href={item.href}
-                                  onClick={() =>
-                                    setDropdownStates((prev) => ({
-                                      ...prev,
-                                      [link.label]: false,
-                                    }))
-                                  }
+                                  onClick={() => setDropdownOpen(false)}
                                   className="flex items-center gap-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all duration-200 group"
                                 >
-                                  <item.icon
-                                    size={16}
-                                    className="text-slate-500 group-hover:text-emerald-500"
-                                  />
+                                  <item.icon size={16} className="text-slate-500 group-hover:text-emerald-500" />
                                   {item.label}
                                 </Link>
                               </motion.div>
@@ -332,47 +294,19 @@ export function Navbar() {
 
                 {navItems.map((link, index) => (
                   <motion.div
-                    key={link.label}
+                    key={link.href}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 + 0.2 }}
                   >
-                    {link.dropdown ? (
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 font-medium">
-                          <link.icon size={16} />
-                          {link.label}
-                        </div>
-                        {link.items?.map((item, subIndex) => (
-                          <motion.div
-                            key={item.href}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{
-                              delay: (index + subIndex + 1) * 0.1 + 0.2,
-                            }}
-                          >
-                            <Link
-                              href={item.href!}
-                              onClick={handleLinkClick}
-                              className="flex items-center gap-3 px-8 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium transition-all duration-200 ml-4"
-                            >
-                              <item.icon size={14} />
-                              {item.label}
-                            </Link>
-                          </motion.div>
-                        ))}
-                      </div>
-                    ) : (
-                      <Link
-                        href={link.href!}
-                        onClick={handleLinkClick}
-                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-50 font-medium transition-all duration-200"
-                      >
-                        <link.icon size={16} />
-                        {link.label}
-                      </Link>
-                    )}
+                    <Link
+                      href={link.href}
+                      onClick={handleLinkClick}
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-50 font-medium transition-all duration-200"
+                    >
+                      <link.icon size={16} />
+                      {link.label}
+                    </Link>
                   </motion.div>
                 ))}
 
@@ -431,9 +365,6 @@ export function Navbar() {
                 {searchQuery && (
                   <div className="mt-4 max-h-60 overflow-y-auto">
                     {navItems
-                      .flatMap((item) =>
-                        item.dropdown ? [item, ...(item.items || [])] : [item]
-                      )
                       .filter((item) =>
                         item.label
                           .toLowerCase()
@@ -441,8 +372,8 @@ export function Navbar() {
                       )
                       .map((item) => (
                         <Link
-                          key={item.href || item.label}
-                          href={item.href!}
+                          key={item.href}
+                          href={item.href}
                           onClick={() => {
                             setSearchOpen(false);
                             setSearchQuery("");
@@ -453,15 +384,11 @@ export function Navbar() {
                           {item.label}
                         </Link>
                       ))}
-                    {navItems
-                      .flatMap((item) =>
-                        item.dropdown ? [item, ...(item.items || [])] : [item]
-                      )
-                      .filter((item) =>
-                        item.label
-                          .toLowerCase()
-                          .includes(searchQuery.toLowerCase())
-                      ).length === 0 && (
+                    {navItems.filter((item) =>
+                      item.label
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase())
+                    ).length === 0 && (
                       <p className="text-slate-500 text-center py-4">
                         No results found
                       </p>

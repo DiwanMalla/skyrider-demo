@@ -242,11 +242,11 @@ export function AcademicPrograms() {
 
           <h2
             ref={titleRef}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 via-sky-600 to-indigo-600"
+            className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 via-sky-600 to-indigo-600"
           >
             Complete Educational Journey
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl mx-auto mb-2">
+          <p className="text-slate-600 text-lg md:text-xl max-w-3xl mx-auto mb-2">
             From nursery to higher secondary education, we provide comprehensive
             learning pathways in both Science and Management streams.
           </p>
@@ -271,41 +271,41 @@ export function AcademicPrograms() {
                 ref={(el) => {
                   cardsRef.current[index] = el;
                 }}
-                className="relative group cursor-pointer shrink-0 w-[280px] sm:w-[340px] md:w-[400px] lg:w-[450px]"
+                className="relative group cursor-pointer shrink-0 w-[260px] sm:w-[320px] md:w-[380px] lg:w-[450px]"
                 onMouseEnter={() => handleCardHover(index, true)}
                 onMouseLeave={() => handleCardHover(index, false)}
                 style={{ transformStyle: "preserve-3d" }}
               >
                 {/* Card */}
-                <div className="relative h-[520px] sm:h-[560px] md:h-[580px] lg:h-[550px] rounded-2xl sm:rounded-3xl bg-white border-2 border-slate-200 shadow-xl overflow-hidden">
+                <div className="relative h-[480px] sm:h-[540px] md:h-[560px] lg:h-[550px] rounded-2xl sm:rounded-3xl bg-white border-2 border-slate-200 shadow-xl overflow-hidden">
                   {/* Gradient background overlay */}
                   <div
                     className={`absolute inset-0 ${program.bgColor} opacity-30`}
                   />
 
                   {/* Content */}
-                  <div className="relative z-10 p-5 sm:p-6 md:p-7 lg:p-8 h-full flex flex-col">
+                  <div className="relative z-10 p-4 sm:p-5 md:p-6 lg:p-8 h-full flex flex-col">
                     {/* Icon */}
-                    <div className="mb-3 sm:mb-4 md:mb-5">
+                    <div className="mb-2 sm:mb-3 md:mb-4">
                       <div
-                        className={`program-icon w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 rounded-2xl sm:rounded-2xl md:rounded-3xl bg-linear-to-br ${program.color} flex items-center justify-center shadow-2xl`}
+                        className={`program-icon w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-xl sm:rounded-2xl md:rounded-2xl lg:rounded-3xl bg-linear-to-br ${program.color} flex items-center justify-center shadow-2xl`}
                       >
-                        <Icon className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-white" />
+                        <Icon className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 text-white" />
                       </div>
                     </div>
 
                     {/* Level badge */}
-                    <div className="inline-flex self-start px-2.5 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 rounded-full bg-emerald-100 text-emerald-700 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wide mb-2 sm:mb-3 md:mb-4">
+                    <div className="inline-flex self-start px-2 py-0.5 sm:px-2.5 sm:py-1 md:px-3 md:py-1.5 lg:px-4 lg:py-2 rounded-full bg-emerald-100 text-emerald-700 text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-wide mb-2 sm:mb-2 md:mb-3 lg:mb-4">
                       {program.level}
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 sm:mb-3 md:mb-4">
+                    <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 sm:mb-2 md:mb-3 lg:mb-4 leading-tight">
                       {program.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed mb-3 sm:mb-4 md:mb-5 lg:mb-6">
+                    <p className="text-slate-600 text-[10px] sm:text-xs md:text-sm lg:text-base leading-relaxed mb-2 sm:mb-3 md:mb-4 lg:mb-6">
                       {program.description}
                     </p>
 
@@ -343,7 +343,7 @@ export function AcademicPrograms() {
                 </div>
 
                 {/* Card number indicator */}
-                <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 md:-top-5 md:-left-5 lg:-top-6 lg:-left-6 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-full bg-linear-to-br from-emerald-500 to-sky-500 flex items-center justify-center text-white font-bold text-base sm:text-lg md:text-xl lg:text-2xl shadow-xl">
+                <div className="absolute -top-4 -left-4 sm:-top-5 sm:-left-5 md:-top-6 md:-left-6 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-linear-to-br from-emerald-500 to-sky-500 flex items-center justify-center text-white font-bold text-lg sm:text-xl md:text-2xl shadow-xl">
                   {index + 1}
                 </div>
               </div>

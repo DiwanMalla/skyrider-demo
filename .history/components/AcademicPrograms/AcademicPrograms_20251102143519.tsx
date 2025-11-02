@@ -242,11 +242,11 @@ export function AcademicPrograms() {
 
           <h2
             ref={titleRef}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 via-sky-600 to-indigo-600"
+            className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 via-sky-600 to-indigo-600"
           >
             Complete Educational Journey
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl mx-auto mb-2">
+          <p className="text-slate-600 text-lg md:text-xl max-w-3xl mx-auto mb-2">
             From nursery to higher secondary education, we provide comprehensive
             learning pathways in both Science and Management streams.
           </p>
@@ -343,7 +343,7 @@ export function AcademicPrograms() {
                 </div>
 
                 {/* Card number indicator */}
-                <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 md:-top-5 md:-left-5 lg:-top-6 lg:-left-6 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-full bg-linear-to-br from-emerald-500 to-sky-500 flex items-center justify-center text-white font-bold text-base sm:text-lg md:text-xl lg:text-2xl shadow-xl">
+                <div className="absolute -top-4 -left-4 sm:-top-5 sm:-left-5 md:-top-6 md:-left-6 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full bg-linear-to-br from-emerald-500 to-sky-500 flex items-center justify-center text-white font-bold text-lg sm:text-xl md:text-2xl shadow-xl">
                   {index + 1}
                 </div>
               </div>

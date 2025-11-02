@@ -242,11 +242,11 @@ export function AcademicPrograms() {
 
           <h2
             ref={titleRef}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 via-sky-600 to-indigo-600"
+            className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 via-sky-600 to-indigo-600"
           >
             Complete Educational Journey
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl mx-auto mb-2">
+          <p className="text-slate-600 text-lg md:text-xl max-w-3xl mx-auto mb-2">
             From nursery to higher secondary education, we provide comprehensive
             learning pathways in both Science and Management streams.
           </p>
@@ -257,7 +257,7 @@ export function AcademicPrograms() {
       <div className="relative">
         <div
           ref={scrollContainerRef}
-          className="flex gap-4 sm:gap-6 md:gap-8 px-4 sm:px-6 lg:px-8 will-change-transform"
+          className="flex gap-8 px-4 sm:px-6 lg:px-8 will-change-transform"
           style={{ width: "max-content" }}
         >
           {/* Spacer for starting position */}
@@ -271,59 +271,59 @@ export function AcademicPrograms() {
                 ref={(el) => {
                   cardsRef.current[index] = el;
                 }}
-                className="relative group cursor-pointer shrink-0 w-[280px] sm:w-[340px] md:w-[400px] lg:w-[450px]"
+                className="relative group cursor-pointer shrink-0 w-[320px] sm:w-[380px] md:w-[420px] lg:w-[450px]"
                 onMouseEnter={() => handleCardHover(index, true)}
                 onMouseLeave={() => handleCardHover(index, false)}
                 style={{ transformStyle: "preserve-3d" }}
               >
                 {/* Card */}
-                <div className="relative h-[520px] sm:h-[560px] md:h-[580px] lg:h-[550px] rounded-2xl sm:rounded-3xl bg-white border-2 border-slate-200 shadow-xl overflow-hidden">
+                <div className="relative h-[550px] sm:h-[580px] md:h-[600px] lg:h-[550px] rounded-3xl bg-white border-2 border-slate-200 shadow-xl overflow-hidden">
                   {/* Gradient background overlay */}
                   <div
                     className={`absolute inset-0 ${program.bgColor} opacity-30`}
                   />
 
                   {/* Content */}
-                  <div className="relative z-10 p-5 sm:p-6 md:p-7 lg:p-8 h-full flex flex-col">
+                  <div className="relative z-10 p-8 h-full flex flex-col">
                     {/* Icon */}
-                    <div className="mb-3 sm:mb-4 md:mb-5">
+                    <div className="mb-6">
                       <div
-                        className={`program-icon w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 rounded-2xl sm:rounded-2xl md:rounded-3xl bg-linear-to-br ${program.color} flex items-center justify-center shadow-2xl`}
+                        className={`program-icon w-20 h-20 rounded-3xl bg-linear-to-br ${program.color} flex items-center justify-center shadow-2xl`}
                       >
-                        <Icon className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-white" />
+                        <Icon className="w-10 h-10 text-white" />
                       </div>
                     </div>
 
                     {/* Level badge */}
-                    <div className="inline-flex self-start px-2.5 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 rounded-full bg-emerald-100 text-emerald-700 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wide mb-2 sm:mb-3 md:mb-4">
+                    <div className="inline-flex self-start px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 text-sm font-bold uppercase tracking-wide mb-4">
                       {program.level}
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 sm:mb-3 md:mb-4">
+                    <h3 className="text-3xl font-bold text-slate-900 mb-4">
                       {program.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed mb-3 sm:mb-4 md:mb-5 lg:mb-6">
+                    <p className="text-slate-600 leading-relaxed mb-6">
                       {program.description}
                     </p>
 
                     {/* Features */}
                     <div className="grow">
-                      <h4 className="font-semibold text-slate-900 mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base md:text-lg">
+                      <h4 className="font-semibold text-slate-900 mb-4 text-lg">
                         Key Features:
                       </h4>
-                      <ul className="space-y-1.5 sm:space-y-2 md:space-y-3">
+                      <ul className="space-y-3">
                         {program.features.map((feature, featureIndex) => (
                           <li
                             key={featureIndex}
-                            className="flex items-start gap-2 text-slate-700"
+                            className="flex items-start gap-3 text-slate-700"
                           >
                             <div
-                              className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-linear-to-r ${program.color} mt-1 sm:mt-1.5 md:mt-2 shrink-0`}
+                              className={`w-2 h-2 rounded-full bg-linear-to-r ${program.color} mt-2 shrink-0`}
                             />
-                            <span className="text-[11px] sm:text-xs md:text-sm leading-relaxed">
+                            <span className="text-sm leading-relaxed">
                               {feature}
                             </span>
                           </li>
@@ -332,8 +332,8 @@ export function AcademicPrograms() {
                     </div>
 
                     {/* Decorative corner accents */}
-                    <div className="absolute top-0 right-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 bg-linear-to-br from-white/50 to-transparent rounded-bl-full" />
-                    <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 bg-linear-to-tr from-white/50 to-transparent rounded-tr-full" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-white/50 to-transparent rounded-bl-full" />
+                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-linear-to-tr from-white/50 to-transparent rounded-tr-full" />
                   </div>
 
                   {/* Hover glow effect */}
@@ -343,15 +343,12 @@ export function AcademicPrograms() {
                 </div>
 
                 {/* Card number indicator */}
-                <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 md:-top-5 md:-left-5 lg:-top-6 lg:-left-6 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-full bg-linear-to-br from-emerald-500 to-sky-500 flex items-center justify-center text-white font-bold text-base sm:text-lg md:text-xl lg:text-2xl shadow-xl">
+                <div className="absolute -top-6 -left-6 w-16 h-16 rounded-full bg-linear-to-br from-emerald-500 to-sky-500 flex items-center justify-center text-white font-bold text-2xl shadow-xl">
                   {index + 1}
                 </div>
               </div>
             );
           })}
-
-          {/* Ending spacer */}
-          <div className="w-5 sm:w-[50px] md:w-[200px] shrink-0" />
         </div>
       </div>
 
