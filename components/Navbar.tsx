@@ -90,7 +90,6 @@ export function Navbar() {
   const handleLinkClick = () => {
     setOpen(false);
   };
-
   return (
     <>
       <motion.header
@@ -103,7 +102,7 @@ export function Navbar() {
             : "bg-white/80 backdrop-blur-sm border-b border-slate-200/30"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo and Brand */}
             <motion.div
@@ -126,7 +125,7 @@ export function Navbar() {
                   />
                 </motion.div>
                 <motion.span
-                  className="font-bold text-lg md:text-xl bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-sky-600 to-indigo-600 group-hover:from-emerald-500 group-hover:via-sky-500 group-hover:to-indigo-500 transition-all duration-300"
+                  className="font-bold text-base md:text-lg lg:text-xl bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-sky-600 to-indigo-600 group-hover:from-emerald-500 group-hover:via-sky-500 group-hover:to-indigo-500 transition-all duration-300"
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
@@ -137,7 +136,7 @@ export function Navbar() {
 
             {/* Desktop Navigation */}
             <motion.nav
-              className="hidden md:flex items-center gap-1"
+              className="hidden md:flex items-center gap-0.5 lg:gap-1"
               variants={{
                 hidden: { opacity: 0 },
                 show: {
@@ -172,7 +171,7 @@ export function Navbar() {
                             [link.label]: !prev[link.label],
                           }))
                         }
-                        className="relative px-4 py-2 rounded-lg text-slate-700 hover:text-slate-900 font-medium transition-colors duration-200 group flex items-center gap-2"
+                        className="relative px-3 lg:px-4 py-2 rounded-lg text-slate-700 hover:text-slate-900 font-medium transition-colors duration-200 group flex items-center gap-2"
                       >
                         <link.icon size={16} />
                         {link.label}
@@ -231,7 +230,7 @@ export function Navbar() {
                   ) : (
                     <Link
                       href={link.href!}
-                      className="relative px-4 py-2 rounded-lg text-slate-700 hover:text-slate-900 font-medium transition-colors duration-200 group flex items-center gap-2"
+                      className="relative px-3 lg:px-4 py-2 rounded-lg text-slate-700 hover:text-slate-900 font-medium transition-colors duration-200 group flex items-center gap-2"
                     >
                       <link.icon size={16} />
                       {link.label}
@@ -263,18 +262,38 @@ export function Navbar() {
             </motion.div>
 
             {/* Desktop CTA and Mobile Menu Button */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 md:gap-3">
+              {/* Desktop CTA */}
               <motion.div
-                className="hidden md:block"
+                className="hidden lg:block"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.6 }}
               >
                 <Link
-                  href="/courses"
+                  href="/register"
                   className="relative px-6 py-2.5 rounded-full bg-gradient-to-r from-emerald-600 to-sky-600 text-white text-sm font-semibold hover:from-emerald-500 hover:to-sky-500 transition-all duration-300 shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 overflow-hidden group"
                 >
-                  <span className="relative z-10">Enroll Now</span>
+                  <span className="relative z-10">Apply Now</span>
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-sky-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    initial={false}
+                  />
+                </Link>
+              </motion.div>
+
+              {/* Tablet CTA */}
+              <motion.div
+                className="hidden md:block lg:hidden"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.6 }}
+              >
+                <Link
+                  href="/register"
+                  className="relative px-5 py-2.5 rounded-full bg-gradient-to-r from-emerald-600 to-sky-600 text-white text-sm font-semibold hover:from-emerald-500 hover:to-sky-500 transition-all duration-300 shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 overflow-hidden group"
+                >
+                  <span className="relative z-10">Apply Now</span>
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-sky-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     initial={false}
@@ -383,11 +402,11 @@ export function Navbar() {
                   className="pt-4 border-t border-slate-200/50"
                 >
                   <Link
-                    href="/courses"
+                    href="/register"
                     onClick={handleLinkClick}
                     className="block w-full px-4 py-3 rounded-lg bg-gradient-to-r from-emerald-600 to-sky-600 text-white text-center font-semibold hover:from-emerald-500 hover:to-sky-500 transition-all duration-300 shadow-lg shadow-emerald-500/25"
                   >
-                    Enroll Now
+                    Apply Now
                   </Link>
                 </motion.div>
               </div>
