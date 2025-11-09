@@ -14,6 +14,7 @@ interface Application {
   city: string;
   state: string;
   zipCode: string;
+  country: string;
   program: string;
   educationLevel: string;
   previousSchool: string;
@@ -179,6 +180,7 @@ export async function POST(request: NextRequest) {
       city: body.city.trim(),
       state: body.state.trim(),
       zipCode: body.zipCode.trim(),
+      country: body.country?.trim() || "Nepal",
       program: body.program.trim(),
       educationLevel: body.educationLevel.trim(),
       previousSchool: body.previousSchool?.trim() || "",
@@ -222,11 +224,11 @@ export async function GET(request: NextRequest) {
   try {
     // TODO: Add authentication check here
     const authHeader = request.headers.get("authorization");
+    const publicToken = process.env.NEXT_PUBLIC_ADMIN_SECRET_TOKEN;
 
     // Simple token check (you should use proper auth in production)
     if (
-      !authHeader ||
-      authHeader !== `Bearer ${process.env.ADMIN_SECRET_TOKEN}`
+      authHeader && authHeader !== `Bearer ${publicToken}`
     ) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
@@ -235,6 +237,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
       {
+        success: true,
         applications,
         total: applications.length,
       },

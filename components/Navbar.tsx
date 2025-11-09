@@ -17,6 +17,7 @@ import {
   FileText,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import ThemeToggle from "./ThemeToggle";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -98,8 +99,8 @@ export function Navbar() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-white/95 backdrop-blur-md border-b border-slate-200/50 shadow-lg shadow-slate-900/5"
-            : "bg-white/80 backdrop-blur-sm border-b border-slate-200/30"
+            ? "bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-700/50 shadow-lg shadow-slate-900/5 dark:shadow-black/20"
+            : "bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-200/30 dark:border-slate-700/30"
         }`}
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
@@ -125,7 +126,7 @@ export function Navbar() {
                   />
                 </motion.div>
                 <motion.span
-                  className="font-bold text-base md:text-lg lg:text-xl bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-sky-600 to-indigo-600 group-hover:from-emerald-500 group-hover:via-sky-500 group-hover:to-indigo-500 transition-all duration-300"
+                  className="font-bold text-base md:text-lg lg:text-xl bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-sky-600 to-indigo-600 dark:from-emerald-400 dark:via-sky-400 dark:to-indigo-400 group-hover:from-emerald-500 group-hover:via-sky-500 group-hover:to-indigo-500 transition-all duration-300"
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
@@ -171,7 +172,7 @@ export function Navbar() {
                             [link.label]: !prev[link.label],
                           }))
                         }
-                        className="relative px-3 lg:px-4 py-2 rounded-lg text-slate-700 hover:text-slate-900 font-medium transition-colors duration-200 group flex items-center gap-2"
+                        className="relative px-3 lg:px-4 py-2 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium transition-colors duration-200 group flex items-center gap-2"
                       >
                         <link.icon size={16} />
                         {link.label}
@@ -196,7 +197,7 @@ export function Navbar() {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: -10, scale: 0.95 }}
                             transition={{ duration: 0.2 }}
-                            className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-200/50 backdrop-blur-sm overflow-hidden z-50 dropdown-container"
+                            className="absolute top-full left-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm overflow-hidden z-50 dropdown-container"
                           >
                             {link.items?.map((item, index) => (
                               <motion.div
@@ -213,7 +214,7 @@ export function Navbar() {
                                       [link.label]: false,
                                     }))
                                   }
-                                  className="flex items-center gap-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all duration-200 group"
+                                  className="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-200 group"
                                 >
                                   <item.icon
                                     size={16}
@@ -230,7 +231,7 @@ export function Navbar() {
                   ) : (
                     <Link
                       href={link.href!}
-                      className="relative px-3 lg:px-4 py-2 rounded-lg text-slate-700 hover:text-slate-900 font-medium transition-colors duration-200 group flex items-center gap-2"
+                      className="relative px-3 lg:px-4 py-2 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium transition-colors duration-200 group flex items-center gap-2"
                     >
                       <link.icon size={16} />
                       {link.label}
@@ -245,16 +246,17 @@ export function Navbar() {
               ))}
             </motion.nav>
 
-            {/* Search */}
+            {/* Search and Theme Toggle */}
             <motion.div
-              className="hidden md:flex items-center"
+              className="hidden md:flex items-center gap-2"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5 }}
             >
+              <ThemeToggle />
               <button
                 onClick={() => setSearchOpen(true)}
-                className="p-2 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100/50 transition-colors duration-200"
+                className="p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
                 aria-label="Search"
               >
                 <Search size={20} />
@@ -304,7 +306,7 @@ export function Navbar() {
               {/* Mobile menu button */}
               <motion.button
                 aria-label="Toggle menu"
-                className="md:hidden relative p-2 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100/50 transition-colors duration-200"
+                className="md:hidden relative p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition-colors duration-200"
                 onClick={() => setOpen((v) => !v)}
                 whileTap={{ scale: 0.95 }}
               >
@@ -327,7 +329,7 @@ export function Navbar() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="md:hidden bg-white/95 backdrop-blur-md border-t border-slate-200/50 overflow-hidden"
+              className="md:hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200/50 dark:border-slate-700/50 overflow-hidden"
             >
               <div className="px-4 py-6 space-y-1">
                 {/* Search */}
@@ -342,7 +344,7 @@ export function Navbar() {
                       setSearchOpen(true);
                       setOpen(false);
                     }}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-50 font-medium transition-all duration-200 w-full text-left"
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 font-medium transition-all duration-200 w-full text-left"
                   >
                     <Search size={16} />
                     Search
@@ -358,7 +360,7 @@ export function Navbar() {
                   >
                     {link.dropdown ? (
                       <div className="space-y-1">
-                        <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 font-medium">
+                        <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 dark:text-slate-300 font-medium">
                           <link.icon size={16} />
                           {link.label}
                         </div>
@@ -374,7 +376,7 @@ export function Navbar() {
                             <Link
                               href={item.href!}
                               onClick={handleLinkClick}
-                              className="flex items-center gap-3 px-8 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium transition-all duration-200 ml-4"
+                              className="flex items-center gap-3 px-8 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 font-medium transition-all duration-200 ml-4"
                             >
                               <item.icon size={14} />
                               {item.label}
@@ -386,7 +388,7 @@ export function Navbar() {
                       <Link
                         href={link.href!}
                         onClick={handleLinkClick}
-                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-50 font-medium transition-all duration-200"
+                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 font-medium transition-all duration-200"
                       >
                         <link.icon size={16} />
                         {link.label}
@@ -399,7 +401,7 @@ export function Navbar() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="pt-4 border-t border-slate-200/50"
+                  className="pt-4 border-t border-slate-200/50 dark:border-slate-700/50"
                 >
                   <Link
                     href="/register"
@@ -429,7 +431,7 @@ export function Navbar() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-96 overflow-hidden"
+              className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full max-h-96 overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-4">
@@ -443,7 +445,7 @@ export function Navbar() {
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 focus:border-sky-500 focus:outline-none"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-sky-500 dark:focus:border-sky-400 focus:outline-none"
                     autoFocus
                   />
                 </div>
@@ -466,7 +468,7 @@ export function Navbar() {
                             setSearchOpen(false);
                             setSearchQuery("");
                           }}
-                          className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors"
+                          className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                         >
                           <item.icon size={16} />
                           {item.label}
