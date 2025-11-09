@@ -14,6 +14,8 @@ import {
   X,
   GraduationCap,
   LogOut,
+  Users,
+  UserCheck,
 } from "lucide-react";
 import ThemeToggle from "../ThemeToggle";
 
@@ -28,6 +30,16 @@ const menuItems = [
     icon: LayoutDashboard,
   },
   {
+    title: "Courses",
+    href: "/admin/courses",
+    icon: BookOpen,
+  },
+  {
+    title: "Tutors",
+    href: "/admin/tutors",
+    icon: Users,
+  },
+  {
     title: "Admission Forms",
     href: "/admin/admissions",
     icon: FileText,
@@ -40,7 +52,7 @@ const menuItems = [
   {
     title: "Blog Review",
     href: "/admin/blogs",
-    icon: BookOpen,
+    icon: UserCheck,
   },
   {
     title: "Event Publish",
