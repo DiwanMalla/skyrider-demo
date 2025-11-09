@@ -1,7 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+
+// Google Maps types
+declare global {
+  interface Window {
+    google: typeof google;
+  }
+}
 import {
   User,
   Mail,
@@ -19,6 +26,7 @@ import {
   Heart,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 // Step definitions
 const steps = [
@@ -66,6 +74,7 @@ export default function RegisterPage() {
     city: "",
     state: "",
     zipCode: "",
+    country: "",
     program: "",
     educationLevel: "",
     previousSchool: "",
@@ -83,6 +92,102 @@ export default function RegisterPage() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [validationError, setValidationError] = useState("");
+
+  // Google Places refs
+  const addressInputRef = useRef<HTMLInputElement>(null);
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
+  // Initialize Google Places Autocomplete
+  useEffect(() => {
+    // Prevent multiple initializations and check if Google Maps is available
+    if (
+      typeof window !== "undefined" &&
+      window.google &&
+      window.google.maps &&
+      window.google.maps.places &&
+      addressInputRef.current &&
+      !autocompleteRef.current
+    ) {
+      try {
+        autocompleteRef.current = new window.google.maps.places.Autocomplete(
+          addressInputRef.current,
+          {
+            types: ["address"],
+            componentRestrictions: { country: "np" }, // Restrict to Nepal
+            fields: ["address_components", "formatted_address", "geometry"],
+          }
+        );
+
+        autocompleteRef.current.addListener("place_changed", () => {
+          const place = autocompleteRef.current?.getPlace();
+          if (place && place.address_components) {
+            const addressComponents = place.address_components;
+
+            // Extract address components
+            let streetNumber = "";
+            let route = "";
+            let city = "";
+            let state = "";
+            let zipCode = "";
+            let country = "";
+
+            addressComponents.forEach((component) => {
+              const types = component.types;
+              if (types.includes("street_number")) {
+                streetNumber = component.long_name;
+              }
+              if (types.includes("route")) {
+                route = component.long_name;
+              }
+              if (
+                types.includes("locality") ||
+                types.includes("administrative_area_level_3")
+              ) {
+                city = component.long_name;
+              }
+              if (types.includes("administrative_area_level_1")) {
+                state = component.long_name;
+              }
+              if (types.includes("postal_code")) {
+                zipCode = component.long_name;
+              }
+              if (types.includes("country")) {
+                country = component.long_name;
+              }
+            });
+
+            // Update form data
+            setFormData((prev) => ({
+              ...prev,
+              address: `${streetNumber} ${route}`.trim(),
+              city: city,
+              state: state,
+              zipCode: zipCode,
+              country: country,
+            }));
+          }
+        });
+      } catch (error) {
+        console.warn("Google Places Autocomplete failed to initialize:", error);
+      }
+    }
+
+    return () => {
+      if (
+        autocompleteRef.current &&
+        window.google?.maps?.event?.clearInstanceListeners
+      ) {
+        try {
+          window.google.maps.event.clearInstanceListeners(
+            autocompleteRef.current
+          );
+        } catch (error) {
+          console.warn("Failed to clear Google Maps listeners:", error);
+        }
+      }
+    };
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -90,12 +195,76 @@ export default function RegisterPage() {
     >
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Clear validation error when user starts typing
+    if (validationError) {
+      setValidationError("");
+    }
   };
 
   const nextStep = () => {
+    // Validate required fields for current step before proceeding
+    const isValid = validateCurrentStep();
+    if (!isValid) return;
+
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }
+  };
+
+  const validateCurrentStep = () => {
+    switch (currentStep) {
+      case 0: // Personal Information
+        if (
+          !formData.firstName.trim() ||
+          !formData.lastName.trim() ||
+          !formData.dateOfBirth
+        ) {
+          setValidationError(
+            "Please fill in all required fields before proceeding."
+          );
+          return false;
+        }
+        break;
+      case 1: // Address Information
+        if (
+          !formData.address.trim() ||
+          !formData.city.trim() ||
+          !formData.state.trim() ||
+          !formData.country.trim()
+        ) {
+          setValidationError(
+            "Please fill in all required fields before proceeding."
+          );
+          return false;
+        }
+        break;
+      case 2: // Academic
+        if (!formData.program || !formData.educationLevel) {
+          setValidationError(
+            "Please fill in all required fields before proceeding."
+          );
+          return false;
+        }
+        break;
+      case 3: // Guardian & Emergency
+        if (
+          !formData.guardianName.trim() ||
+          !formData.guardianPhone.trim() ||
+          !formData.guardianEmail.trim() ||
+          !formData.emergencyContact.trim() ||
+          !formData.emergencyPhone.trim()
+        ) {
+          setValidationError(
+            "Please fill in all required fields before proceeding."
+          );
+          return false;
+        }
+        break;
+      case 4: // Additional Info - no required fields
+        break;
+    }
+    setValidationError(""); // Clear error if validation passes
+    return true;
   };
 
   const prevStep = () => {
@@ -132,6 +301,7 @@ export default function RegisterPage() {
           city: "",
           state: "",
           zipCode: "",
+          country: "",
           program: "",
           educationLevel: "",
           previousSchool: "",
@@ -158,7 +328,7 @@ export default function RegisterPage() {
   // Success screen
   if (submitStatus === "success") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 pt-24 pb-12 px-4 relative overflow-hidden">
+      <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 pt-24 pb-12 px-4 relative overflow-hidden">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -192,7 +362,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 relative overflow-hidden">
+    <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
@@ -211,9 +381,15 @@ export default function RegisterPage() {
             <Link href="/" className="flex items-center gap-3 group">
               <motion.div
                 whileHover={{ rotate: -5 }}
-                className="w-12 h-12 rounded-2xl bg-linear-to-br from-emerald-600 to-sky-600 flex items-center justify-center shadow-lg"
+                className="w-12 h-12 rounded-2xl  flex items-center justify-center shadow-lg"
               >
-                <GraduationCap className="w-7 h-7 text-white" />
+                <Image
+                  src="/images/logo.png"
+                  alt="Skyrider School Logo"
+                  width={48}
+                  height={48}
+                  className="h-12 w-auto object-contain"
+                />
               </motion.div>
               <span className="font-bold text-xl bg-clip-text text-transparent bg-linear-to-r from-emerald-600 via-sky-600 to-indigo-600">
                 Skyrider School
@@ -270,10 +446,10 @@ export default function RegisterPage() {
             {/* Animated Progress Line */}
             <motion.div
               className="absolute top-6 left-0 h-0.5 bg-linear-to-r from-emerald-500 to-sky-500 -z-10"
-              initial={{ width: '0%' }}
-              animate={{ 
+              initial={{ width: "0%" }}
+              animate={{
                 width: `${(currentStep / (steps.length - 1)) * 90}%`,
-                left: '5%'
+                left: "5%",
               }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
             />
@@ -306,6 +482,45 @@ export default function RegisterPage() {
         {/* Form */}
         <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20">
           <form onSubmit={handleSubmit}>
+            {/* Animated Validation Error */}
+            <AnimatePresence>
+              {validationError && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0, y: -20 }}
+                  animate={{ opacity: 1, height: "auto", y: 0 }}
+                  exit={{ opacity: 0, height: 0, y: -20 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="mb-6 bg-red-50 border border-red-200 rounded-2xl p-4 overflow-hidden"
+                >
+                  <motion.div
+                    initial={{ scale: 0.8 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.1, duration: 0.2 }}
+                    className="flex items-center gap-3"
+                  >
+                    <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                      <svg
+                        className="w-4 h-4 text-red-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                        />
+                      </svg>
+                    </div>
+                    <p className="text-red-700 font-medium">
+                      {validationError}
+                    </p>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentStep}
@@ -318,68 +533,100 @@ export default function RegisterPage() {
                     <h2 className="text-3xl font-bold mb-4 text-slate-800">
                       Personal Information
                     </h2>
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      required
-                      placeholder="First Name"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
-                    />
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      required
-                      placeholder="Last Name"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
-                    />
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      placeholder="Email"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
-                    />
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      placeholder="Phone"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
-                    />
-                    <input
-                      type="date"
-                      name="dateOfBirth"
-                      value={formData.dateOfBirth}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800"
-                    />
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        First Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        required
+                        placeholder="First Name"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Last Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        required
+                        placeholder="Last Name"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Email"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Phone
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="Phone"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Date of Birth <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="date"
+                        name="dateOfBirth"
+                        value={formData.dateOfBirth}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800"
+                      />
+                    </div>
                   </div>
                 )}
 
                 {currentStep === 1 && (
                   <div className="space-y-6">
                     <h2 className="text-3xl font-bold mb-4 text-slate-800">
-                      Address
+                      Address Information
                     </h2>
-                    <input
-                      type="text"
-                      name="address"
-                      value={formData.address}
-                      onChange={handleChange}
-                      required
-                      placeholder="Street Address"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
-                    />
-                    <div className="grid grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Street Address <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        ref={addressInputRef}
+                        type="text"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
+                        required
+                        placeholder="Street Address"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        City <span className="text-red-500">*</span>
+                      </label>
                       <input
                         type="text"
                         name="city"
@@ -387,25 +634,48 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         required
                         placeholder="City"
-                        className="px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
                       />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Province <span className="text-red-500">*</span>
+                      </label>
                       <input
                         type="text"
                         name="state"
                         value={formData.state}
                         onChange={handleChange}
                         required
-                        placeholder="State"
-                        className="px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        placeholder="Province"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
                       />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        ZIP Code
+                      </label>
                       <input
                         type="text"
                         name="zipCode"
                         value={formData.zipCode}
                         onChange={handleChange}
+                        placeholder="ZIP Code"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Country <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="country"
+                        value={formData.country}
+                        onChange={handleChange}
                         required
-                        placeholder="ZIP"
-                        className="px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        placeholder="Country"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
                       />
                     </div>
                   </div>
@@ -416,59 +686,74 @@ export default function RegisterPage() {
                     <h2 className="text-3xl font-bold mb-4 text-slate-800">
                       Academic
                     </h2>
-                    <select
-                      name="program"
-                      value={formData.program}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800"
-                    >
-                      <option value="">Select Program</option>
-                      <option value="elementary">Elementary</option>
-                      <option value="middle">Middle School</option>
-                      <option value="high">High School</option>
-                    </select>
-                    <select
-                      name="educationLevel"
-                      value={formData.educationLevel}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800"
-                    >
-                      <option value="">Select Grade</option>
-                      {formData.program === "elementary" &&
-                        [...Array(5)].map((_, i) => (
-                          <option key={i} value={`grade${i + 1}`}>
-                            Grade {i + 1}
-                          </option>
-                        ))}
-                      {formData.program === "middle" &&
-                        [...Array(5)].map((_, i) => (
-                          <option key={i} value={`grade${i + 6}`}>
-                            Grade {i + 6}
-                          </option>
-                        ))}
-                      {formData.program === "high" &&
-                        [...Array(2)].map((_, i) => (
-                          <option key={i} value={`grade${i + 9}`}>
-                            Grade {i + 11}
-                          </option>
-                        ))}
-                      {!formData.program &&
-                        [...Array(12)].map((_, i) => (
-                          <option key={i} value={`grade${i + 1}`}>
-                            Grade {i + 1}
-                          </option>
-                        ))}
-                    </select>
-                    <input
-                      type="text"
-                      name="previousSchool"
-                      value={formData.previousSchool}
-                      onChange={handleChange}
-                      placeholder="Previous School"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
-                    />
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Program <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        name="program"
+                        value={formData.program}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800"
+                      >
+                        <option value="">Select Program</option>
+                        <option value="elementary">Elementary</option>
+                        <option value="middle">Middle School</option>
+                        <option value="high">High School</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Grade <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        name="educationLevel"
+                        value={formData.educationLevel}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800"
+                      >
+                        <option value="">Select Grade</option>
+                        {formData.program === "elementary" &&
+                          [...Array(5)].map((_, i) => (
+                            <option key={i} value={`grade${i + 1}`}>
+                              Grade {i + 1}
+                            </option>
+                          ))}
+                        {formData.program === "middle" &&
+                          [...Array(5)].map((_, i) => (
+                            <option key={i} value={`grade${i + 6}`}>
+                              Grade {i + 6}
+                            </option>
+                          ))}
+                        {formData.program === "high" &&
+                          [...Array(2)].map((_, i) => (
+                            <option key={i} value={`grade${i + 9}`}>
+                              Grade {i + 11}
+                            </option>
+                          ))}
+                        {!formData.program &&
+                          [...Array(12)].map((_, i) => (
+                            <option key={i} value={`grade${i + 1}`}>
+                              Grade {i + 1}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Previous School
+                      </label>
+                      <input
+                        type="text"
+                        name="previousSchool"
+                        value={formData.previousSchool}
+                        onChange={handleChange}
+                        placeholder="Previous School"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                      />
+                    </div>
                   </div>
                 )}
 
@@ -477,51 +762,77 @@ export default function RegisterPage() {
                     <h2 className="text-3xl font-bold mb-4 text-slate-800">
                       Guardian & Emergency
                     </h2>
-                    <input
-                      type="text"
-                      name="guardianName"
-                      value={formData.guardianName}
-                      onChange={handleChange}
-                      required
-                      placeholder="Guardian Name"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
-                    />
-                    <input
-                      type="tel"
-                      name="guardianPhone"
-                      value={formData.guardianPhone}
-                      onChange={handleChange}
-                      required
-                      placeholder="Guardian Phone"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
-                    />
-                    <input
-                      type="email"
-                      name="guardianEmail"
-                      value={formData.guardianEmail}
-                      onChange={handleChange}
-                      required
-                      placeholder="Guardian Email"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
-                    />
-                    <input
-                      type="text"
-                      name="emergencyContact"
-                      value={formData.emergencyContact}
-                      onChange={handleChange}
-                      required
-                      placeholder="Emergency Contact Name"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
-                    />
-                    <input
-                      type="tel"
-                      name="emergencyPhone"
-                      value={formData.emergencyPhone}
-                      onChange={handleChange}
-                      required
-                      placeholder="Emergency Phone"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
-                    />
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Guardian Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="guardianName"
+                        value={formData.guardianName}
+                        onChange={handleChange}
+                        required
+                        placeholder="Guardian Name"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Guardian Phone <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        name="guardianPhone"
+                        value={formData.guardianPhone}
+                        onChange={handleChange}
+                        required
+                        placeholder="Guardian Phone"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Guardian Email <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        name="guardianEmail"
+                        value={formData.guardianEmail}
+                        onChange={handleChange}
+                        required
+                        placeholder="Guardian Email"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Emergency Contact Name{" "}
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="emergencyContact"
+                        value={formData.emergencyContact}
+                        onChange={handleChange}
+                        required
+                        placeholder="Emergency Contact Name"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Emergency Phone <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        name="emergencyPhone"
+                        value={formData.emergencyPhone}
+                        onChange={handleChange}
+                        required
+                        placeholder="Emergency Phone"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                      />
+                    </div>
                   </div>
                 )}
 
