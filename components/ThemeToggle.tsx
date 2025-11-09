@@ -51,13 +51,18 @@ export default function ThemeToggle() {
 
   if (!mounted) return null;
 
-  const themeOptions: { value: Theme; icon: React.ComponentType<{ className?: string }>; label: string }[] = [
+  const themeOptions: {
+    value: Theme;
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+  }[] = [
     { value: "light", icon: Sun, label: "Light" },
     { value: "dark", icon: Moon, label: "Dark" },
     { value: "system", icon: Monitor, label: "System" },
   ];
 
-  const currentIcon = themeOptions.find((opt) => opt.value === theme)?.icon || Monitor;
+  const currentIcon =
+    themeOptions.find((opt) => opt.value === theme)?.icon || Monitor;
   const Icon = currentIcon;
 
   return (

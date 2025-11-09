@@ -20,16 +20,16 @@ export interface MemoryProps {
 
 const accentClasses = {
   emerald:
-    "from-emerald-50 to-emerald-100 border-emerald-200 hover:shadow-emerald-100",
-  sky: "from-sky-50 to-sky-100 border-sky-200 hover:shadow-sky-100",
+    "from-emerald-50 to-emerald-100 dark:from-emerald-900/20 dark:to-emerald-800/20 border-emerald-200 dark:border-emerald-700 hover:shadow-emerald-100 dark:hover:shadow-emerald-900/50",
+  sky: "from-sky-50 to-sky-100 dark:from-sky-900/20 dark:to-sky-800/20 border-sky-200 dark:border-sky-700 hover:shadow-sky-100 dark:hover:shadow-sky-900/50",
   indigo:
-    "from-indigo-50 to-indigo-100 border-indigo-200 hover:shadow-indigo-100",
+    "from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 border-indigo-200 dark:border-indigo-700 hover:shadow-indigo-100 dark:hover:shadow-indigo-900/50",
 };
 
 const accentBorderClasses = {
-  emerald: "bg-emerald-600",
-  sky: "bg-sky-600",
-  indigo: "bg-indigo-600",
+  emerald: "bg-emerald-600 dark:bg-emerald-500",
+  sky: "bg-sky-600 dark:bg-sky-500",
+  indigo: "bg-indigo-600 dark:bg-indigo-500",
 };
 
 const sizeClasses = {
@@ -198,7 +198,7 @@ export const Memory = ({
           animate={{ opacity: showRemove ? 1 : 0, scale: showRemove ? 1 : 0.8 }}
           transition={{ duration: 0.15 }}
           onClick={handleRemove}
-          className="absolute top-2 right-2 p-1 rounded-md bg-red-50 hover:bg-red-100 text-red-600 transition-colors"
+          className="absolute top-2 right-2 p-1 rounded-md bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 transition-colors"
           aria-label={`Remove ${title || "memory"}`}
         >
           <X size={16} />
@@ -208,17 +208,19 @@ export const Memory = ({
       {/* Content */}
       <div className="flex flex-col gap-1 pr-8">
         {title && (
-          <h3 className="font-semibold text-slate-900 leading-tight">
+          <h3 className="font-semibold text-slate-900 dark:text-slate-100 leading-tight">
             {title}
           </h3>
         )}
 
         {subtitle && (
-          <p className="text-xs text-slate-600 leading-tight">{subtitle}</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 leading-tight">
+            {subtitle}
+          </p>
         )}
 
         {content && (
-          <p className="text-slate-700 line-clamp-2 leading-relaxed text-sm mt-1">
+          <p className="text-slate-700 dark:text-slate-300 line-clamp-2 leading-relaxed text-sm mt-1">
             {content}
           </p>
         )}

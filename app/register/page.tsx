@@ -11,13 +11,7 @@ declare global {
 }
 import {
   User,
-  Mail,
-  Phone,
-  Calendar,
   BookOpen,
-  FileText,
-  GraduationCap,
-  MapPin,
   CheckCircle2,
   ChevronRight,
   ChevronLeft,
@@ -336,7 +330,7 @@ export default function RegisterPage() {
   // Success screen
   if (submitStatus === "success") {
     return (
-      <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 pt-24 pb-12 px-4 relative overflow-hidden">
+      <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 pt-24 pb-12 px-4 relative overflow-hidden">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -353,7 +347,7 @@ export default function RegisterPage() {
           <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 to-sky-600">
             Application Submitted!
           </h1>
-          <p className="text-slate-600 text-lg mb-8">
+          <p className="text-slate-600 dark:text-slate-300 text-lg mb-8">
             Thank you for applying to Skyrider School
           </p>
           <div className="flex gap-4 justify-center">
@@ -370,19 +364,19 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 relative overflow-hidden">
+    <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/10 dark:bg-emerald-800/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-sky-500/10 dark:bg-sky-800/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-800/5 rounded-full blur-3xl" />
       </div>
 
       {/* Navigation Bar */}
       <motion.nav
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-50 bg-white/80 backdrop-blur-lg border-b border-white/20 shadow-lg"
+        className="relative z-50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg border-b border-white/20 dark:border-slate-700/20 shadow-lg"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
@@ -405,7 +399,7 @@ export default function RegisterPage() {
             </Link>
             <Link
               href="/"
-              className="flex items-center gap-2 px-6 py-3 rounded-full bg-white border-2 border-slate-200 text-slate-700 font-semibold hover:border-emerald-500 hover:text-emerald-600 transition-all duration-300 shadow-md hover:shadow-lg"
+              className="flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-semibold hover:border-emerald-500 dark:hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all duration-300 shadow-md hover:shadow-lg"
             >
               <ChevronLeft className="w-5 h-5" />
               <span className="hidden sm:inline">Back to Home</span>
@@ -436,14 +430,14 @@ export default function RegisterPage() {
           <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 to-indigo-600">
             Apply to Skyrider
           </h1>
-          <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+          <p className="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto">
             Join our community of learners and embark on an educational journey
             that transforms lives
           </p>
         </motion.div>
 
         {/* Progress */}
-        <div className="mb-8 bg-white/95 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-white/20">
+        <div className="mb-8 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-white/20 dark:border-slate-700/20">
           <div className="relative flex justify-between mb-4">
             {/* Connecting Line Background */}
             <div
@@ -479,7 +473,7 @@ export default function RegisterPage() {
                 >
                   <step.icon className="w-6 h-6" />
                 </motion.div>
-                <span className="text-xs mt-2 hidden sm:block text-slate-700 font-medium">
+                <span className="text-xs mt-2 hidden sm:block text-slate-700 dark:text-slate-300 font-medium">
                   {step.title}
                 </span>
               </div>
@@ -488,7 +482,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Form */}
-        <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20">
+        <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20 dark:border-slate-700/20">
           <form onSubmit={handleSubmit}>
             {/* Animated Validation Error */}
             <AnimatePresence>
@@ -538,11 +532,11 @@ export default function RegisterPage() {
               >
                 {currentStep === 0 && (
                   <div className="space-y-6">
-                    <h2 className="text-3xl font-bold mb-4 text-slate-800">
+                    <h2 className="text-3xl font-bold mb-4 text-slate-800 dark:text-slate-100">
                       Personal Information
                     </h2>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         First Name <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -552,11 +546,11 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         required
                         placeholder="First Name"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Last Name <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -566,11 +560,11 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         required
                         placeholder="Last Name"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Email
                       </label>
                       <input
@@ -579,11 +573,11 @@ export default function RegisterPage() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Email"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Phone
                       </label>
                       <input
@@ -592,11 +586,11 @@ export default function RegisterPage() {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="Phone"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Date of Birth <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -605,7 +599,7 @@ export default function RegisterPage() {
                         value={formData.dateOfBirth}
                         onChange={handleChange}
                         required
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100"
                       />
                     </div>
                   </div>
@@ -613,11 +607,11 @@ export default function RegisterPage() {
 
                 {currentStep === 1 && (
                   <div className="space-y-6">
-                    <h2 className="text-3xl font-bold mb-4 text-slate-800">
+                    <h2 className="text-3xl font-bold mb-4 text-slate-800 dark:text-slate-100">
                       Address Information
                     </h2>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Street Address <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -628,11 +622,11 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         required
                         placeholder="Street Address"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         City <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -642,11 +636,11 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         required
                         placeholder="City"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Province <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -656,11 +650,11 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         required
                         placeholder="Province"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         ZIP Code
                       </label>
                       <input
@@ -669,11 +663,11 @@ export default function RegisterPage() {
                         value={formData.zipCode}
                         onChange={handleChange}
                         placeholder="ZIP Code"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Country <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -683,7 +677,7 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         required
                         placeholder="Country"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                   </div>
@@ -691,11 +685,11 @@ export default function RegisterPage() {
 
                 {currentStep === 2 && (
                   <div className="space-y-6">
-                    <h2 className="text-3xl font-bold mb-4 text-slate-800">
+                    <h2 className="text-3xl font-bold mb-4 text-slate-800 dark:text-slate-100">
                       Academic
                     </h2>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Program <span className="text-red-500">*</span>
                       </label>
                       <select
@@ -703,7 +697,7 @@ export default function RegisterPage() {
                         value={formData.program}
                         onChange={handleChange}
                         required
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100"
                       >
                         <option value="">Select Program</option>
                         <option value="elementary">Elementary</option>
@@ -712,7 +706,7 @@ export default function RegisterPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Grade <span className="text-red-500">*</span>
                       </label>
                       <select
@@ -720,7 +714,7 @@ export default function RegisterPage() {
                         value={formData.educationLevel}
                         onChange={handleChange}
                         required
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100"
                       >
                         <option value="">Select Grade</option>
                         {formData.program === "elementary" &&
@@ -750,7 +744,7 @@ export default function RegisterPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Previous School
                       </label>
                       <input
@@ -759,7 +753,7 @@ export default function RegisterPage() {
                         value={formData.previousSchool}
                         onChange={handleChange}
                         placeholder="Previous School"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                   </div>
@@ -767,11 +761,11 @@ export default function RegisterPage() {
 
                 {currentStep === 3 && (
                   <div className="space-y-6">
-                    <h2 className="text-3xl font-bold mb-4 text-slate-800">
+                    <h2 className="text-3xl font-bold mb-4 text-slate-800 dark:text-slate-100">
                       Guardian & Emergency
                     </h2>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Guardian Name <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -781,11 +775,11 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         required
                         placeholder="Guardian Name"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Guardian Phone <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -795,11 +789,11 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         required
                         placeholder="Guardian Phone"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Guardian Email <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -809,11 +803,11 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         required
                         placeholder="Guardian Email"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Emergency Contact Name{" "}
                         <span className="text-red-500">*</span>
                       </label>
@@ -824,11 +818,11 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         required
                         placeholder="Emergency Contact Name"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                         Emergency Phone <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -838,7 +832,7 @@ export default function RegisterPage() {
                         onChange={handleChange}
                         required
                         placeholder="Emergency Phone"
-                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500"
+                        className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
                       />
                     </div>
                   </div>
@@ -846,7 +840,7 @@ export default function RegisterPage() {
 
                 {currentStep === 4 && (
                   <div className="space-y-6">
-                    <h2 className="text-3xl font-bold mb-4 text-slate-800">
+                    <h2 className="text-3xl font-bold mb-4 text-slate-800 dark:text-slate-100">
                       Additional Info
                     </h2>
                     <textarea
@@ -855,13 +849,13 @@ export default function RegisterPage() {
                       onChange={handleChange}
                       rows={4}
                       placeholder="Medical conditions or allergies"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500 resize-none"
+                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 resize-none"
                     />
                     <select
                       name="hearAboutUs"
                       value={formData.hearAboutUs}
                       onChange={handleChange}
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800"
+                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100"
                     >
                       <option value="">How did you hear about us?</option>
                       <option value="search">Search Engine</option>
@@ -874,134 +868,212 @@ export default function RegisterPage() {
                       onChange={handleChange}
                       rows={4}
                       placeholder="Additional comments"
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 focus:border-emerald-500 outline-none text-slate-800 placeholder-slate-500 resize-none"
+                      className="w-full px-5 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 focus:border-emerald-500 outline-none text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 resize-none"
                     />
                   </div>
                 )}
 
                 {currentStep === 5 && (
                   <div className="space-y-8">
-                    <h2 className="text-3xl font-bold mb-6 text-slate-800">
+                    <h2 className="text-3xl font-bold mb-6 text-slate-800 dark:text-slate-100">
                       Review Your Application
                     </h2>
-                    <p className="text-slate-600 mb-6">
-                      Please review all the information below before submitting your application.
+                    <p className="text-slate-600 dark:text-slate-300 mb-6">
+                      Please review all the information below before submitting
+                      your application.
                     </p>
 
                     {/* Personal Information */}
-                    <div className="bg-slate-50 rounded-2xl p-6">
-                      <h3 className="text-xl font-semibold mb-4 text-slate-800 flex items-center gap-2">
-                        <User className="w-5 h-5 text-emerald-600" />
+                    <div className="bg-slate-50 dark:bg-slate-700/50 rounded-2xl p-6">
+                      <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <User className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                         Personal Information
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <span className="text-sm font-medium text-slate-600">First Name:</span>
-                          <p className="text-slate-800 mt-1">{formData.firstName || "Not provided"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            First Name:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1">
+                            {formData.firstName || "Not provided"}
+                          </p>
                         </div>
                         <div>
-                          <span className="text-sm font-medium text-slate-600">Last Name:</span>
-                          <p className="text-slate-800 mt-1">{formData.lastName || "Not provided"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            Last Name:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1">
+                            {formData.lastName || "Not provided"}
+                          </p>
                         </div>
                         <div>
-                          <span className="text-sm font-medium text-slate-600">Email:</span>
-                          <p className="text-slate-800 mt-1">{formData.email || "Not provided"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            Email:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1">
+                            {formData.email || "Not provided"}
+                          </p>
                         </div>
                         <div>
-                          <span className="text-sm font-medium text-slate-600">Phone:</span>
-                          <p className="text-slate-800 mt-1">{formData.phone || "Not provided"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            Phone:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1">
+                            {formData.phone || "Not provided"}
+                          </p>
                         </div>
                         <div className="md:col-span-2">
-                          <span className="text-sm font-medium text-slate-600">Date of Birth:</span>
-                          <p className="text-slate-800 mt-1">{formData.dateOfBirth || "Not provided"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            Date of Birth:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1">
+                            {formData.dateOfBirth || "Not provided"}
+                          </p>
                         </div>
                       </div>
                     </div>
 
                     {/* Address Information */}
-                    <div className="bg-slate-50 rounded-2xl p-6">
-                      <h3 className="text-xl font-semibold mb-4 text-slate-800 flex items-center gap-2">
-                        <Home className="w-5 h-5 text-emerald-600" />
+                    <div className="bg-slate-50 dark:bg-slate-700/50 rounded-2xl p-6">
+                      <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <Home className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                         Address Information
                       </h3>
                       <div className="space-y-3">
                         <div>
-                          <span className="text-sm font-medium text-slate-600">Street Address:</span>
-                          <p className="text-slate-800 mt-1">{formData.address || "Not provided"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            Street Address:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1">
+                            {formData.address || "Not provided"}
+                          </p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                           <div>
-                            <span className="text-sm font-medium text-slate-600">City:</span>
-                            <p className="text-slate-800 mt-1">{formData.city || "Not provided"}</p>
+                            <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                              City:
+                            </span>
+                            <p className="text-slate-800 dark:text-slate-100 mt-1">
+                              {formData.city || "Not provided"}
+                            </p>
                           </div>
                           <div>
-                            <span className="text-sm font-medium text-slate-600">Province:</span>
-                            <p className="text-slate-800 mt-1">{formData.state || "Not provided"}</p>
+                            <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                              Province:
+                            </span>
+                            <p className="text-slate-800 dark:text-slate-100 mt-1">
+                              {formData.state || "Not provided"}
+                            </p>
                           </div>
                           <div>
-                            <span className="text-sm font-medium text-slate-600">ZIP Code:</span>
-                            <p className="text-slate-800 mt-1">{formData.zipCode || "Not provided"}</p>
+                            <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                              ZIP Code:
+                            </span>
+                            <p className="text-slate-800 dark:text-slate-100 mt-1">
+                              {formData.zipCode || "Not provided"}
+                            </p>
                           </div>
                         </div>
                         <div>
-                          <span className="text-sm font-medium text-slate-600">Country:</span>
-                          <p className="text-slate-800 mt-1">{formData.country || "Not provided"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            Country:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1">
+                            {formData.country || "Not provided"}
+                          </p>
                         </div>
                       </div>
                     </div>
 
                     {/* Academic Information */}
-                    <div className="bg-slate-50 rounded-2xl p-6">
-                      <h3 className="text-xl font-semibold mb-4 text-slate-800 flex items-center gap-2">
-                        <BookOpen className="w-5 h-5 text-emerald-600" />
+                    <div className="bg-slate-50 dark:bg-slate-700/50 rounded-2xl p-6">
+                      <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <BookOpen className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                         Academic Information
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <span className="text-sm font-medium text-slate-600">Program:</span>
-                          <p className="text-slate-800 mt-1 capitalize">{formData.program || "Not provided"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            Program:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1 capitalize">
+                            {formData.program || "Not provided"}
+                          </p>
                         </div>
                         <div>
-                          <span className="text-sm font-medium text-slate-600">Grade:</span>
-                          <p className="text-slate-800 mt-1">{formData.educationLevel ? formData.educationLevel.replace('grade', 'Grade ') : "Not provided"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            Grade:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1">
+                            {formData.educationLevel
+                              ? formData.educationLevel.replace(
+                                  "grade",
+                                  "Grade "
+                                )
+                              : "Not provided"}
+                          </p>
                         </div>
                         <div className="md:col-span-2">
-                          <span className="text-sm font-medium text-slate-600">Previous School:</span>
-                          <p className="text-slate-800 mt-1">{formData.previousSchool || "Not provided"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            Previous School:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1">
+                            {formData.previousSchool || "Not provided"}
+                          </p>
                         </div>
                       </div>
                     </div>
 
                     {/* Guardian & Emergency Information */}
-                    <div className="bg-slate-50 rounded-2xl p-6">
-                      <h3 className="text-xl font-semibold mb-4 text-slate-800 flex items-center gap-2">
-                        <Shield className="w-5 h-5 text-emerald-600" />
+                    <div className="bg-slate-50 dark:bg-slate-700/50 rounded-2xl p-6">
+                      <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                         Guardian & Emergency Contacts
                       </h3>
                       <div className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <span className="text-sm font-medium text-slate-600">Guardian Name:</span>
-                            <p className="text-slate-800 mt-1">{formData.guardianName || "Not provided"}</p>
+                            <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                              Guardian Name:
+                            </span>
+                            <p className="text-slate-800 dark:text-slate-100 mt-1">
+                              {formData.guardianName || "Not provided"}
+                            </p>
                           </div>
                           <div>
-                            <span className="text-sm font-medium text-slate-600">Guardian Phone:</span>
-                            <p className="text-slate-800 mt-1">{formData.guardianPhone || "Not provided"}</p>
+                            <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                              Guardian Phone:
+                            </span>
+                            <p className="text-slate-800 dark:text-slate-100 mt-1">
+                              {formData.guardianPhone || "Not provided"}
+                            </p>
                           </div>
                           <div className="md:col-span-2">
-                            <span className="text-sm font-medium text-slate-600">Guardian Email:</span>
-                            <p className="text-slate-800 mt-1">{formData.guardianEmail || "Not provided"}</p>
+                            <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                              Guardian Email:
+                            </span>
+                            <p className="text-slate-800 dark:text-slate-100 mt-1">
+                              {formData.guardianEmail || "Not provided"}
+                            </p>
                           </div>
                         </div>
-                        <div className="border-t border-slate-200 pt-4">
+                        <div className="border-t border-slate-200 dark:border-slate-600 pt-4">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                              <span className="text-sm font-medium text-slate-600">Emergency Contact Name:</span>
-                              <p className="text-slate-800 mt-1">{formData.emergencyContact || "Not provided"}</p>
+                              <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                                Emergency Contact Name:
+                              </span>
+                              <p className="text-slate-800 dark:text-slate-100 mt-1">
+                                {formData.emergencyContact || "Not provided"}
+                              </p>
                             </div>
                             <div>
-                              <span className="text-sm font-medium text-slate-600">Emergency Phone:</span>
-                              <p className="text-slate-800 mt-1">{formData.emergencyPhone || "Not provided"}</p>
+                              <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                                Emergency Phone:
+                              </span>
+                              <p className="text-slate-800 dark:text-slate-100 mt-1">
+                                {formData.emergencyPhone || "Not provided"}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -1009,36 +1081,62 @@ export default function RegisterPage() {
                     </div>
 
                     {/* Additional Information */}
-                    <div className="bg-slate-50 rounded-2xl p-6">
-                      <h3 className="text-xl font-semibold mb-4 text-slate-800 flex items-center gap-2">
-                        <Heart className="w-5 h-5 text-emerald-600" />
+                    <div className="bg-slate-50 dark:bg-slate-700/50 rounded-2xl p-6">
+                      <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <Heart className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                         Additional Information
                       </h3>
                       <div className="space-y-4">
                         <div>
-                          <span className="text-sm font-medium text-slate-600">Medical Conditions/Allergies:</span>
-                          <p className="text-slate-800 mt-1">{formData.medicalConditions || "None specified"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            Medical Conditions/Allergies:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1">
+                            {formData.medicalConditions || "None specified"}
+                          </p>
                         </div>
                         <div>
-                          <span className="text-sm font-medium text-slate-600">How did you hear about us:</span>
-                          <p className="text-slate-800 mt-1 capitalize">{formData.hearAboutUs || "Not specified"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            How did you hear about us:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1 capitalize">
+                            {formData.hearAboutUs || "Not specified"}
+                          </p>
                         </div>
                         <div>
-                          <span className="text-sm font-medium text-slate-600">Additional Comments:</span>
-                          <p className="text-slate-800 mt-1">{formData.additionalInfo || "None"}</p>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            Additional Comments:
+                          </span>
+                          <p className="text-slate-800 dark:text-slate-100 mt-1">
+                            {formData.additionalInfo || "None"}
+                          </p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-2xl p-4">
                       <div className="flex items-start gap-3">
-                        <svg className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        <svg
+                          className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                          />
                         </svg>
                         <div>
-                          <p className="text-amber-800 font-medium">Please review carefully</p>
-                          <p className="text-amber-700 text-sm mt-1">
-                            Make sure all information is correct before submitting. You can go back to edit any section if needed.
+                          <p className="text-amber-800 dark:text-amber-200 font-medium">
+                            Please review carefully
+                          </p>
+                          <p className="text-amber-700 dark:text-amber-300 text-sm mt-1">
+                            Make sure all information is correct before
+                            submitting. You can go back to edit any section if
+                            needed.
                           </p>
                         </div>
                       </div>
@@ -1059,7 +1157,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="px-8 py-4 rounded-2xl border-2 border-slate-300 text-slate-700 flex items-center gap-2 hover:bg-slate-50 transition-colors cursor-pointer"
+                  className="px-8 py-4 rounded-2xl border-2 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer"
                 >
                   <ChevronLeft /> Previous
                 </button>
@@ -1078,7 +1176,9 @@ export default function RegisterPage() {
                   disabled={submitStatus === "loading"}
                   className="flex-1 px-8 py-4 rounded-2xl bg-linear-to-r from-emerald-600 to-sky-600 text-white font-semibold cursor-pointer"
                 >
-                  {submitStatus === "loading" ? "Submitting..." : "Submit Application"}
+                  {submitStatus === "loading"
+                    ? "Submitting..."
+                    : "Submit Application"}
                 </button>
               )}
             </div>

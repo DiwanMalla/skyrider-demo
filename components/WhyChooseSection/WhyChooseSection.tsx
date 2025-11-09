@@ -193,25 +193,25 @@ export function WhyChooseSection({ features }: WhyChooseSectionProps) {
   return (
     <section
       ref={sectionRef}
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-slate-50 to-white overflow-hidden"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-white via-slate-50 to-white dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16 relative">
           {/* Decorative background elements */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-emerald-200/30 rounded-full blur-3xl -z-10" />
-          <div className="absolute top-10 left-1/4 w-32 h-32 bg-sky-200/20 rounded-full blur-2xl -z-10" />
-          <div className="absolute top-10 right-1/4 w-32 h-32 bg-indigo-200/20 rounded-full blur-2xl -z-10" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-emerald-200/30 dark:bg-emerald-800/20 rounded-full blur-3xl -z-10" />
+          <div className="absolute top-10 left-1/4 w-32 h-32 bg-sky-200/20 dark:bg-sky-800/15 rounded-full blur-2xl -z-10" />
+          <div className="absolute top-10 right-1/4 w-32 h-32 bg-indigo-200/20 dark:bg-indigo-800/15 rounded-full blur-2xl -z-10" />
 
           <h2
             ref={titleRef}
-            className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-sky-600 to-indigo-600"
+            className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 via-sky-600 to-indigo-600"
           >
             Why Choose Skyrider School?
           </h2>
           <p
             ref={subtitleRef}
-            className="text-slate-600 text-lg md:text-xl max-w-3xl mx-auto"
+            className="text-slate-600 dark:text-slate-300 text-lg md:text-xl max-w-3xl mx-auto"
           >
             A legacy of academic excellence combined with modern facilities and
             holistic development
@@ -237,37 +237,37 @@ export function WhyChooseSection({ features }: WhyChooseSectionProps) {
                 >
                   {/* Gradient background (hidden by default, shown on hover) */}
                   <div
-                    className="card-bg absolute inset-0 bg-gradient-to-br from-emerald-50 via-sky-50 to-indigo-50 rounded-3xl opacity-0 -z-10 blur-xl"
+                    className="card-bg absolute inset-0 bg-linear-to-br from-emerald-50 via-sky-50 to-indigo-50 dark:from-emerald-900/30 dark:via-sky-900/30 dark:to-indigo-900/30 rounded-3xl opacity-0 -z-10 blur-xl"
                     style={{ transform: "translateZ(-50px)" }}
                   />
 
                   {/* Card content */}
-                  <div className="relative p-6 rounded-3xl bg-white border-2 border-slate-200 shadow-md overflow-hidden">
+                  <div className="relative p-6 rounded-3xl bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md overflow-hidden">
                     {/* Animated gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-sky-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-linear-to-br from-emerald-500/5 via-transparent to-sky-500/5 dark:from-emerald-400/10 dark:via-transparent dark:to-sky-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                     {/* Icon container */}
                     <div className="relative mb-4">
-                      <div className="feature-icon relative z-10 w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-sky-500 flex items-center justify-center shadow-lg">
+                      <div className="feature-icon relative z-10 w-12 h-12 rounded-2xl bg-linear-to-br from-emerald-500 to-sky-500 flex items-center justify-center shadow-lg">
                         <Icon className="w-6 h-6 text-white" />
                       </div>
                       {/* Icon glow effect */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-sky-400 rounded-2xl opacity-0 group-hover:opacity-50 blur-xl transition-opacity duration-500" />
+                      <div className="absolute inset-0 bg-linear-to-br from-emerald-400 to-sky-400 rounded-2xl opacity-0 group-hover:opacity-50 blur-xl transition-opacity duration-500" />
                     </div>
 
                     {/* Content */}
                     <div className="relative z-10">
-                      <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition-colors duration-300">
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
                         {feature.title}
                       </h3>
-                      <p className="text-slate-600 text-sm leading-relaxed">
+                      <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
                         {feature.description}
                       </p>
                     </div>
 
                     {/* Decorative corner elements */}
-                    <div className="absolute -top-1 -right-1 w-16 h-16 bg-gradient-to-br from-emerald-200/20 to-sky-200/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="absolute -bottom-1 -left-1 w-16 h-16 bg-gradient-to-tr from-sky-200/20 to-indigo-200/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute -top-1 -right-1 w-16 h-16 bg-linear-to-br from-emerald-200/20 to-sky-200/20 dark:from-emerald-700/30 dark:to-sky-700/30 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute -bottom-1 -left-1 w-16 h-16 bg-linear-to-tr from-sky-200/20 to-indigo-200/20 dark:from-sky-700/30 dark:to-indigo-700/30 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
                 </div>
               );
@@ -287,7 +287,7 @@ export function WhyChooseSection({ features }: WhyChooseSectionProps) {
               />
 
               {/* Stats Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent">
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <div className="grid grid-cols-2 gap-6">
                     {[
@@ -300,7 +300,7 @@ export function WhyChooseSection({ features }: WhyChooseSectionProps) {
                         <div className="text-3xl md:text-4xl font-extrabold text-white mb-1 drop-shadow-lg">
                           {stat.value}
                         </div>
-                        <div className="text-emerald-200 font-medium text-sm drop-shadow-md">
+                        <div className="text-emerald-200 dark:text-emerald-300 font-medium text-sm drop-shadow-md">
                           {stat.label}
                         </div>
                       </div>
@@ -310,9 +310,9 @@ export function WhyChooseSection({ features }: WhyChooseSectionProps) {
               </div>
 
               {/* Floating decorative elements */}
-              <div className="absolute top-4 right-4 w-16 h-16 bg-emerald-500/20 rounded-full blur-xl animate-pulse" />
+              <div className="absolute top-4 right-4 w-16 h-16 bg-emerald-500/20 dark:bg-emerald-400/30 rounded-full blur-xl animate-pulse" />
               <div
-                className="absolute bottom-4 left-4 w-12 h-12 bg-sky-500/20 rounded-full blur-xl animate-pulse"
+                className="absolute bottom-4 left-4 w-12 h-12 bg-sky-500/20 dark:bg-sky-400/30 rounded-full blur-xl animate-pulse"
                 style={{ animationDelay: "1s" }}
               />
             </div>
@@ -320,7 +320,7 @@ export function WhyChooseSection({ features }: WhyChooseSectionProps) {
         </div>
 
         {/* Bottom decorative line */}
-        <div className="mt-16 h-1 w-full bg-gradient-to-r from-transparent via-emerald-500 to-transparent opacity-20" />
+        <div className="mt-16 h-1 w-full bg-linear-to-r from-transparent via-emerald-500 dark:via-emerald-400 to-transparent opacity-20" />
       </div>
     </section>
   );

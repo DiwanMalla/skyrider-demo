@@ -172,7 +172,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-50">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       {/* Main content */}
       <div className="relative">
         {/* Navigation */}
@@ -188,8 +188,9 @@ export default function Home() {
           </div>
 
           {/* Coordinated overlay gradient for text readability */}
-          <div className="absolute inset-0 z-10 bg-linear-to-b from-slate-900/40 via-slate-900/25 to-slate-900/30 pointer-events-none" />
+          <div className="absolute inset-0 z-10 bg-linear-to-b from-slate-900/40 via-slate-900/25 to-slate-900/30 dark:from-slate-900/50 dark:via-slate-900/35 dark:to-slate-900/40 pointer-events-none" />
 
+          {/* Hero Content Overlay */}
           {/* Hero Content Overlay */}
           <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pointer-events-auto">
@@ -257,7 +258,7 @@ export default function Home() {
         <AcademicPrograms />
 
         {/* Call to Action Section */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-900">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -265,10 +266,10 @@ export default function Home() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
                 Ready to Begin Your Journey?
               </h2>
-              <p className="text-slate-600 text-lg mb-8 max-w-2xl mx-auto">
+              <p className="text-slate-600 dark:text-slate-400 text-lg mb-8 max-w-2xl mx-auto">
                 Join our community of learners and discover your potential.
                 Admissions are now open for the upcoming academic year.
               </p>
@@ -282,7 +283,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/visit"
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-lg border-2 border-slate-300 text-slate-900 bg-white hover:bg-slate-50 font-semibold shadow-lg transition-all"
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-lg border-2 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 font-semibold shadow-lg transition-all"
                 >
                   Schedule a Visit
                 </Link>

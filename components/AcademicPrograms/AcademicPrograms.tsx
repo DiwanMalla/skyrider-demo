@@ -12,7 +12,6 @@ import {
   Award,
   Target,
   Lightbulb,
-  ArrowRight,
 } from "lucide-react";
 
 // Register GSAP plugins
@@ -41,7 +40,7 @@ export function AcademicPrograms() {
         "Social skills development",
         "Physical education and sports",
       ],
-      bgColor: "bg-yellow-50",
+      bgColor: "bg-yellow-50 dark:bg-yellow-900/20",
     },
     {
       level: "Grade 6 to 10",
@@ -57,7 +56,7 @@ export function AcademicPrograms() {
         "Art, Music, and Physical Education",
         "Life skills and career guidance",
       ],
-      bgColor: "bg-blue-50",
+      bgColor: "bg-blue-50 dark:bg-blue-900/20",
     },
     {
       level: "Grade 11-12 (Science)",
@@ -73,7 +72,7 @@ export function AcademicPrograms() {
         "Research methodology",
         "STEM project work",
       ],
-      bgColor: "bg-green-50",
+      bgColor: "bg-green-50 dark:bg-green-900/20",
     },
     {
       level: "Grade 11-12 (Management)",
@@ -89,7 +88,7 @@ export function AcademicPrograms() {
         "Entrepreneurship and Business Ethics",
         "Project-based learning",
       ],
-      bgColor: "bg-purple-50",
+      bgColor: "bg-purple-50 dark:bg-purple-900/20",
     },
   ];
 
@@ -227,15 +226,15 @@ export function AcademicPrograms() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-20 bg-linear-to-b from-white via-slate-50 to-white overflow-hidden"
+      className="relative py-20 bg-linear-to-b from-white via-slate-50 to-white dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 overflow-hidden"
     >
       {/* Header Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
         <div className="text-center relative">
           {/* Decorative background elements */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-200/20 rounded-full blur-3xl -z-10" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-200/20 dark:bg-emerald-800/15 rounded-full blur-3xl -z-10" />
 
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 font-semibold mb-4">
             <GraduationCap size={20} />
             <span>Academic Programs</span>
           </div>
@@ -246,7 +245,7 @@ export function AcademicPrograms() {
           >
             Complete Educational Journey
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl mx-auto mb-2">
+          <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl mx-auto mb-2">
             From nursery to higher secondary education, we provide comprehensive
             learning pathways in both Science and Management streams.
           </p>
@@ -277,7 +276,7 @@ export function AcademicPrograms() {
                 style={{ transformStyle: "preserve-3d" }}
               >
                 {/* Card */}
-                <div className="relative h-[520px] sm:h-[560px] md:h-[580px] lg:h-[550px] rounded-2xl sm:rounded-3xl bg-white border-2 border-slate-200 shadow-xl overflow-hidden">
+                <div className="relative h-[520px] sm:h-[560px] md:h-[580px] lg:h-[550px] rounded-2xl sm:rounded-3xl bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden">
                   {/* Gradient background overlay */}
                   <div
                     className={`absolute inset-0 ${program.bgColor} opacity-30`}
@@ -295,30 +294,30 @@ export function AcademicPrograms() {
                     </div>
 
                     {/* Level badge */}
-                    <div className="inline-flex self-start px-2.5 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 rounded-full bg-emerald-100 text-emerald-700 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wide mb-2 sm:mb-3 md:mb-4">
+                    <div className="inline-flex self-start px-2.5 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wide mb-2 sm:mb-3 md:mb-4">
                       {program.level}
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-2 sm:mb-3 md:mb-4">
+                    <h3 className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2 sm:mb-3 md:mb-4">
                       {program.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed mb-3 sm:mb-4 md:mb-5 lg:mb-6">
+                    <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed mb-3 sm:mb-4 md:mb-5 lg:mb-6">
                       {program.description}
                     </p>
 
                     {/* Features */}
                     <div className="grow">
-                      <h4 className="font-semibold text-slate-900 mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base md:text-lg">
+                      <h4 className="font-semibold text-slate-900 dark:text-slate-100 mb-2 sm:mb-3 md:mb-4 text-sm sm:text-base md:text-lg">
                         Key Features:
                       </h4>
                       <ul className="space-y-1.5 sm:space-y-2 md:space-y-3">
                         {program.features.map((feature, featureIndex) => (
                           <li
                             key={featureIndex}
-                            className="flex items-start gap-2 text-slate-700"
+                            className="flex items-start gap-2 text-slate-700 dark:text-slate-300"
                           >
                             <div
                               className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-linear-to-r ${program.color} mt-1 sm:mt-1.5 md:mt-2 shrink-0`}
@@ -332,8 +331,8 @@ export function AcademicPrograms() {
                     </div>
 
                     {/* Decorative corner accents */}
-                    <div className="absolute top-0 right-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 bg-linear-to-br from-white/50 to-transparent rounded-bl-full" />
-                    <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 bg-linear-to-tr from-white/50 to-transparent rounded-tr-full" />
+                    <div className="absolute top-0 right-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 bg-linear-to-br from-white/50 dark:from-slate-700/30 to-transparent rounded-bl-full" />
+                    <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 bg-linear-to-tr from-white/50 dark:from-slate-700/30 to-transparent rounded-tr-full" />
                   </div>
 
                   {/* Hover glow effect */}
@@ -357,7 +356,7 @@ export function AcademicPrograms() {
 
       {/* Career Guidance Section - Separate from horizontal scroll */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32">
-        <div className="bg-linear-to-r from-emerald-600 to-sky-600 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden">
+        <div className="bg-linear-to-r from-emerald-600 to-sky-600 dark:from-emerald-700 dark:to-sky-700 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden">
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent" />
@@ -371,7 +370,7 @@ export function AcademicPrograms() {
                   Career Guidance
                 </h3>
               </div>
-              <p className="text-emerald-100 text-lg mb-6">
+              <p className="text-emerald-100 dark:text-emerald-200 text-lg mb-6">
                 Our dedicated career counseling helps students make informed
                 choices about their academic streams and future career paths.
               </p>
@@ -391,13 +390,13 @@ export function AcademicPrograms() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-sm">
                   <div className="text-2xl font-bold mb-1">95%</div>
-                  <div className="text-sm text-emerald-200">
+                  <div className="text-sm text-emerald-200 dark:text-emerald-300">
                     Higher Education
                   </div>
                 </div>
                 <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-sm">
                   <div className="text-2xl font-bold mb-1">85%</div>
-                  <div className="text-sm text-emerald-200">
+                  <div className="text-sm text-emerald-200 dark:text-emerald-300">
                     Career Placement
                   </div>
                 </div>

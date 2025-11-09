@@ -227,9 +227,7 @@ export async function GET(request: NextRequest) {
     const publicToken = process.env.NEXT_PUBLIC_ADMIN_SECRET_TOKEN;
 
     // Simple token check (you should use proper auth in production)
-    if (
-      authHeader && authHeader !== `Bearer ${publicToken}`
-    ) {
+    if (authHeader && authHeader !== `Bearer ${publicToken}`) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 

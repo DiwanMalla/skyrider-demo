@@ -56,7 +56,7 @@ export function WhatWeOffer() {
   };
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -67,7 +67,7 @@ export function WhatWeOffer() {
           viewport={{ once: true }}
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 font-semibold mb-4"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 font-semibold mb-4"
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
@@ -77,10 +77,10 @@ export function WhatWeOffer() {
             <span>What We Offer</span>
           </motion.div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
             Excellence in Education & Entertainment
           </h2>
-          <p className="text-slate-600 text-lg md:text-xl max-w-3xl mx-auto">
+          <p className="text-slate-600 dark:text-slate-400 text-lg md:text-xl max-w-3xl mx-auto">
             Skyrider offers students the best of education and entertainment
             opportunities available in the area. We are glad to take care of
             every student and college entrant.
@@ -108,7 +108,7 @@ export function WhatWeOffer() {
                   className={`absolute inset-0 bg-gradient-to-br ${offering.bgGradient} rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl`}
                 />
 
-                <div className="relative p-8 rounded-3xl bg-white border-2 border-slate-200 hover:border-transparent hover:shadow-2xl transition-all duration-300">
+                <div className="relative p-8 rounded-3xl bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 hover:border-transparent hover:shadow-2xl dark:hover:shadow-slate-900/50 transition-all duration-300">
                   {/* Icon */}
                   <motion.div
                     className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${offering.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
@@ -119,10 +119,10 @@ export function WhatWeOffer() {
                   </motion.div>
 
                   {/* Content */}
-                  <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-emerald-600 transition-colors duration-300">
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
                     {offering.title}
                   </h3>
-                  <p className="text-slate-600 leading-relaxed">
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                     {offering.description}
                   </p>
 
@@ -148,7 +148,7 @@ export function WhatWeOffer() {
           transition={{ delay: 0.8, duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <p className="text-slate-600 text-lg mb-6">
+          <p className="text-slate-600 dark:text-slate-400 text-lg mb-6">
             Want to learn more about our programs?
           </p>
           <motion.a

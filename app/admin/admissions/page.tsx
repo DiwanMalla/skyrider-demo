@@ -5,13 +5,11 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
-  Filter,
   CheckCircle,
   XCircle,
   Eye,
   Mail,
   Phone,
-  Calendar,
   MapPin,
   User,
   BookOpen,
@@ -131,10 +129,10 @@ export default function AdmissionsPage() {
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
             Admission Applications
           </h1>
-          <p className="text-slate-600">
+          <p className="text-slate-600 dark:text-slate-400">
             Review and manage student admission applications
           </p>
         </div>
@@ -142,7 +140,12 @@ export default function AdmissionsPage() {
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {[
-            { label: "Total", value: stats.total, color: "slate", isTotal: true },
+            {
+              label: "Total",
+              value: stats.total,
+              color: "slate",
+              isTotal: true,
+            },
             { label: "Pending", value: stats.pending, color: "amber" },
             { label: "Accepted", value: stats.accepted, color: "emerald" },
             { label: "Rejected", value: stats.rejected, color: "red" },
@@ -151,18 +154,26 @@ export default function AdmissionsPage() {
               key={stat.label}
               className={`rounded-xl p-4 shadow-sm border ${
                 stat.isTotal
-                  ? "bg-linear-to-br from-slate-900 to-slate-700 text-white border-slate-800"
-                  : "bg-white border-slate-200"
+                  ? "bg-linear-to-br from-slate-900 to-slate-700 dark:from-slate-800 dark:to-slate-900 text-white border-slate-800 dark:border-slate-700"
+                  : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
               }`}
             >
-              <p className={`text-sm mb-1 ${
-                stat.isTotal ? "text-slate-300" : "text-slate-600"
-              }`}>
+              <p
+                className={`text-sm mb-1 ${
+                  stat.isTotal
+                    ? "text-slate-300 dark:text-slate-400"
+                    : "text-slate-600 dark:text-slate-400"
+                }`}
+              >
                 {stat.label}
               </p>
-              <p className={`text-2xl font-bold ${
-                stat.isTotal ? "text-white" : `text-${stat.color}-600`
-              }`}>
+              <p
+                className={`text-2xl font-bold ${
+                  stat.isTotal
+                    ? "text-white"
+                    : `text-${stat.color}-600 dark:text-${stat.color}-400`
+                }`}
+              >
                 {stat.value}
               </p>
             </div>
@@ -170,16 +181,16 @@ export default function AdmissionsPage() {
         </div>
 
         {/* Search and Filter */}
-        <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
+        <div className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-200 dark:border-slate-700">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 dark:text-slate-500" />
               <input
                 type="text"
                 placeholder="Search by name or email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-emerald-500"
+                className="w-full pl-10 pr-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400 bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400"
               />
             </div>
             <div className="flex gap-2">
@@ -190,8 +201,8 @@ export default function AdmissionsPage() {
                     onClick={() => setFilterStatus(status)}
                     className={`px-4 py-2 rounded-lg font-medium capitalize transition-colors ${
                       filterStatus === status
-                        ? "bg-emerald-600 text-white"
-                        : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                        ? "bg-emerald-600 dark:bg-emerald-500 text-white"
+                        : "bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600"
                     }`}
                   >
                     {status}
@@ -205,16 +216,18 @@ export default function AdmissionsPage() {
         {/* Applications List */}
         {loading ? (
           <div className="text-center py-12">
-            <div className="inline-block w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin" />
-            <p className="text-slate-600 mt-4">Loading applications...</p>
+            <div className="inline-block w-8 h-8 border-4 border-emerald-600 dark:border-emerald-400 border-t-transparent rounded-full animate-spin" />
+            <p className="text-slate-600 dark:text-slate-400 mt-4">
+              Loading applications...
+            </p>
           </div>
         ) : filteredApplications.length === 0 ? (
-          <div className="bg-white rounded-xl p-12 text-center shadow-sm border border-slate-200">
-            <AlertCircle className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">
+          <div className="bg-white dark:bg-slate-800 rounded-xl p-12 text-center shadow-sm border border-slate-200 dark:border-slate-700">
+            <AlertCircle className="w-12 h-12 text-slate-400 dark:text-slate-500 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
               No applications found
             </h3>
-            <p className="text-slate-600">
+            <p className="text-slate-600 dark:text-slate-400">
               Try adjusting your search or filter criteria
             </p>
           </div>
@@ -226,7 +239,7 @@ export default function AdmissionsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow"
+                className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -236,10 +249,10 @@ export default function AdmissionsPage() {
                         {app.lastName[0]}
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-slate-900">
+                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
                           {app.firstName} {app.lastName}
                         </h3>
-                        <div className="flex items-center gap-4 text-sm text-slate-600">
+                        <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
                           <span className="flex items-center gap-1">
                             <Mail className="w-4 h-4" />
                             {app.email}
@@ -253,26 +266,34 @@ export default function AdmissionsPage() {
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       <div>
-                        <span className="text-slate-500">Program:</span>
-                        <p className="font-medium text-slate-900 capitalize">
+                        <span className="text-slate-500 dark:text-slate-400">
+                          Program:
+                        </span>
+                        <p className="font-medium text-slate-900 dark:text-white capitalize">
                           {app.program}
                         </p>
                       </div>
                       <div>
-                        <span className="text-slate-500">Grade:</span>
-                        <p className="font-medium text-slate-900">
+                        <span className="text-slate-500 dark:text-slate-400">
+                          Grade:
+                        </span>
+                        <p className="font-medium text-slate-900 dark:text-white">
                           {app.educationLevel.replace("grade", "Grade ")}
                         </p>
                       </div>
                       <div>
-                        <span className="text-slate-500">Location:</span>
-                        <p className="font-medium text-slate-900">
+                        <span className="text-slate-500 dark:text-slate-400">
+                          Location:
+                        </span>
+                        <p className="font-medium text-slate-900 dark:text-white">
                           {app.city}, {app.state}
                         </p>
                       </div>
                       <div>
-                        <span className="text-slate-500">Submitted:</span>
-                        <p className="font-medium text-slate-900">
+                        <span className="text-slate-500 dark:text-slate-400">
+                          Submitted:
+                        </span>
+                        <p className="font-medium text-slate-900 dark:text-white">
                           {new Date(app.submittedAt).toLocaleDateString()}
                         </p>
                       </div>
@@ -292,7 +313,7 @@ export default function AdmissionsPage() {
                     </span>
                     <button
                       onClick={() => setSelectedApplication(app)}
-                      className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-sm font-medium text-slate-700 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 transition-colors"
                     >
                       <Eye className="w-4 h-4" />
                       View Details
@@ -320,61 +341,71 @@ export default function AdmissionsPage() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+              className="bg-white dark:bg-slate-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
             >
-              <div className="sticky top-0 bg-white border-b border-slate-200 p-6 flex items-center justify-between">
+              <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 p-6 flex items-center justify-between">
                 <div>
-                  <h2 className="text-2xl font-bold text-slate-900">
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
                     Application Details
                   </h2>
-                  <p className="text-slate-600">
+                  <p className="text-slate-600 dark:text-slate-400">
                     {selectedApplication.firstName}{" "}
                     {selectedApplication.lastName}
                   </p>
                 </div>
                 <button
                   onClick={() => setSelectedApplication(null)}
-                  className="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center transition-colors"
+                  className="w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center justify-center transition-colors"
                 >
-                  <XCircle className="w-6 h-6 text-slate-600" />
+                  <XCircle className="w-6 h-6 text-slate-600 dark:text-slate-400" />
                 </button>
               </div>
 
               <div className="p-6 space-y-6">
                 {/* Personal Information */}
-                <div className="bg-slate-50 rounded-xl p-6">
-                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 border-b border-slate-200 pb-2">
-                    <User className="w-6 h-6 text-emerald-600" />
+                <div className="bg-slate-50 dark:bg-slate-700 rounded-xl p-6">
+                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-600 pb-2">
+                    <User className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                     Personal Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="text-slate-600">First Name:</span>
-                      <p className="font-medium text-slate-900">
+                      <span className="text-slate-600 dark:text-slate-400">
+                        First Name:
+                      </span>
+                      <p className="font-medium text-slate-900 dark:text-white">
                         {selectedApplication.firstName}
                       </p>
                     </div>
                     <div>
-                      <span className="text-slate-600">Last Name:</span>
-                      <p className="font-medium text-slate-900">
+                      <span className="text-slate-600 dark:text-slate-400">
+                        Last Name:
+                      </span>
+                      <p className="font-medium text-slate-900 dark:text-white">
                         {selectedApplication.lastName}
                       </p>
                     </div>
                     <div>
-                      <span className="text-slate-600">Email:</span>
-                      <p className="font-medium text-slate-900">
+                      <span className="text-slate-600 dark:text-slate-400">
+                        Email:
+                      </span>
+                      <p className="font-medium text-slate-900 dark:text-white">
                         {selectedApplication.email}
                       </p>
                     </div>
                     <div>
-                      <span className="text-slate-600">Phone:</span>
-                      <p className="font-medium text-slate-900">
+                      <span className="text-slate-600 dark:text-slate-400">
+                        Phone:
+                      </span>
+                      <p className="font-medium text-slate-900 dark:text-white">
                         {selectedApplication.phone}
                       </p>
                     </div>
                     <div>
-                      <span className="text-slate-600">Date of Birth:</span>
-                      <p className="font-medium text-slate-900">
+                      <span className="text-slate-600 dark:text-slate-400">
+                        Date of Birth:
+                      </span>
+                      <p className="font-medium text-slate-900 dark:text-white">
                         {selectedApplication.dateOfBirth}
                       </p>
                     </div>
@@ -382,41 +413,45 @@ export default function AdmissionsPage() {
                 </div>
 
                 {/* Address */}
-                <div className="bg-slate-50 rounded-xl p-6">
-                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 border-b border-slate-200 pb-2">
-                    <MapPin className="w-6 h-6 text-emerald-600" />
+                <div className="bg-slate-50 dark:bg-slate-700 rounded-xl p-6">
+                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-600 pb-2">
+                    <MapPin className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                     Home Address
                   </h3>
                   <div className="space-y-2 text-sm">
-                    <p className="font-medium text-slate-900">
+                    <p className="font-medium text-slate-900 dark:text-white">
                       {selectedApplication.address}
                     </p>
-                    <p className="text-slate-700">
+                    <p className="text-slate-700 dark:text-slate-300">
                       {selectedApplication.city}, {selectedApplication.state}{" "}
                       {selectedApplication.zipCode}
                     </p>
-                    <p className="text-slate-700">
+                    <p className="text-slate-700 dark:text-slate-300">
                       {selectedApplication.country}
                     </p>
                   </div>
                 </div>
 
                 {/* Academic */}
-                <div className="bg-slate-50 rounded-xl p-6">
-                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 border-b border-slate-200 pb-2">
-                    <BookOpen className="w-6 h-6 text-emerald-600" />
+                <div className="bg-slate-50 dark:bg-slate-700 rounded-xl p-6">
+                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-600 pb-2">
+                    <BookOpen className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                     Academic Details
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="text-slate-600">Program:</span>
-                      <p className="font-medium text-slate-900 capitalize">
+                      <span className="text-slate-600 dark:text-slate-400">
+                        Program:
+                      </span>
+                      <p className="font-medium text-slate-900 dark:text-white capitalize">
                         {selectedApplication.program}
                       </p>
                     </div>
                     <div>
-                      <span className="text-slate-600">Grade:</span>
-                      <p className="font-medium text-slate-900">
+                      <span className="text-slate-600 dark:text-slate-400">
+                        Grade:
+                      </span>
+                      <p className="font-medium text-slate-900 dark:text-white">
                         {selectedApplication.educationLevel.replace(
                           "grade",
                           "Grade "
@@ -424,8 +459,10 @@ export default function AdmissionsPage() {
                       </p>
                     </div>
                     <div className="md:col-span-2">
-                      <span className="text-slate-600">Previous School:</span>
-                      <p className="font-medium text-slate-900">
+                      <span className="text-slate-600 dark:text-slate-400">
+                        Previous School:
+                      </span>
+                      <p className="font-medium text-slate-900 dark:text-white">
                         {selectedApplication.previousSchool || "Not provided"}
                       </p>
                     </div>
@@ -433,47 +470,53 @@ export default function AdmissionsPage() {
                 </div>
 
                 {/* Guardian & Emergency */}
-                <div className="bg-slate-50 rounded-xl p-6">
-                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 border-b border-slate-200 pb-2">
-                    <Users className="w-6 h-6 text-emerald-600" />
+                <div className="bg-slate-50 dark:bg-slate-700 rounded-xl p-6">
+                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-600 pb-2">
+                    <Users className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                     Guardian Information & Emergency Contact
                   </h3>
                   <div className="space-y-4 text-sm">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <span className="text-slate-600">Guardian Name:</span>
-                        <p className="font-medium text-slate-900">
+                        <span className="text-slate-600 dark:text-slate-400">
+                          Guardian Name:
+                        </span>
+                        <p className="font-medium text-slate-900 dark:text-white">
                           {selectedApplication.guardianName}
                         </p>
                       </div>
                       <div>
-                        <span className="text-slate-600">Guardian Phone:</span>
-                        <p className="font-medium text-slate-900">
+                        <span className="text-slate-600 dark:text-slate-400">
+                          Guardian Phone:
+                        </span>
+                        <p className="font-medium text-slate-900 dark:text-white">
                           {selectedApplication.guardianPhone}
                         </p>
                       </div>
                       <div className="md:col-span-2">
-                        <span className="text-slate-600">Guardian Email:</span>
-                        <p className="font-medium text-slate-900">
+                        <span className="text-slate-600 dark:text-slate-400">
+                          Guardian Email:
+                        </span>
+                        <p className="font-medium text-slate-900 dark:text-white">
                           {selectedApplication.guardianEmail}
                         </p>
                       </div>
                     </div>
-                    <div className="border-t border-slate-200 pt-4">
+                    <div className="border-t border-slate-200 dark:border-slate-600 pt-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <span className="text-slate-600">
+                          <span className="text-slate-600 dark:text-slate-400">
                             Emergency Contact (Alternate):
                           </span>
-                          <p className="font-medium text-slate-900">
+                          <p className="font-medium text-slate-900 dark:text-white">
                             {selectedApplication.emergencyContact}
                           </p>
                         </div>
                         <div>
-                          <span className="text-slate-600">
+                          <span className="text-slate-600 dark:text-slate-400">
                             Emergency Phone (Alternate):
                           </span>
-                          <p className="font-medium text-slate-900">
+                          <p className="font-medium text-slate-900 dark:text-white">
                             {selectedApplication.emergencyPhone}
                           </p>
                         </div>
@@ -486,38 +529,38 @@ export default function AdmissionsPage() {
                 {(selectedApplication.medicalConditions ||
                   selectedApplication.hearAboutUs ||
                   selectedApplication.additionalInfo) && (
-                  <div className="bg-slate-50 rounded-xl p-6">
-                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 border-b border-slate-200 pb-2">
-                      <Heart className="w-6 h-6 text-emerald-600" />
+                  <div className="bg-slate-50 dark:bg-slate-700 rounded-xl p-6">
+                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-600 pb-2">
+                      <Heart className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                       Additional Details & Notes
                     </h3>
                     <div className="space-y-3 text-sm">
                       {selectedApplication.medicalConditions && (
                         <div>
-                          <span className="text-slate-600">
+                          <span className="text-slate-600 dark:text-slate-400">
                             Medical Conditions/Allergies:
                           </span>
-                          <p className="font-medium text-slate-900">
+                          <p className="font-medium text-slate-900 dark:text-white">
                             {selectedApplication.medicalConditions}
                           </p>
                         </div>
                       )}
                       {selectedApplication.hearAboutUs && (
                         <div>
-                          <span className="text-slate-600">
+                          <span className="text-slate-600 dark:text-slate-400">
                             How they heard about us:
                           </span>
-                          <p className="font-medium text-slate-900 capitalize">
+                          <p className="font-medium text-slate-900 dark:text-white capitalize">
                             {selectedApplication.hearAboutUs}
                           </p>
                         </div>
                       )}
                       {selectedApplication.additionalInfo && (
                         <div>
-                          <span className="text-slate-600">
+                          <span className="text-slate-600 dark:text-slate-400">
                             Additional Comments:
                           </span>
-                          <p className="font-medium text-slate-900">
+                          <p className="font-medium text-slate-900 dark:text-white">
                             {selectedApplication.additionalInfo}
                           </p>
                         </div>
@@ -534,7 +577,7 @@ export default function AdmissionsPage() {
                         handleStatusUpdate(selectedApplication.id, "accepted")
                       }
                       disabled={actionLoading}
-                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <CheckCircle className="w-5 h-5" />
                       {actionLoading ? "Processing..." : "Accept Application"}
@@ -544,7 +587,7 @@ export default function AdmissionsPage() {
                         handleStatusUpdate(selectedApplication.id, "rejected")
                       }
                       disabled={actionLoading}
-                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 text-white font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <XCircle className="w-5 h-5" />
                       {actionLoading ? "Processing..." : "Reject Application"}

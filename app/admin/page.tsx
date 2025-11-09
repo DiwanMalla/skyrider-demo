@@ -77,10 +77,10 @@ export default function AdminDashboard() {
       <div className="space-y-8">
         {/* Welcome Header */}
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
             Welcome back, Admin! 👋
           </h1>
-          <p className="text-slate-600">
+          <p className="text-slate-600 dark:text-slate-400">
             Here&apos;s what&apos;s happening with your school today.
           </p>
         </div>
@@ -95,7 +95,7 @@ export default function AdminDashboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow"
+                className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div
@@ -103,14 +103,16 @@ export default function AdminDashboard() {
                   >
                     <Icon className="w-6 h-6 text-white" />
                   </div>
-                  <span className="text-sm font-medium text-emerald-600">
+                  <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
                     {stat.change}
                   </span>
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-1">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
                   {stat.value}
                 </h3>
-                <p className="text-sm text-slate-600">{stat.title}</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  {stat.title}
+                </p>
               </motion.div>
             );
           })}
@@ -119,10 +121,30 @@ export default function AdminDashboard() {
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { title: "Review Admissions", icon: FileText, href: "/admin/admissions", color: "emerald" },
-            { title: "Publish Results", icon: TrendingUp, href: "/admin/results", color: "blue" },
-            { title: "Review Blogs", icon: BookOpen, href: "/admin/blogs", color: "purple" },
-            { title: "Create Event", icon: Calendar, href: "/admin/events", color: "orange" },
+            {
+              title: "Review Admissions",
+              icon: FileText,
+              href: "/admin/admissions",
+              color: "emerald",
+            },
+            {
+              title: "Publish Results",
+              icon: TrendingUp,
+              href: "/admin/results",
+              color: "blue",
+            },
+            {
+              title: "Review Blogs",
+              icon: BookOpen,
+              href: "/admin/blogs",
+              color: "purple",
+            },
+            {
+              title: "Create Event",
+              icon: Calendar,
+              href: "/admin/events",
+              color: "orange",
+            },
           ].map((action) => {
             const Icon = action.icon;
             return (
@@ -131,23 +153,29 @@ export default function AdminDashboard() {
                 href={action.href}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className={`bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-all cursor-pointer group`}
+                className={`bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all cursor-pointer group`}
               >
-                <Icon className={`w-8 h-8 text-${action.color}-600 mb-3 group-hover:scale-110 transition-transform`} />
-                <h3 className="font-semibold text-slate-900">{action.title}</h3>
-                <p className="text-sm text-slate-500 mt-1">Click to manage</p>
+                <Icon
+                  className={`w-8 h-8 text-${action.color}-600 dark:text-${action.color}-400 mb-3 group-hover:scale-110 transition-transform`}
+                />
+                <h3 className="font-semibold text-slate-900 dark:text-white">
+                  {action.title}
+                </h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Click to manage
+                </p>
               </motion.a>
             );
           })}
         </div>
 
         {/* Recent Activity */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-slate-900">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
               Recent Activity
             </h2>
-            <button className="text-sm font-medium text-emerald-600 hover:text-emerald-700">
+            <button className="text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300">
               View All
             </button>
           </div>
@@ -158,15 +186,21 @@ export default function AdminDashboard() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors"
+                className="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
               >
-                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                  <Users className="w-5 h-5 text-emerald-600" />
+                <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center shrink-0">
+                  <Users className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-medium text-slate-900">{activity.title}</p>
-                  <p className="text-sm text-slate-600">{activity.name}</p>
-                  <p className="text-xs text-slate-400 mt-1">{activity.time}</p>
+                  <p className="font-medium text-slate-900 dark:text-white">
+                    {activity.title}
+                  </p>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">
+                    {activity.name}
+                  </p>
+                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+                    {activity.time}
+                  </p>
                 </div>
               </motion.div>
             ))}
