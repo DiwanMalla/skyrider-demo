@@ -60,6 +60,12 @@ const steps = [
     icon: Heart,
     description: "Final details",
   },
+  {
+    id: 5,
+    title: "Preview",
+    icon: CheckCircle2,
+    description: "Review your information",
+  },
 ];
 
 export default function RegisterPage() {
@@ -261,6 +267,8 @@ export default function RegisterPage() {
         }
         break;
       case 4: // Additional Info - no required fields
+        break;
+      case 5: // Preview - no validation needed, just review
         break;
     }
     setValidationError(""); // Clear error if validation passes
@@ -870,6 +878,173 @@ export default function RegisterPage() {
                     />
                   </div>
                 )}
+
+                {currentStep === 5 && (
+                  <div className="space-y-8">
+                    <h2 className="text-3xl font-bold mb-6 text-slate-800">
+                      Review Your Application
+                    </h2>
+                    <p className="text-slate-600 mb-6">
+                      Please review all the information below before submitting your application.
+                    </p>
+
+                    {/* Personal Information */}
+                    <div className="bg-slate-50 rounded-2xl p-6">
+                      <h3 className="text-xl font-semibold mb-4 text-slate-800 flex items-center gap-2">
+                        <User className="w-5 h-5 text-emerald-600" />
+                        Personal Information
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <span className="text-sm font-medium text-slate-600">First Name:</span>
+                          <p className="text-slate-800 mt-1">{formData.firstName || "Not provided"}</p>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-slate-600">Last Name:</span>
+                          <p className="text-slate-800 mt-1">{formData.lastName || "Not provided"}</p>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-slate-600">Email:</span>
+                          <p className="text-slate-800 mt-1">{formData.email || "Not provided"}</p>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-slate-600">Phone:</span>
+                          <p className="text-slate-800 mt-1">{formData.phone || "Not provided"}</p>
+                        </div>
+                        <div className="md:col-span-2">
+                          <span className="text-sm font-medium text-slate-600">Date of Birth:</span>
+                          <p className="text-slate-800 mt-1">{formData.dateOfBirth || "Not provided"}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Address Information */}
+                    <div className="bg-slate-50 rounded-2xl p-6">
+                      <h3 className="text-xl font-semibold mb-4 text-slate-800 flex items-center gap-2">
+                        <Home className="w-5 h-5 text-emerald-600" />
+                        Address Information
+                      </h3>
+                      <div className="space-y-3">
+                        <div>
+                          <span className="text-sm font-medium text-slate-600">Street Address:</span>
+                          <p className="text-slate-800 mt-1">{formData.address || "Not provided"}</p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div>
+                            <span className="text-sm font-medium text-slate-600">City:</span>
+                            <p className="text-slate-800 mt-1">{formData.city || "Not provided"}</p>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-slate-600">Province:</span>
+                            <p className="text-slate-800 mt-1">{formData.state || "Not provided"}</p>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-slate-600">ZIP Code:</span>
+                            <p className="text-slate-800 mt-1">{formData.zipCode || "Not provided"}</p>
+                          </div>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-slate-600">Country:</span>
+                          <p className="text-slate-800 mt-1">{formData.country || "Not provided"}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Academic Information */}
+                    <div className="bg-slate-50 rounded-2xl p-6">
+                      <h3 className="text-xl font-semibold mb-4 text-slate-800 flex items-center gap-2">
+                        <BookOpen className="w-5 h-5 text-emerald-600" />
+                        Academic Information
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <span className="text-sm font-medium text-slate-600">Program:</span>
+                          <p className="text-slate-800 mt-1 capitalize">{formData.program || "Not provided"}</p>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-slate-600">Grade:</span>
+                          <p className="text-slate-800 mt-1">{formData.educationLevel ? formData.educationLevel.replace('grade', 'Grade ') : "Not provided"}</p>
+                        </div>
+                        <div className="md:col-span-2">
+                          <span className="text-sm font-medium text-slate-600">Previous School:</span>
+                          <p className="text-slate-800 mt-1">{formData.previousSchool || "Not provided"}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Guardian & Emergency Information */}
+                    <div className="bg-slate-50 rounded-2xl p-6">
+                      <h3 className="text-xl font-semibold mb-4 text-slate-800 flex items-center gap-2">
+                        <Shield className="w-5 h-5 text-emerald-600" />
+                        Guardian & Emergency Contacts
+                      </h3>
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <span className="text-sm font-medium text-slate-600">Guardian Name:</span>
+                            <p className="text-slate-800 mt-1">{formData.guardianName || "Not provided"}</p>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-slate-600">Guardian Phone:</span>
+                            <p className="text-slate-800 mt-1">{formData.guardianPhone || "Not provided"}</p>
+                          </div>
+                          <div className="md:col-span-2">
+                            <span className="text-sm font-medium text-slate-600">Guardian Email:</span>
+                            <p className="text-slate-800 mt-1">{formData.guardianEmail || "Not provided"}</p>
+                          </div>
+                        </div>
+                        <div className="border-t border-slate-200 pt-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <span className="text-sm font-medium text-slate-600">Emergency Contact Name:</span>
+                              <p className="text-slate-800 mt-1">{formData.emergencyContact || "Not provided"}</p>
+                            </div>
+                            <div>
+                              <span className="text-sm font-medium text-slate-600">Emergency Phone:</span>
+                              <p className="text-slate-800 mt-1">{formData.emergencyPhone || "Not provided"}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Additional Information */}
+                    <div className="bg-slate-50 rounded-2xl p-6">
+                      <h3 className="text-xl font-semibold mb-4 text-slate-800 flex items-center gap-2">
+                        <Heart className="w-5 h-5 text-emerald-600" />
+                        Additional Information
+                      </h3>
+                      <div className="space-y-4">
+                        <div>
+                          <span className="text-sm font-medium text-slate-600">Medical Conditions/Allergies:</span>
+                          <p className="text-slate-800 mt-1">{formData.medicalConditions || "None specified"}</p>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-slate-600">How did you hear about us:</span>
+                          <p className="text-slate-800 mt-1 capitalize">{formData.hearAboutUs || "Not specified"}</p>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-slate-600">Additional Comments:</span>
+                          <p className="text-slate-800 mt-1">{formData.additionalInfo || "None"}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+                      <div className="flex items-start gap-3">
+                        <svg className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                        <div>
+                          <p className="text-amber-800 font-medium">Please review carefully</p>
+                          <p className="text-amber-700 text-sm mt-1">
+                            Make sure all information is correct before submitting. You can go back to edit any section if needed.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </motion.div>
             </AnimatePresence>
 
@@ -884,7 +1059,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="px-8 py-4 rounded-2xl border-2 border-slate-300 text-slate-700 flex items-center gap-2 hover:bg-slate-50 transition-colors"
+                  className="px-8 py-4 rounded-2xl border-2 border-slate-300 text-slate-700 flex items-center gap-2 hover:bg-slate-50 transition-colors cursor-pointer"
                 >
                   <ChevronLeft /> Previous
                 </button>
@@ -893,7 +1068,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="flex-1 px-8 py-4 rounded-2xl bg-linear-to-r from-emerald-600 to-sky-600 text-white flex items-center justify-center gap-2"
+                  className="flex-1 px-8 py-4 rounded-2xl bg-linear-to-r from-emerald-600 to-sky-600 text-white flex items-center justify-center gap-2 cursor-pointer"
                 >
                   Next <ChevronRight />
                 </button>
@@ -901,9 +1076,9 @@ export default function RegisterPage() {
                 <button
                   type="submit"
                   disabled={submitStatus === "loading"}
-                  className="flex-1 px-8 py-4 rounded-2xl bg-linear-to-r from-emerald-600 to-sky-600 text-white"
+                  className="flex-1 px-8 py-4 rounded-2xl bg-linear-to-r from-emerald-600 to-sky-600 text-white font-semibold cursor-pointer"
                 >
-                  {submitStatus === "loading" ? "Submitting..." : "Submit"}
+                  {submitStatus === "loading" ? "Submitting..." : "Submit Application"}
                 </button>
               )}
             </div>
