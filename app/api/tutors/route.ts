@@ -211,7 +211,9 @@ export async function GET(request: Request) {
     // Filter by minimum experience
     if (minExperience) {
       const exp = parseInt(minExperience);
-      filteredTutors = filteredTutors.filter((tutor) => tutor.experience >= exp);
+      filteredTutors = filteredTutors.filter(
+        (tutor) => tutor.experience >= exp
+      );
     }
 
     // Filter by search query

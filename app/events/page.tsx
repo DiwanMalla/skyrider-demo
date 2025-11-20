@@ -58,7 +58,8 @@ export default function EventsPage() {
     setLoading(true);
     try {
       const params = new URLSearchParams();
-      if (selectedCategory !== "all") params.append("category", selectedCategory);
+      if (selectedCategory !== "all")
+        params.append("category", selectedCategory);
       if (selectedStatus !== "all") params.append("status", selectedStatus);
       if (searchQuery) params.append("search", searchQuery);
 
@@ -168,8 +169,8 @@ export default function EventsPage() {
               School Events
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Discover upcoming events, workshops, and activities. Join us in making
-              memorable experiences together!
+              Discover upcoming events, workshops, and activities. Join us in
+              making memorable experiences together!
             </p>
           </motion.div>
 
@@ -329,11 +330,14 @@ export default function EventsPage() {
                                 Date
                               </p>
                               <p className="font-medium text-gray-900 dark:text-white text-sm truncate">
-                                {new Date(event.date).toLocaleDateString("en-US", {
-                                  month: "short",
-                                  day: "numeric",
-                                  year: "numeric",
-                                })}
+                                {new Date(event.date).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                  }
+                                )}
                               </p>
                             </div>
                           </div>
@@ -375,7 +379,10 @@ export default function EventsPage() {
                                 Registration
                               </span>
                               <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
-                                {getAvailability(event.capacity, event.registered)}
+                                {getAvailability(
+                                  event.capacity,
+                                  event.registered
+                                )}
                               </span>
                             </div>
                             <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
@@ -558,7 +565,8 @@ export default function EventsPage() {
                           className="bg-linear-to-r from-indigo-500 to-purple-500 h-3 rounded-full transition-all duration-300"
                           style={{
                             width: `${Math.min(
-                              (selectedEvent.registered / selectedEvent.capacity) *
+                              (selectedEvent.registered /
+                                selectedEvent.capacity) *
                                 100,
                               100
                             )}%`,

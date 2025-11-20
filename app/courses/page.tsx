@@ -95,116 +95,116 @@ export default function ClassesPage() {
     <>
       <Navbar />
       <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Header */}
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="inline-block p-4 bg-gradient-to-br from-emerald-500 to-sky-500 rounded-2xl mb-6 shadow-lg"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
           >
-            <GraduationCap className="w-12 h-12 text-white" />
-          </motion.div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Our Classes
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Explore our diverse range of classes from elementary to high school,
-            each designed to provide exceptional education.
-          </p>
-        </motion.div>
-
-        {/* Search and Filter */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="mb-8 space-y-4"
-        >
-          {/* Search Bar */}
-          <div className="relative max-w-2xl mx-auto">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="text"
-              placeholder="Search classes, teachers, or subjects..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 shadow-sm"
-            />
-          </div>
-
-          {/* Level Filters */}
-          <div className="flex flex-wrap justify-center gap-3">
-            {levels.map((level) => (
-              <motion.button
-                key={level.value}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setSelectedLevel(level.value)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
-                  selectedLevel === level.value
-                    ? "bg-gradient-to-r from-emerald-500 to-sky-500 text-white shadow-lg"
-                    : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-md border border-gray-200 dark:border-gray-700"
-                }`}
-              >
-                <span className="text-lg">{level.icon}</span>
-                {level.label}
-              </motion.button>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Classes Grid */}
-        {loading ? (
-          <div className="flex items-center justify-center py-20">
             <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              className="inline-block p-4 bg-gradient-to-br from-emerald-500 to-sky-500 rounded-2xl mb-6 shadow-lg"
             >
-              <Loader2 className="w-12 h-12 text-emerald-500" />
+              <GraduationCap className="w-12 h-12 text-white" />
             </motion.div>
-          </div>
-        ) : classes.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-20"
-          >
-            <div className="inline-block p-6 bg-gray-100 dark:bg-gray-800 rounded-full mb-4">
-              <Search className="w-12 h-12 text-gray-400" />
-            </div>
-            <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-              No Classes Found
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              Try adjusting your search or filter criteria
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+              Our Classes
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Explore our diverse range of classes from elementary to high
+              school, each designed to provide exceptional education.
             </p>
           </motion.div>
-        ) : (
+
+          {/* Search and Filter */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mb-8 space-y-4"
           >
-            <AnimatePresence mode="popLayout">
-              {classes.map((classItem, index) => (
-                <motion.div
-                  key={classItem.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -8 }}
-                  className="group cursor-pointer"
+            {/* Search Bar */}
+            <div className="relative max-w-2xl mx-auto">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search classes, teachers, or subjects..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 shadow-sm"
+              />
+            </div>
+
+            {/* Level Filters */}
+            <div className="flex flex-wrap justify-center gap-3">
+              {levels.map((level) => (
+                <motion.button
+                  key={level.value}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setSelectedLevel(level.value)}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                    selectedLevel === level.value
+                      ? "bg-gradient-to-r from-emerald-500 to-sky-500 text-white shadow-lg"
+                      : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-md border border-gray-200 dark:border-gray-700"
+                  }`}
                 >
-                  <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 h-full">
+                  <span className="text-lg">{level.icon}</span>
+                  {level.label}
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Classes Grid */}
+          {loading ? (
+            <div className="flex items-center justify-center py-20">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              >
+                <Loader2 className="w-12 h-12 text-emerald-500" />
+              </motion.div>
+            </div>
+          ) : classes.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-center py-20"
+            >
+              <div className="inline-block p-6 bg-gray-100 dark:bg-gray-800 rounded-full mb-4">
+                <Search className="w-12 h-12 text-gray-400" />
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+                No Classes Found
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Try adjusting your search or filter criteria
+              </p>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            >
+              <AnimatePresence mode="popLayout">
+                {classes.map((classItem, index) => (
+                  <motion.div
+                    key={classItem.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ y: -8 }}
+                    className="group cursor-pointer"
+                  >
+                    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 h-full">
                       {/* Header with Gradient */}
                       <div
                         className={`bg-gradient-to-r ${getLevelColor(
@@ -291,7 +291,7 @@ export default function ClassesPage() {
                               Students
                             </span>
                           </div>
-                          <div 
+                          <div
                             className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 group-hover:gap-3 transition-all cursor-pointer"
                             onClick={() => setSelectedClass(classItem)}
                           >
@@ -304,14 +304,16 @@ export default function ClassesPage() {
 
                         {/* Subjects Preview */}
                         <div className="flex flex-wrap gap-2">
-                          {classItem.subjects.slice(0, 3).map((subject, idx) => (
-                            <span
-                              key={idx}
-                              className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full"
-                            >
-                              {subject}
-                            </span>
-                          ))}
+                          {classItem.subjects
+                            .slice(0, 3)
+                            .map((subject, idx) => (
+                              <span
+                                key={idx}
+                                className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full"
+                              >
+                                {subject}
+                              </span>
+                            ))}
                           {classItem.subjects.length > 3 && (
                             <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full">
                               +{classItem.subjects.length - 3} more
@@ -320,140 +322,141 @@ export default function ClassesPage() {
                         </div>
                       </div>
                     </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        )}
-      </div>
-
-      {/* Class Details Modal */}
-      <AnimatePresence>
-        {selectedClass && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedClass(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-            >
-              {/* Modal Header */}
-              <div className="relative h-32 bg-linear-to-r from-emerald-500 to-sky-500">
-                <button
-                  onClick={() => setSelectedClass(null)}
-                  className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 rounded-lg text-white transition-colors"
-                >
-                  ✕
-                </button>
-              </div>
-
-              {/* Modal Content */}
-              <div className="p-6 space-y-6">
-                {/* Class Info */}
-                <div className="text-center -mt-16 relative">
-                  <div className="w-20 h-20 mx-auto rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-xl flex items-center justify-center">
-                    <BookOpen className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mt-4 mb-2">
-                    {selectedClass.name}
-                  </h2>
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">
-                    Grade {selectedClass.grade} • {selectedClass.level}
-                  </p>
-                  <span
-                    className={`inline-block px-4 py-1 rounded-full text-sm font-semibold ${getLevelBadgeColor(
-                      selectedClass.level
-                    )}`}
-                  >
-                    {selectedClass.level}
-                  </span>
-                </div>
-
-                {/* Class Details */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="flex items-center gap-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                    <Users className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                    <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-500">
-                        Teacher
-                      </p>
-                      <p className="text-sm font-semibold text-purple-600 dark:text-purple-400">
-                        {selectedClass.teacher}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                    <Clock className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                    <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-500">
-                        Schedule
-                      </p>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        {selectedClass.schedule}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                    <MapPin className="w-5 h-5 text-green-600 dark:text-green-400" />
-                    <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-500">
-                        Room
-                      </p>
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                        {selectedClass.room}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Subjects */}
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                    Subjects ({selectedClass.subjects.length})
-                  </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {selectedClass.subjects.map((subject, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-700/30 rounded-lg"
-                      >
-                        <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                          <BookOpen className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                        </div>
-                        <span className="text-sm font-medium text-gray-900 dark:text-white">
-                          {subject}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Stats */}
-                <div className="flex items-center justify-center gap-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-                  <div className="text-center">
-                    <div className="flex items-center justify-center gap-1 mb-1">
-                      <Users className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      <span className="font-bold text-gray-900 dark:text-white">
-                        {selectedClass.totalStudents}
-                      </span> Students
-                    </p>
-                  </div>
-                </div>
-              </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+          )}
+        </div>
+
+        {/* Class Details Modal */}
+        <AnimatePresence>
+          {selectedClass && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              onClick={() => setSelectedClass(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              >
+                {/* Modal Header */}
+                <div className="relative h-32 bg-linear-to-r from-emerald-500 to-sky-500">
+                  <button
+                    onClick={() => setSelectedClass(null)}
+                    className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 rounded-lg text-white transition-colors"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Modal Content */}
+                <div className="p-6 space-y-6">
+                  {/* Class Info */}
+                  <div className="text-center -mt-16 relative">
+                    <div className="w-20 h-20 mx-auto rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-xl flex items-center justify-center">
+                      <BookOpen className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+                    </div>
+                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mt-4 mb-2">
+                      {selectedClass.name}
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-3">
+                      Grade {selectedClass.grade} • {selectedClass.level}
+                    </p>
+                    <span
+                      className={`inline-block px-4 py-1 rounded-full text-sm font-semibold ${getLevelBadgeColor(
+                        selectedClass.level
+                      )}`}
+                    >
+                      {selectedClass.level}
+                    </span>
+                  </div>
+
+                  {/* Class Details */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="flex items-center gap-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                      <Users className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">
+                          Teacher
+                        </p>
+                        <p className="text-sm font-semibold text-purple-600 dark:text-purple-400">
+                          {selectedClass.teacher}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                      <Clock className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">
+                          Schedule
+                        </p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">
+                          {selectedClass.schedule}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                      <MapPin className="w-5 h-5 text-green-600 dark:text-green-400" />
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">
+                          Room
+                        </p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                          {selectedClass.room}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Subjects */}
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                      Subjects ({selectedClass.subjects.length})
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {selectedClass.subjects.map((subject, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-700/30 rounded-lg"
+                        >
+                          <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                            <BookOpen className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                          </div>
+                          <span className="text-sm font-medium text-gray-900 dark:text-white">
+                            {subject}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Stats */}
+                  <div className="flex items-center justify-center gap-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <div className="text-center">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <Users className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        <span className="font-bold text-gray-900 dark:text-white">
+                          {selectedClass.totalStudents}
+                        </span>{" "}
+                        Students
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </>
   );
 }

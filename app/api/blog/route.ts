@@ -5,8 +5,10 @@ const blogPosts = [
   {
     id: "1",
     title: "The Future of Education: Embracing Technology in the Classroom",
-    excerpt: "Explore how digital tools and innovative teaching methods are transforming the learning experience for students worldwide.",
-    content: "Technology has revolutionized every aspect of our lives, and education is no exception. From interactive whiteboards to virtual reality field trips, modern classrooms are becoming increasingly digital. This shift brings both opportunities and challenges for educators and students alike.",
+    excerpt:
+      "Explore how digital tools and innovative teaching methods are transforming the learning experience for students worldwide.",
+    content:
+      "Technology has revolutionized every aspect of our lives, and education is no exception. From interactive whiteboards to virtual reality field trips, modern classrooms are becoming increasingly digital. This shift brings both opportunities and challenges for educators and students alike.",
     author: {
       name: "Dr. Sarah Johnson",
       role: "Education Director",
@@ -24,8 +26,10 @@ const blogPosts = [
   {
     id: "2",
     title: "Building Strong Parent-Teacher Partnerships",
-    excerpt: "Discover effective strategies for fostering meaningful collaboration between parents and teachers to support student success.",
-    content: "Strong parent-teacher partnerships are essential for student success. When parents and teachers work together, students benefit from consistent support and clear communication about their progress and needs.",
+    excerpt:
+      "Discover effective strategies for fostering meaningful collaboration between parents and teachers to support student success.",
+    content:
+      "Strong parent-teacher partnerships are essential for student success. When parents and teachers work together, students benefit from consistent support and clear communication about their progress and needs.",
     author: {
       name: "Michael Chen",
       role: "School Counselor",
@@ -43,8 +47,10 @@ const blogPosts = [
   {
     id: "3",
     title: "STEM Education: Preparing Students for Tomorrow's Careers",
-    excerpt: "Learn why STEM education is crucial for developing critical thinking and problem-solving skills in today's students.",
-    content: "STEM education (Science, Technology, Engineering, and Mathematics) is more important than ever. As our world becomes increasingly technology-driven, students need strong STEM skills to succeed in future careers.",
+    excerpt:
+      "Learn why STEM education is crucial for developing critical thinking and problem-solving skills in today's students.",
+    content:
+      "STEM education (Science, Technology, Engineering, and Mathematics) is more important than ever. As our world becomes increasingly technology-driven, students need strong STEM skills to succeed in future careers.",
     author: {
       name: "Dr. Emily Rodriguez",
       role: "STEM Coordinator",
@@ -62,8 +68,10 @@ const blogPosts = [
   {
     id: "4",
     title: "The Importance of Social-Emotional Learning in Schools",
-    excerpt: "Understanding how SEL programs help students develop essential life skills and emotional intelligence.",
-    content: "Social-emotional learning (SEL) teaches students to understand and manage emotions, set goals, show empathy for others, establish positive relationships, and make responsible decisions.",
+    excerpt:
+      "Understanding how SEL programs help students develop essential life skills and emotional intelligence.",
+    content:
+      "Social-emotional learning (SEL) teaches students to understand and manage emotions, set goals, show empathy for others, establish positive relationships, and make responsible decisions.",
     author: {
       name: "Lisa Thompson",
       role: "Psychology Teacher",
@@ -81,8 +89,10 @@ const blogPosts = [
   {
     id: "5",
     title: "Creating Inclusive Classrooms: Strategies for Every Student",
-    excerpt: "Practical approaches to ensure all students feel valued, respected, and able to learn effectively.",
-    content: "Inclusive education means all students are welcomed and supported in their local schools and classrooms. Creating an inclusive classroom requires intentional planning and ongoing commitment.",
+    excerpt:
+      "Practical approaches to ensure all students feel valued, respected, and able to learn effectively.",
+    content:
+      "Inclusive education means all students are welcomed and supported in their local schools and classrooms. Creating an inclusive classroom requires intentional planning and ongoing commitment.",
     author: {
       name: "David Martinez",
       role: "Special Education Coordinator",
@@ -100,8 +110,10 @@ const blogPosts = [
   {
     id: "6",
     title: "The Power of Project-Based Learning",
-    excerpt: "How hands-on projects engage students and deepen their understanding of complex concepts.",
-    content: "Project-based learning (PBL) is a teaching method where students learn by actively engaging in real-world and personally meaningful projects. This approach helps students develop deep content knowledge as well as critical thinking, creativity, and communication skills.",
+    excerpt:
+      "How hands-on projects engage students and deepen their understanding of complex concepts.",
+    content:
+      "Project-based learning (PBL) is a teaching method where students learn by actively engaging in real-world and personally meaningful projects. This approach helps students develop deep content knowledge as well as critical thinking, creativity, and communication skills.",
     author: {
       name: "Rachel Kim",
       role: "Curriculum Developer",
@@ -119,8 +131,10 @@ const blogPosts = [
   {
     id: "7",
     title: "Supporting Student Mental Health in a Post-Pandemic World",
-    excerpt: "Addressing the mental health challenges students face and creating supportive school environments.",
-    content: "The pandemic has significantly impacted student mental health. Schools must prioritize mental wellness and create environments where students feel safe to express their concerns and seek help.",
+    excerpt:
+      "Addressing the mental health challenges students face and creating supportive school environments.",
+    content:
+      "The pandemic has significantly impacted student mental health. Schools must prioritize mental wellness and create environments where students feel safe to express their concerns and seek help.",
     author: {
       name: "Dr. James Wilson",
       role: "School Psychologist",
@@ -138,8 +152,10 @@ const blogPosts = [
   {
     id: "8",
     title: "Developing Critical Thinking Skills in Young Learners",
-    excerpt: "Effective techniques to help students think independently and analyze information critically.",
-    content: "Critical thinking is the ability to think clearly and rationally, understanding the logical connection between ideas. Teaching students to think critically prepares them for success in school and beyond.",
+    excerpt:
+      "Effective techniques to help students think independently and analyze information critically.",
+    content:
+      "Critical thinking is the ability to think clearly and rationally, understanding the logical connection between ideas. Teaching students to think critically prepares them for success in school and beyond.",
     author: {
       name: "Amanda Foster",
       role: "Elementary Principal",
@@ -157,8 +173,10 @@ const blogPosts = [
   {
     id: "9",
     title: "The Role of Arts Education in Student Development",
-    excerpt: "Why creative arts are essential for developing well-rounded, innovative thinkers.",
-    content: "Arts education is crucial for developing creativity, self-expression, and critical thinking skills. Through music, visual arts, drama, and dance, students learn to see the world from different perspectives.",
+    excerpt:
+      "Why creative arts are essential for developing well-rounded, innovative thinkers.",
+    content:
+      "Arts education is crucial for developing creativity, self-expression, and critical thinking skills. Through music, visual arts, drama, and dance, students learn to see the world from different perspectives.",
     author: {
       name: "Maria Santos",
       role: "Arts Department Head",
@@ -176,8 +194,10 @@ const blogPosts = [
   {
     id: "10",
     title: "Effective Homework Strategies for Better Learning Outcomes",
-    excerpt: "Best practices for assigning meaningful homework that reinforces learning without overwhelming students.",
-    content: "Homework should be purposeful, engaging, and aligned with learning objectives. When done right, it reinforces classroom learning and helps students develop independent study skills.",
+    excerpt:
+      "Best practices for assigning meaningful homework that reinforces learning without overwhelming students.",
+    content:
+      "Homework should be purposeful, engaging, and aligned with learning objectives. When done right, it reinforces classroom learning and helps students develop independent study skills.",
     author: {
       name: "John Anderson",
       role: "Academic Coordinator",
@@ -195,8 +215,10 @@ const blogPosts = [
   {
     id: "11",
     title: "Building Digital Citizenship in the Modern Classroom",
-    excerpt: "Teaching students to navigate the digital world safely, responsibly, and ethically.",
-    content: "Digital citizenship is about understanding how to use technology responsibly and safely. Students need guidance on online etiquette, privacy, security, and critical evaluation of digital information.",
+    excerpt:
+      "Teaching students to navigate the digital world safely, responsibly, and ethically.",
+    content:
+      "Digital citizenship is about understanding how to use technology responsibly and safely. Students need guidance on online etiquette, privacy, security, and critical evaluation of digital information.",
     author: {
       name: "Dr. Sarah Johnson",
       role: "Education Director",
@@ -214,8 +236,10 @@ const blogPosts = [
   {
     id: "12",
     title: "The Benefits of Outdoor Education and Nature-Based Learning",
-    excerpt: "Exploring how outdoor experiences enhance student learning and environmental awareness.",
-    content: "Outdoor education provides unique learning opportunities that cannot be replicated in a traditional classroom. Nature-based learning improves physical health, reduces stress, and fosters environmental stewardship.",
+    excerpt:
+      "Exploring how outdoor experiences enhance student learning and environmental awareness.",
+    content:
+      "Outdoor education provides unique learning opportunities that cannot be replicated in a traditional classroom. Nature-based learning improves physical health, reduces stress, and fosters environmental stewardship.",
     author: {
       name: "Kevin Brown",
       role: "Environmental Science Teacher",

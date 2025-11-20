@@ -5,7 +5,8 @@ const events = [
   {
     id: "1",
     title: "Annual Science Fair",
-    description: "Showcase your innovative science projects and experiments. Students from all grades are encouraged to participate and demonstrate their scientific creativity.",
+    description:
+      "Showcase your innovative science projects and experiments. Students from all grades are encouraged to participate and demonstrate their scientific creativity.",
     date: "2025-11-15",
     time: "9:00 AM - 4:00 PM",
     location: "Main Auditorium",
@@ -20,7 +21,8 @@ const events = [
   {
     id: "2",
     title: "Winter Sports Day",
-    description: "Join us for a day of athletic competitions, team sports, and outdoor activities. All students and parents are welcome to participate or cheer for their teams.",
+    description:
+      "Join us for a day of athletic competitions, team sports, and outdoor activities. All students and parents are welcome to participate or cheer for their teams.",
     date: "2025-11-20",
     time: "8:00 AM - 5:00 PM",
     location: "Sports Complex",
@@ -35,7 +37,8 @@ const events = [
   {
     id: "3",
     title: "Art Exhibition 2025",
-    description: "Display of student artwork including paintings, sculptures, and digital art. A celebration of creativity and artistic expression from our talented students.",
+    description:
+      "Display of student artwork including paintings, sculptures, and digital art. A celebration of creativity and artistic expression from our talented students.",
     date: "2025-11-25",
     time: "10:00 AM - 6:00 PM",
     location: "Art Gallery",
@@ -50,7 +53,8 @@ const events = [
   {
     id: "4",
     title: "Parent-Teacher Conference",
-    description: "Meet with teachers to discuss your child's academic progress, behavior, and development. Schedule your appointments in advance.",
+    description:
+      "Meet with teachers to discuss your child's academic progress, behavior, and development. Schedule your appointments in advance.",
     date: "2025-11-18",
     time: "2:00 PM - 7:00 PM",
     location: "Classrooms",
@@ -65,7 +69,8 @@ const events = [
   {
     id: "5",
     title: "Music Concert",
-    description: "An evening of musical performances by our school orchestra, choir, and individual talents. Come support our young musicians!",
+    description:
+      "An evening of musical performances by our school orchestra, choir, and individual talents. Come support our young musicians!",
     date: "2025-11-22",
     time: "6:00 PM - 9:00 PM",
     location: "Theater Hall",
@@ -80,7 +85,8 @@ const events = [
   {
     id: "6",
     title: "Coding Bootcamp",
-    description: "Intensive coding workshop for students interested in programming. Learn Python, JavaScript, and web development fundamentals.",
+    description:
+      "Intensive coding workshop for students interested in programming. Learn Python, JavaScript, and web development fundamentals.",
     date: "2025-11-28",
     time: "9:00 AM - 3:00 PM",
     location: "Computer Lab",
@@ -95,7 +101,8 @@ const events = [
   {
     id: "7",
     title: "Career Fair",
-    description: "Meet professionals from various industries and learn about career opportunities. Perfect for high school students planning their future.",
+    description:
+      "Meet professionals from various industries and learn about career opportunities. Perfect for high school students planning their future.",
     date: "2025-12-02",
     time: "10:00 AM - 4:00 PM",
     location: "Main Hall",
@@ -110,7 +117,8 @@ const events = [
   {
     id: "8",
     title: "Drama Club Performance",
-    description: "Watch our talented drama club perform 'A Midsummer Night's Dream'. An enchanting theatrical experience for the whole family.",
+    description:
+      "Watch our talented drama club perform 'A Midsummer Night's Dream'. An enchanting theatrical experience for the whole family.",
     date: "2025-12-05",
     time: "7:00 PM - 9:30 PM",
     location: "Theater Hall",
@@ -125,7 +133,8 @@ const events = [
   {
     id: "9",
     title: "Mathematics Olympiad",
-    description: "Test your mathematical skills in our annual olympiad. Prizes for top performers in each grade level.",
+    description:
+      "Test your mathematical skills in our annual olympiad. Prizes for top performers in each grade level.",
     date: "2025-10-28",
     time: "9:00 AM - 12:00 PM",
     location: "Exam Hall",
@@ -140,7 +149,8 @@ const events = [
   {
     id: "10",
     title: "Halloween Costume Party",
-    description: "Dress up in your spookiest costumes and join us for a fun-filled Halloween celebration with games, treats, and prizes!",
+    description:
+      "Dress up in your spookiest costumes and join us for a fun-filled Halloween celebration with games, treats, and prizes!",
     date: "2025-10-31",
     time: "4:00 PM - 7:00 PM",
     location: "School Grounds",
@@ -155,7 +165,8 @@ const events = [
   {
     id: "11",
     title: "Thanksgiving Food Drive",
-    description: "Help us collect food donations for families in need this Thanksgiving season. Drop off non-perishable items at the collection center.",
+    description:
+      "Help us collect food donations for families in need this Thanksgiving season. Drop off non-perishable items at the collection center.",
     date: "2025-11-24",
     time: "All Day",
     location: "Main Entrance",
@@ -170,7 +181,8 @@ const events = [
   {
     id: "12",
     title: "Robotics Competition",
-    description: "Watch our robotics team compete in regional championships. Support our tech-savvy students as they showcase their engineering skills!",
+    description:
+      "Watch our robotics team compete in regional championships. Support our tech-savvy students as they showcase their engineering skills!",
     date: "2025-12-08",
     time: "10:00 AM - 5:00 PM",
     location: "Engineering Lab",
