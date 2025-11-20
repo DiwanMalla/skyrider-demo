@@ -2,6 +2,7 @@ export type SubmissionStatus = "pending" | "accepted" | "rejected";
 
 export interface BlogSubmission {
   id: string;
+  slug: string;
   title: string;
   content: string;
   excerpt: string;
@@ -17,6 +18,7 @@ export interface BlogSubmission {
 
 export interface BlogPostMeta {
   id: string;
+  slug: string;
   title: string;
   excerpt: string;
   content: string;

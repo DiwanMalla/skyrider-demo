@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 const blogPosts = [
   {
     id: "1",
+    slug: "future-of-education-technology-classroom",
     title: "The Future of Education: Embracing Technology in the Classroom",
     excerpt:
       "Explore how digital tools and innovative teaching methods are transforming the learning experience for students worldwide.",
@@ -25,6 +26,7 @@ const blogPosts = [
   },
   {
     id: "2",
+    slug: "building-strong-parent-teacher-partnerships",
     title: "Building Strong Parent-Teacher Partnerships",
     excerpt:
       "Discover effective strategies for fostering meaningful collaboration between parents and teachers to support student success.",
@@ -46,6 +48,7 @@ const blogPosts = [
   },
   {
     id: "3",
+    slug: "stem-education-preparing-students-careers",
     title: "STEM Education: Preparing Students for Tomorrow's Careers",
     excerpt:
       "Learn why STEM education is crucial for developing critical thinking and problem-solving skills in today's students.",
@@ -67,6 +70,7 @@ const blogPosts = [
   },
   {
     id: "4",
+    slug: "importance-social-emotional-learning",
     title: "The Importance of Social-Emotional Learning in Schools",
     excerpt:
       "Understanding how SEL programs help students develop essential life skills and emotional intelligence.",
@@ -88,6 +92,7 @@ const blogPosts = [
   },
   {
     id: "5",
+    slug: "creating-inclusive-classrooms",
     title: "Creating Inclusive Classrooms: Strategies for Every Student",
     excerpt:
       "Practical approaches to ensure all students feel valued, respected, and able to learn effectively.",
@@ -109,6 +114,7 @@ const blogPosts = [
   },
   {
     id: "6",
+    slug: "power-project-based-learning",
     title: "The Power of Project-Based Learning",
     excerpt:
       "How hands-on projects engage students and deepen their understanding of complex concepts.",
@@ -130,6 +136,7 @@ const blogPosts = [
   },
   {
     id: "7",
+    slug: "supporting-student-mental-health",
     title: "Supporting Student Mental Health in a Post-Pandemic World",
     excerpt:
       "Addressing the mental health challenges students face and creating supportive school environments.",
@@ -151,6 +158,7 @@ const blogPosts = [
   },
   {
     id: "8",
+    slug: "developing-critical-thinking-skills",
     title: "Developing Critical Thinking Skills in Young Learners",
     excerpt:
       "Effective techniques to help students think independently and analyze information critically.",
@@ -172,6 +180,7 @@ const blogPosts = [
   },
   {
     id: "9",
+    slug: "role-arts-education-student-development",
     title: "The Role of Arts Education in Student Development",
     excerpt:
       "Why creative arts are essential for developing well-rounded, innovative thinkers.",
@@ -193,6 +202,7 @@ const blogPosts = [
   },
   {
     id: "10",
+    slug: "effective-homework-strategies",
     title: "Effective Homework Strategies for Better Learning Outcomes",
     excerpt:
       "Best practices for assigning meaningful homework that reinforces learning without overwhelming students.",
@@ -214,6 +224,7 @@ const blogPosts = [
   },
   {
     id: "11",
+    slug: "building-digital-citizenship",
     title: "Building Digital Citizenship in the Modern Classroom",
     excerpt:
       "Teaching students to navigate the digital world safely, responsibly, and ethically.",
@@ -235,6 +246,7 @@ const blogPosts = [
   },
   {
     id: "12",
+    slug: "benefits-outdoor-education",
     title: "The Benefits of Outdoor Education and Nature-Based Learning",
     excerpt:
       "Exploring how outdoor experiences enhance student learning and environmental awareness.",

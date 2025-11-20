@@ -35,9 +35,20 @@ export function loadSubmissions(): BlogSubmission[] {
   return readStorage();
 }
 
+import { generateSlug } from "./utils";
+
 export function saveSubmission(submission: BlogSubmission) {
   const submissions = readStorage();
-  submissions.unshift(submission);
+  const slug = generateSlug(submission.title);
+  // Ensure slug is unique
+  let uniqueSlug = slug;
+  let counter = 1;
+  while (submissions.some((s) => s.slug === uniqueSlug)) {
+    uniqueSlug = `${slug}-${counter}`;
+    counter++;
+  }
+  
+  submissions.unshift({ ...submission, slug: uniqueSlug });
   writeStorage(submissions);
 }
 

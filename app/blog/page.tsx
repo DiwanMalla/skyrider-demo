@@ -30,6 +30,7 @@ import Link from "next/link";
 
 interface BlogPost {
   id: string;
+  slug: string;
   title: string;
   excerpt: string;
   content: string;
@@ -131,6 +132,7 @@ export default function BlogPage() {
         (submission) =>
           ({
             id: submission.id,
+            slug: submission.slug || submission.id, // Fallback if slug missing
             title: submission.title,
             excerpt: submission.excerpt,
             content: submission.content,
@@ -318,69 +320,73 @@ export default function BlogPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
                       transition={{ delay: index * 0.05 }}
-                      onClick={() => setSelectedPost(post)}
-                      className="group cursor-pointer flex flex-col h-full"
+                      className="group flex flex-col h-full"
                     >
-                      <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 h-full flex flex-col">
-                        {/* Card Image/Gradient */}
-                        <div
-                          className={`relative h-48 overflow-hidden bg-gradient-to-br ${getCategoryGradient(
-                            post.category
-                          )}`}
-                        >
-                          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="flex flex-col h-full"
+                      >
+                        <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 h-full flex flex-col">
+                          {/* Card Image/Gradient */}
+                          <div
+                            className={`relative h-48 overflow-hidden bg-gradient-to-br ${getCategoryGradient(
+                              post.category
+                            )}`}
+                          >
+                            <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
-                          <div className="absolute top-4 left-4">
-                            <span className="inline-flex items-center rounded-full bg-white/20 backdrop-blur-md border border-white/20 px-3 py-1 text-xs font-semibold text-white shadow-sm">
-                              {post.category}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Content */}
-                        <div className="flex flex-1 flex-col p-6">
-                          <div className="flex items-center gap-3 text-xs font-medium text-slate-500 dark:text-slate-400 mb-3">
-                            <span className="flex items-center gap-1">
-                              <Calendar className="w-3.5 h-3.5" />
-                              {formatDate(post.date)}
-                            </span>
-                            <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
-                            <span className="flex items-center gap-1">
-                              <Clock className="w-3.5 h-3.5" />
-                              {post.readTime}
-                            </span>
-                          </div>
-
-                          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                            {post.title}
-                          </h3>
-
-                          <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-3 mb-6 flex-1">
-                            {post.excerpt}
-                          </p>
-
-                          <div className="flex items-center justify-between pt-6 border-t border-slate-100 dark:border-slate-800 mt-auto">
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center ring-2 ring-white dark:ring-slate-900">
-                                <User className="w-4 h-4 text-slate-500 dark:text-slate-300" />
-                              </div>
-                              <div className="flex flex-col">
-                                <span className="text-xs font-semibold text-slate-900 dark:text-white">
-                                  {post.author.name}
-                                </span>
-                                <span className="text-[10px] text-slate-500 dark:text-slate-400">
-                                  {post.author.role}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                              <ArrowRight className="w-4 h-4" />
+                            <div className="absolute top-4 left-4">
+                              <span className="inline-flex items-center rounded-full bg-white/20 backdrop-blur-md border border-white/20 px-3 py-1 text-xs font-semibold text-white shadow-sm">
+                                {post.category}
+                              </span>
                             </div>
                           </div>
+
+                          {/* Content */}
+                          <div className="flex flex-1 flex-col p-6">
+                            <div className="flex items-center gap-3 text-xs font-medium text-slate-500 dark:text-slate-400 mb-3">
+                              <span className="flex items-center gap-1">
+                                <Calendar className="w-3.5 h-3.5" />
+                                {formatDate(post.date)}
+                              </span>
+                              <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
+                              <span className="flex items-center gap-1">
+                                <Clock className="w-3.5 h-3.5" />
+                                {post.readTime}
+                              </span>
+                            </div>
+
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                              {post.title}
+                            </h3>
+
+                            <p className="text-slate-600 dark:text-slate-400 text-sm line-clamp-3 mb-6 flex-1">
+                              {post.excerpt}
+                            </p>
+
+                            <div className="flex items-center justify-between pt-6 border-t border-slate-100 dark:border-slate-800 mt-auto">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center ring-2 ring-white dark:ring-slate-900">
+                                  <User className="w-4 h-4 text-slate-500 dark:text-slate-300" />
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="text-xs font-semibold text-slate-900 dark:text-white">
+                                    {post.author.name}
+                                  </span>
+                                  <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                                    {post.author.role}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                                <ArrowRight className="w-4 h-4" />
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                     </motion.article>
                   ))}
                 </AnimatePresence>
@@ -389,106 +395,6 @@ export default function BlogPage() {
           </section>
         </div>
       </div>
-
-      {/* Full Screen Article Modal */}
-      <AnimatePresence>
-        {selectedPost && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-md p-4 sm:p-6"
-            onClick={() => setSelectedPost(null)}
-          >
-            <motion.div
-              initial={{ y: 100, opacity: 0, scale: 0.95 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: 100, opacity: 0, scale: 0.95 }}
-              onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-4xl max-h-[90vh] bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl overflow-hidden flex flex-col relative"
-            >
-              {/* Modal Header Image */}
-              <div
-                className={`relative h-64 shrink-0 bg-gradient-to-br ${getCategoryGradient(
-                  selectedPost.category
-                )}`}
-              >
-                <button
-                  onClick={() => setSelectedPost(null)}
-                  className="absolute top-6 right-6 z-10 p-2 bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-full text-white transition-colors"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-
-                <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                  <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/20 text-xs font-semibold text-white mb-4">
-                    {selectedPost.category}
-                  </span>
-                  <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-2">
-                    {selectedPost.title}
-                  </h2>
-                  <div className="flex items-center gap-4 text-white/80 text-sm">
-                    <span className="flex items-center gap-1.5">
-                      <Calendar className="w-4 h-4" />
-                      {formatDate(selectedPost.date)}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Clock className="w-4 h-4" />
-                      {selectedPost.readTime}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Modal Content */}
-              <div className="flex-1 overflow-y-auto custom-scrollbar">
-                <div className="p-8 md:p-12">
-                  <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-8 mb-8">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                        <User className="w-6 h-6 text-slate-500" />
-                      </div>
-                      <div>
-                        <p className="font-bold text-slate-900 dark:text-white text-lg">
-                          {selectedPost.author.name}
-                        </p>
-                        <p className="text-slate-500 dark:text-slate-400 text-sm">
-                          {selectedPost.author.role}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      {/* Social share buttons could go here */}
-                    </div>
-                  </div>
-
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <div
-                      dangerouslySetInnerHTML={{ __html: selectedPost.content }}
-                    />
-                  </div>
-
-                  <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800">
-                    <h4 className="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider mb-4">
-                      Tags
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedPost.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 }

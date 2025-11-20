@@ -12,6 +12,13 @@ export function createExcerpt(content: string, length = 240): string {
   return `${clean.slice(0, length).trim()}…`;
 }
 
+export function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+}
+
 export function sortSubmissions(
   submissions: BlogSubmission[]
 ): BlogSubmission[] {
