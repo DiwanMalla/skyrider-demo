@@ -31,4 +31,5 @@ export interface ResultFilter {
   batch?: string;
   symbolNumber?: string;
   status?: "passed" | "failed";
+  examType?: string;
 }
