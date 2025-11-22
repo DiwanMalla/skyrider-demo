@@ -46,14 +46,14 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-50">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 transition-colors duration-300">
       <Navbar />
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-linear-to-br from-emerald-50 via-sky-50 to-indigo-50 opacity-50" />
-        <div className="absolute top-20 right-0 w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-sky-200/30 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-linear-to-br from-emerald-50 via-sky-50 to-indigo-50 dark:from-emerald-950/30 dark:via-sky-950/30 dark:to-indigo-950/30 opacity-50 transition-colors duration-300" />
+        <div className="absolute top-20 right-0 w-96 h-96 bg-emerald-200/30 dark:bg-emerald-500/10 rounded-full blur-3xl transition-colors duration-300" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-sky-200/30 dark:bg-sky-500/10 rounded-full blur-3xl transition-colors duration-300" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -62,14 +62,14 @@ export default function ContactPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 font-semibold mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 font-semibold mb-6 transition-colors duration-300">
               <Phone size={20} />
               <span>Contact Us</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 via-sky-600 to-indigo-600">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-linear-to-r from-emerald-600 via-sky-600 to-indigo-600 dark:from-emerald-400 dark:via-sky-400 dark:to-indigo-400">
               Get in Touch
             </h1>
-            <p className="text-slate-600 text-lg md:text-xl max-w-4xl mx-auto leading-relaxed">
+            <p className="text-slate-600 dark:text-slate-400 text-lg md:text-xl max-w-4xl mx-auto leading-relaxed transition-colors duration-300">
               Have questions about our programs, admissions, or anything else?
               We&apos;d love to hear from you. Reach out to us and we&apos;ll
               get back to you as soon as possible.
@@ -79,7 +79,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact & Map Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-br from-slate-50 to-white">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-br from-slate-50 to-white dark:from-slate-900/30 dark:to-slate-950 transition-colors duration-300">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
@@ -89,10 +89,10 @@ export default function ContactPage() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900 dark:text-white transition-colors duration-300">
                 Get in Touch
               </h2>
-              <p className="text-slate-600 text-lg mb-8">
+              <p className="text-slate-600 dark:text-slate-400 text-lg mb-8 transition-colors duration-300">
                 Have questions? Send us a message and we&apos;ll get back to you
                 soon.
               </p>
@@ -100,32 +100,32 @@ export default function ContactPage() {
               {/* Contact Info */}
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-emerald-600" />
+                  <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center transition-colors duration-300">
+                    <MapPin className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <p className="font-semibold text-slate-900">Address</p>
-                    <p className="text-slate-600">
+                    <p className="font-semibold text-slate-900 dark:text-white transition-colors duration-300">Address</p>
+                    <p className="text-slate-600 dark:text-slate-400 transition-colors duration-300">
                       Ratnagar-13, Chitwan, Nepal
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-sky-100 flex items-center justify-center">
-                    <Phone className="w-6 h-6 text-sky-600" />
+                  <div className="w-12 h-12 rounded-xl bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center transition-colors duration-300">
+                    <Phone className="w-6 h-6 text-sky-600 dark:text-sky-400" />
                   </div>
                   <div>
-                    <p className="font-semibold text-slate-900">Phone</p>
-                    <p className="text-slate-600">056562782</p>
+                    <p className="font-semibold text-slate-900 dark:text-white transition-colors duration-300">Phone</p>
+                    <p className="text-slate-600 dark:text-slate-400 transition-colors duration-300">056562782</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-indigo-600" />
+                  <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center transition-colors duration-300">
+                    <Mail className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                   </div>
                   <div>
-                    <p className="font-semibold text-slate-900">Email</p>
-                    <p className="text-slate-600">info@skyrider.edu.np</p>
+                    <p className="font-semibold text-slate-900 dark:text-white transition-colors duration-300">Email</p>
+                    <p className="text-slate-600 dark:text-slate-400 transition-colors duration-300">info@skyrider.edu.np</p>
                   </div>
                 </div>
               </div>
@@ -140,7 +140,7 @@ export default function ContactPage() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-emerald-500 focus:outline-none transition-colors text-slate-900 placeholder:text-slate-400"
+                    className="px-4 py-3 rounded-lg border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 focus:border-emerald-500 dark:focus:border-emerald-400 focus:outline-none transition-colors text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   />
                   <input
                     type="email"
@@ -149,7 +149,7 @@ export default function ContactPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-emerald-500 focus:outline-none transition-colors text-slate-900 placeholder:text-slate-400"
+                    className="px-4 py-3 rounded-lg border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 focus:border-emerald-500 dark:focus:border-emerald-400 focus:outline-none transition-colors text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -159,7 +159,7 @@ export default function ContactPage() {
                     placeholder="Phone Number"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-emerald-500 focus:outline-none transition-colors text-slate-900 placeholder:text-slate-400"
+                    className="px-4 py-3 rounded-lg border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 focus:border-emerald-500 dark:focus:border-emerald-400 focus:outline-none transition-colors text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   />
                   <input
                     type="text"
@@ -168,7 +168,7 @@ export default function ContactPage() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-emerald-500 focus:outline-none transition-colors text-slate-900 placeholder:text-slate-400"
+                    className="px-4 py-3 rounded-lg border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 focus:border-emerald-500 dark:focus:border-emerald-400 focus:outline-none transition-colors text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   />
                 </div>
                 <textarea
@@ -178,16 +178,16 @@ export default function ContactPage() {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-emerald-500 focus:outline-none transition-colors resize-none text-slate-900 placeholder:text-slate-400"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 focus:border-emerald-500 dark:focus:border-emerald-400 focus:outline-none transition-colors resize-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
                 />
                 <button
                   type="submit"
-                  className="w-full px-8 py-4 rounded-lg bg-linear-to-r from-emerald-600 to-sky-600 text-white font-semibold hover:from-emerald-700 hover:to-sky-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="w-full px-8 py-4 rounded-lg bg-linear-to-r from-emerald-600 to-sky-600 text-white font-semibold hover:from-emerald-700 hover:to-sky-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
                 >
                   Send Message
                 </button>
                 {submitStatus === "success" && (
-                  <p className="text-emerald-600 text-center font-medium">
+                  <p className="text-emerald-600 dark:text-emerald-400 text-center font-medium transition-colors duration-300">
                     Message sent successfully!
                   </p>
                 )}
@@ -201,7 +201,7 @@ export default function ContactPage() {
               viewport={{ once: true }}
               className="h-full min-h-[600px]"
             >
-              <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl">
+              <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl ring-4 ring-slate-200 dark:ring-slate-800 transition-all duration-300">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3534.7638040582933!2d84.51585604394768!3d27.63183099487895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3994e5fece2ffa4b%3A0x3b90b30afa773d25!2sSkyrider%20Higher%20Secondary%20School!5e0!3m2!1sen!2sau!4v1762053479105!5m2!1sen!2sau"
                   width="100%"
