@@ -62,7 +62,9 @@ export async function getResults(filter?: ResultFilter) {
 
 export async function getResultBySymbolNumber(
   symbolNumber: string,
-  dob?: string
+  dob?: string,
+  batch?: string,
+  examType?: string
 ) {
   try {
     const where: any = {
@@ -70,9 +72,9 @@ export async function getResultBySymbolNumber(
       published: true,
     };
 
-    if (dob) {
-      where.dob = dob;
-    }
+    if (dob) where.dob = dob;
+    if (batch) where.batch = batch;
+    if (examType) where.examType = examType;
 
     const result = await prisma.result.findFirst({
       where,

@@ -440,7 +440,7 @@ export default function BlogSubmitPage() {
 
                       <div>
                         <label className="block text-xs font-medium text-slate-500 uppercase mb-1">
-                          Role / Grade
+                          Class / Grade
                         </label>
                         <input
                           name="authorRole"

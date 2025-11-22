@@ -29,6 +29,7 @@ import {
 import { BlogSubmission, SubmissionStatus } from "@/lib/blog/types";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
+import { sortSubmissions } from "@/lib/blog/utils";
 
 const statusBadges: Record<SubmissionStatus, string> = {
   pending:
@@ -58,19 +59,21 @@ export default function BlogsPage() {
     message: string;
   } | null>(null);
 
-  useEffect(() => {
-    fetchSubmissions();
-  }, []);
-
   const fetchSubmissions = async () => {
     const data = await loadSubmissions();
     setSubmissions(data);
   };
 
-  const handleStatusChange = async (id: string, status: "published" | "draft" | "archived") => {
-    await updateSubmissionStatus(id, status);
+  useEffect(() => {
     fetchSubmissions();
-  };
+    
+    // Auto-refresh every 5 seconds
+    const interval = setInterval(() => {
+      fetchSubmissions();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this post?")) {
@@ -125,26 +128,36 @@ export default function BlogsPage() {
     return result;
   }, [filter, submissions, searchQuery]);
 
-  const handleStatusChange = (id: string, status: SubmissionStatus) => {
-    setUpdatingKey(`${id}-${status}`);
-    updateSubmissionStatus(id, status);
-    setSubmissions(sortSubmissions(loadSubmissions()));
+  const handleStatusChange = async (id: string, status: SubmissionStatus) => {
+    try {
+      setUpdatingKey(`${id}-${status}`);
+      await updateSubmissionStatus(id, status);
+      const updated = await loadSubmissions();
+      setSubmissions(sortSubmissions(updated));
 
-    const actionText =
-      status === "accepted"
-        ? "published"
-        : status === "rejected"
-        ? "returned for revision"
-        : "moved to pending";
+      const actionText =
+        status === "accepted"
+          ? "published"
+          : status === "rejected"
+          ? "returned for revision"
+          : "moved to pending";
 
-    setToast({
-      type: "success",
-      message: `Submission ${actionText} successfully.`,
-    });
-    setUpdatingKey(null);
+      setToast({
+        type: "success",
+        message: `Submission ${actionText} successfully.`,
+      });
 
-    if (selectedSubmission?.id === id) {
-      setSelectedSubmission((prev) => (prev ? { ...prev, status } : null));
+      if (selectedSubmission?.id === id) {
+        setSelectedSubmission((prev) => (prev ? { ...prev, status } : null));
+      }
+    } catch (error) {
+      console.error("Failed to update status:", error);
+      setToast({
+        type: "error",
+        message: "Failed to update submission status.",
+      });
+    } finally {
+      setUpdatingKey(null);
     }
   };
 

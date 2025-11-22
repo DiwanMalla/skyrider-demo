@@ -3,13 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import {
-  ArrowLeft,
-  Calendar,
-  Clock,
-  User,
-  Loader2,
-} from "lucide-react";
+import { ArrowLeft, Calendar, Clock, User, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { loadSubmissions } from "@/lib/blog/storage";
 import { BlogPostMeta } from "@/lib/blog/types";
@@ -26,46 +20,14 @@ export default function BlogPostPage() {
     const fetchPost = async () => {
       setLoading(true);
       try {
-        // 1. Try to find in local submissions first
-        const submissions = loadSubmissions();
-        const localPost = submissions.find((s) => s.slug === slug);
-
-        if (localPost) {
-          setPost({
-            id: localPost.id,
-            slug: localPost.slug,
-            title: localPost.title,
-            excerpt: localPost.excerpt,
-            content: localPost.content,
-            author: {
-              name: localPost.authorName,
-              role: localPost.authorRole || "Student Contributor",
-            },
-            category: localPost.category,
-            tags: localPost.tags,
-            image: localPost.image || "/images/blog/student-contribution.png",
-            date: localPost.submittedAt,
-            readTime: localPost.readTime,
-            views: 0,
-            likes: 0,
-            status: "published",
-          });
-          setLoading(false);
-          return;
-        }
-
-        // 2. If not found locally, fetch from API
-        const response = await fetch("/api/blog");
+        // Fetch from the API which now queries the database
+        const response = await fetch(`/api/blog/${slug}`);
         const data = await response.json();
 
-        if (data.success) {
-          const apiPost = data.data.find((p: any) => p.slug === slug);
-          if (apiPost) {
-            setPost(apiPost);
-          } else {
-            // Not found
-            console.log("Post not found");
-          }
+        if (data.success && data.data) {
+          setPost(data.data);
+        } else {
+          console.log("Post not found");
         }
       } catch (error) {
         console.error("Error fetching post:", error);
@@ -147,12 +109,17 @@ export default function BlogPostPage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans selection:bg-blue-500/30 pb-20">
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans selection:bg-blue-500/30 pb-20 pt-16">
         {/* Hero Header */}
-        <div className={`relative h-[50vh] min-h-[400px] w-full overflow-hidden bg-gradient-to-br ${getCategoryGradient(post.category)}`}>
-          {post.image && post.image !== "/images/blog/student-contribution.png" ? (
-            <img 
-              src={post.image} 
+        <div
+          className={`relative h-[50vh] min-h-[400px] w-full overflow-hidden bg-gradient-to-br ${getCategoryGradient(
+            post.category
+          )}`}
+        >
+          {post.image &&
+          post.image !== "/images/blog/student-contribution.png" ? (
+            <img
+              src={post.image}
               alt={post.title}
               className="absolute inset-0 w-full h-full object-cover"
             />
@@ -160,14 +127,14 @@ export default function BlogPostPage() {
             <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
-          
+
           <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-12 max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <Link 
+              <Link
                 href="/blog"
                 className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors"
               >
@@ -188,8 +155,17 @@ export default function BlogPostPage() {
                       <User className="w-4 h-4" />
                     </div>
                     <div className="flex flex-col leading-tight">
-                      <span className="font-semibold">{post.author.name}</span>
-                      <span className="text-xs opacity-80">{post.author.role}</span>
+                      <span className="font-semibold">
+                        {typeof post.author === "string"
+                          ? post.author
+                          : post.author.name}
+                      </span>
+                      <span className="text-xs opacity-80">
+                        Grade:{" "}
+                        {typeof post.author === "string"
+                          ? "Contributor"
+                          : post.author.role}
+                      </span>
                     </div>
                   </div>
                   <span className="flex items-center gap-2">

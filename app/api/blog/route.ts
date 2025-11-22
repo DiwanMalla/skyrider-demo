@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
-// Mock data for blog posts
+// Mock data for blog posts (kept as fallback)
 const blogPosts = [
   {
     id: "1",
@@ -275,45 +276,113 @@ export async function GET(request: Request) {
     const search = searchParams.get("search");
     const limit = searchParams.get("limit");
 
-    let filteredPosts = [...blogPosts];
+    // Try to fetch from database first
+    try {
+      let query: any = {
+        where: {
+          status: "published",
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      };
 
-    // Filter by category
-    if (category && category !== "all") {
-      filteredPosts = filteredPosts.filter(
-        (post) => post.category === category
-      );
+      // Filter by category
+      if (category && category !== "all") {
+        query.where.category = category;
+      }
+
+      // Filter by search query
+      if (search) {
+        query.where.OR = [
+          { title: { contains: search, mode: "insensitive" } },
+          { excerpt: { contains: search, mode: "insensitive" } },
+          { author: { contains: search, mode: "insensitive" } },
+        ];
+      }
+
+      // Limit results if specified
+      if (limit) {
+        query.take = parseInt(limit);
+      }
+
+      const dbPosts = await prisma.blog.findMany(query);
+
+      // Transform database posts to match the expected format
+      const transformedPosts = dbPosts.map((post) => ({
+        id: post.id,
+        slug: post.slug,
+        title: post.title,
+        excerpt: post.excerpt,
+        content:
+          typeof post.content === "string"
+            ? post.content
+            : JSON.stringify(post.content),
+        author: {
+          name: post.author,
+          role: "Contributor",
+        },
+        category: post.category,
+        tags: post.tags,
+        image: post.coverImage || "/images/blog/student-contribution.png",
+        date: post.createdAt.toISOString(),
+        readTime: post.readTime,
+        views: 0,
+        likes: 0,
+        status: post.status,
+      }));
+
+      // Merge with mock data
+      const allPosts = [...transformedPosts, ...blogPosts];
+
+      return NextResponse.json({
+        success: true,
+        data: allPosts,
+        total: allPosts.length,
+      });
+    } catch (dbError) {
+      console.error("Database error, falling back to mock data:", dbError);
+      // Fall back to mock data if database fails
+      let filteredPosts = [...blogPosts];
+
+      // Filter by category
+      if (category && category !== "all") {
+        filteredPosts = filteredPosts.filter(
+          (post) => post.category === category
+        );
+      }
+
+      // Filter by search query
+      if (search) {
+        const searchLower = search.toLowerCase();
+        filteredPosts = filteredPosts.filter(
+          (post) =>
+            post.title.toLowerCase().includes(searchLower) ||
+            post.excerpt.toLowerCase().includes(searchLower) ||
+            post.content.toLowerCase().includes(searchLower) ||
+            post.tags.some((tag) => tag.toLowerCase().includes(searchLower)) ||
+            post.author.name.toLowerCase().includes(searchLower)
+        );
+      }
+
+      // Sort by date (newest first)
+      filteredPosts.sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateB - dateA;
+      });
+
+      // Limit results if specified
+      if (limit) {
+        filteredPosts = filteredPosts.slice(0, parseInt(limit));
+      }
+
+      return NextResponse.json({
+        success: true,
+        data: filteredPosts,
+        total: filteredPosts.length,
+      });
     }
-
-    // Filter by search query
-    if (search) {
-      const searchLower = search.toLowerCase();
-      filteredPosts = filteredPosts.filter(
-        (post) =>
-          post.title.toLowerCase().includes(searchLower) ||
-          post.excerpt.toLowerCase().includes(searchLower) ||
-          post.content.toLowerCase().includes(searchLower) ||
-          post.tags.some((tag) => tag.toLowerCase().includes(searchLower)) ||
-          post.author.name.toLowerCase().includes(searchLower)
-      );
-    }
-
-    // Sort by date (newest first)
-    filteredPosts.sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return dateB - dateA;
-    });
-
-    // Limit results if specified
-    if (limit) {
-      filteredPosts = filteredPosts.slice(0, parseInt(limit));
-    }
-
-    return NextResponse.json({
-      success: true,
-      data: filteredPosts,
-      total: filteredPosts.length,
-    });
   } catch (error) {
     console.error("Error fetching blog posts:", error);
     return NextResponse.json(

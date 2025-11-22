@@ -18,13 +18,27 @@ export async function saveSubmission(submission: BlogSubmission) {
 
     const { id, ...data } = submission;
 
+    // Prepare author data as JSON string
+    const authorData = JSON.stringify({
+      name: data.authorName,
+      role: data.authorRole,
+      email: data.authorEmail,
+    });
+
     await prisma.blog.create({
       data: {
-        ...data,
-        id: submission.id, // Use client-generated ID or let DB generate? 
-                           // If we want to respect client ID:
+        id: submission.id,
         slug,
-        content: JSON.parse(JSON.stringify(data.content)),
+        title: data.title,
+        content: JSON.parse(JSON.stringify(data.content)), // Ensure it's treated as Json
+        excerpt: data.excerpt,
+        coverImage: data.image, // Map image to coverImage
+        author: authorData,     // Store structured author data as string
+        category: data.category,
+        tags: data.tags,
+        readTime: data.readTime,
+        status: data.status,
+        // submittedAt is not in schema, using createdAt default
       },
     });
 
@@ -42,7 +56,38 @@ export async function loadSubmissions() {
     const blogs = await prisma.blog.findMany({
       orderBy: { createdAt: "desc" },
     });
-    return blogs as unknown as BlogSubmission[];
+
+    // Map Prisma result to BlogSubmission type
+    return blogs.map((blog) => {
+      let authorData = { name: blog.author, role: "Student Contributor", email: "" };
+      try {
+        // Try to parse author if it's JSON, otherwise treat as name
+        if (blog.author.startsWith("{")) {
+          authorData = JSON.parse(blog.author);
+        }
+      } catch (e) {
+        // Fallback to using the string as name
+      }
+
+      return {
+        id: blog.id,
+        slug: blog.slug,
+        title: blog.title,
+        content: blog.content as unknown as string, // It's stored as Json but we might need string for editor? 
+                                                    // Actually TiptapEditor expects string (HTML) or JSON. 
+                                                    // If we saved HTML string as Json, it comes back as string.
+        excerpt: blog.excerpt,
+        category: blog.category,
+        tags: blog.tags,
+        authorName: authorData.name,
+        authorRole: authorData.role,
+        authorEmail: authorData.email,
+        readTime: blog.readTime,
+        image: blog.coverImage || undefined,
+        status: blog.status as any,
+        submittedAt: blog.createdAt.toISOString(),
+      } as BlogSubmission;
+    });
   } catch (error) {
     console.error("Failed to load blogs:", error);
     return [];
@@ -83,7 +128,32 @@ export async function getBlogBySlug(slug: string) {
     const blog = await prisma.blog.findUnique({
       where: { slug },
     });
-    return blog as unknown as BlogSubmission | null;
+    
+    if (!blog) return null;
+
+    let authorData = { name: blog.author, role: "Student Contributor", email: "" };
+    try {
+      if (blog.author.startsWith("{")) {
+        authorData = JSON.parse(blog.author);
+      }
+    } catch (e) {}
+
+    return {
+      id: blog.id,
+      slug: blog.slug,
+      title: blog.title,
+      content: blog.content as unknown as string,
+      excerpt: blog.excerpt,
+      category: blog.category,
+      tags: blog.tags,
+      authorName: authorData.name,
+      authorRole: authorData.role,
+      authorEmail: authorData.email,
+      readTime: blog.readTime,
+      image: blog.coverImage || undefined,
+      status: blog.status as any,
+      submittedAt: blog.createdAt.toISOString(),
+    } as BlogSubmission;
   } catch (error) {
     console.error("Failed to fetch blog:", error);
     return null;

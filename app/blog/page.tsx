@@ -22,8 +22,7 @@ import Navbar from "@/components/Navbar";
 import AuroraBackground from "@/components/blog/AuroraBackground";
 import {
   loadSubmissions,
-  subscribeToSubmissionUpdates,
-} from "@/lib/blog/storage";
+} from "@/lib/blog/actions";
 import { BlogSubmission } from "@/lib/blog/types";
 import { sortSubmissions } from "@/lib/blog/utils";
 import Link from "next/link";
@@ -99,14 +98,18 @@ export default function BlogPage() {
   }, [fetchPosts]);
 
   useEffect(() => {
-    const current = sortSubmissions(loadSubmissions());
-    setSubmissions(current);
+    const fetchSubmissions = async () => {
+      const data = await loadSubmissions();
+      setSubmissions(sortSubmissions(data));
+    };
 
-    const unsubscribe = subscribeToSubmissionUpdates((next) => {
-      setSubmissions(sortSubmissions(next));
-    });
+    fetchSubmissions();
 
-    return unsubscribe;
+    // Auto-refresh every 10 seconds to check for new published posts
+    // This avoids unnecessary refreshes by only updating if data changes (React state handles diffing)
+    const interval = setInterval(fetchSubmissions, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const displayPosts = useMemo(() => {

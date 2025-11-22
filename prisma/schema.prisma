@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Result {
@@ -34,7 +33,7 @@ model Result {
 model Blog {
   id          String   @id @default(uuid())
   title       String
-  content     Json     // Storing Tiptap JSON content
+  content     String   // Storing HTML content as string
   excerpt     String
   coverImage  String?
   author      String
