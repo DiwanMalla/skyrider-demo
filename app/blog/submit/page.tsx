@@ -21,10 +21,11 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import TiptapEditor from "@/components/blog/TiptapEditor";
-import { saveSubmission } from "@/lib/blog/storage";
+import { saveSubmission } from "@/lib/blog/actions"; // Changed from storage to actions
 import { BlogSubmission } from "@/lib/blog/types";
 import { createExcerpt, estimateReadTime, generateSlug } from "@/lib/blog/utils";
 import Link from "next/link";
+import { useRouter } from "next/navigation"; // Added useRouter
 
 interface SubmissionFormState {
   title: string;
@@ -71,6 +72,8 @@ export default function BlogSubmitPage() {
   const [isPreview, setIsPreview] = useState(false);
   const [showSettings, setShowSettings] = useState(true);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
+
+  const router = useRouter(); // Initialized useRouter
 
   // Load draft on mount
   useEffect(() => {
@@ -220,24 +223,22 @@ export default function BlogSubmitPage() {
         submittedAt: new Date().toISOString(),
       };
 
-      saveSubmission(submission);
-      localStorage.removeItem(DRAFT_KEY);
-      setFormState(initialFormState);
-      setToast({
-        type: "success",
-        message: "Submission sent successfully!",
-      });
-
-      setTimeout(() => {
-        window.location.href = "/blog";
-      }, 2000);
+      const result = await saveSubmission(submission);
+      if (result.success) {
+        // Clear draft
+        if (typeof window !== "undefined") {
+          localStorage.removeItem(DRAFT_KEY); // Use DRAFT_KEY
+        }
+        
+        router.push("/blog/submit/success");
+      } else {
+        alert("Failed to submit blog post. Please try again.");
+      }
     } catch (error) {
-      console.error("Failed to save submission", error);
-      setToast({
-        type: "error",
-        message: "Unable to submit. Please try again.",
-      });
-      setFormLoading(false);
+      console.error(error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setFormLoading(false); // Use setFormLoading
     }
   };
 

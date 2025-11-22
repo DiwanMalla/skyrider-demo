@@ -23,11 +23,12 @@ import {
 } from "lucide-react";
 import {
   loadSubmissions,
-  subscribeToSubmissionUpdates,
   updateSubmissionStatus,
-} from "@/lib/blog/storage";
+  removeSubmission,
+} from "@/lib/blog/actions";
 import { BlogSubmission, SubmissionStatus } from "@/lib/blog/types";
-import { sortSubmissions } from "@/lib/blog/utils";
+import { formatDistanceToNow } from "date-fns";
+import Link from "next/link";
 
 const statusBadges: Record<SubmissionStatus, string> = {
   pending:
@@ -46,9 +47,7 @@ const statusLabels: Record<SubmissionStatus, string> = {
 type FilterValue = SubmissionStatus | "all";
 
 export default function BlogsPage() {
-  const [submissions, setSubmissions] = useState<BlogSubmission[]>(() =>
-    sortSubmissions(loadSubmissions())
-  );
+  const [submissions, setSubmissions] = useState<BlogSubmission[]>([]);
   const [filter, setFilter] = useState<FilterValue>("pending");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSubmission, setSelectedSubmission] =
@@ -60,12 +59,25 @@ export default function BlogsPage() {
   } | null>(null);
 
   useEffect(() => {
-    const unsubscribe = subscribeToSubmissionUpdates((next) => {
-      setSubmissions(sortSubmissions(next));
-    });
-
-    return unsubscribe;
+    fetchSubmissions();
   }, []);
+
+  const fetchSubmissions = async () => {
+    const data = await loadSubmissions();
+    setSubmissions(data);
+  };
+
+  const handleStatusChange = async (id: string, status: "published" | "draft" | "archived") => {
+    await updateSubmissionStatus(id, status);
+    fetchSubmissions();
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this post?")) {
+      await removeSubmission(id);
+      fetchSubmissions();
+    }
+  };
 
   useEffect(() => {
     if (!toast) return;

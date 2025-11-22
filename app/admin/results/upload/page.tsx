@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { parseCSV } from "@/lib/results/utils";
-import { saveResults } from "@/lib/results/storage";
+import { saveResults } from "@/lib/results/actions";
 import { StudentResult } from "@/lib/results/types";
 import { useRouter } from "next/navigation";
 
@@ -101,13 +101,20 @@ export default function UploadResultsPage() {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     try {
-      saveResults(parsedResults);
-      setSuccess(true);
-      setTimeout(() => {
-        router.push("/admin/results");
-      }, 1500);
+      const result = await saveResults(parsedResults);
+      if (result.success) {
+        setSuccess(true);
+        setParsedResults([]);
+        setFile(null);
+        if (inputRef.current) inputRef.current.value = "";
+        setTimeout(() => {
+          router.push("/admin/results");
+        }, 1500);
+      } else {
+        setError(result.error || "Failed to save results");
+      }
     } catch (err) {
-      setError("Failed to save results.");
+      setError("Failed to save results. Please try again.");
     } finally {
       setLoading(false);
     }

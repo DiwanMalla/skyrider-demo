@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Search, Trophy, GraduationCap, ArrowRight, Calendar } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { getTopStudents, getExamFolders } from "@/lib/results/storage";
+import { getTopStudents, getExamFolders } from "@/lib/results/actions";
 import { StudentResult } from "@/lib/results/types";
 
 export default function ResultSearchPage() {
@@ -21,16 +21,23 @@ export default function ResultSearchPage() {
 
   useEffect(() => {
     // Load available exams
-    const folders = getExamFolders();
-    setExamFolders(folders);
-    if (folders.length > 0) {
-      setSelectedExam(`${folders[0].batch}|${folders[0].examType}`);
-    }
+    const loadFolders = async () => {
+      const folders = await getExamFolders();
+      setExamFolders(folders);
+      if (folders.length > 0) {
+        setSelectedExam(`${folders[0].batch}|${folders[0].examType}`);
+      }
+    };
+    loadFolders();
   }, []);
 
   useEffect(() => {
     // Load top students for the default/selected grade
-    setTopStudents(getTopStudents(selectedGrade, 5));
+    const loadTopStudents = async () => {
+      const students = await getTopStudents(selectedGrade, 5);
+      setTopStudents(students);
+    };
+    loadTopStudents();
   }, [selectedGrade]);
 
   const handleSearch = (e: React.FormEvent) => {

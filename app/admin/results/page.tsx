@@ -24,7 +24,7 @@ import {
   deleteResult,
   updateResult,
   getExamFolders,
-} from "@/lib/results/storage";
+} from "@/lib/results/actions";
 import { StudentResult } from "@/lib/results/types";
 import EditResultModal from "./EditResultModal";
 
@@ -48,26 +48,30 @@ export default function ResultsDashboard() {
     loadData();
   }, []);
 
-  const loadData = () => {
-    setResults(getResults());
-    setFolders(getExamFolders());
+  const loadData = async () => {
+    const [fetchedResults, fetchedFolders] = await Promise.all([
+      getResults(),
+      getExamFolders(),
+    ]);
+    setResults(fetchedResults);
+    setFolders(fetchedFolders);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this result?")) {
-      deleteResult(id);
+      await deleteResult(id);
       loadData();
     }
   };
 
-  const handleSaveEdit = (updatedResult: StudentResult) => {
-    updateResult(updatedResult.id, updatedResult);
+  const handleSaveEdit = async (updatedResult: StudentResult) => {
+    await updateResult(updatedResult.id, updatedResult);
     loadData();
     setEditingResult(null);
   };
 
-  const handlePublishToggle = (result: StudentResult) => {
-    updateResult(result.id, { ...result, published: !result.published });
+  const handlePublishToggle = async (result: StudentResult) => {
+    await updateResult(result.id, { ...result, published: !result.published });
     loadData();
   };
 

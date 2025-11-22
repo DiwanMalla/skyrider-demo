@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { getResultBySymbolNumber, getResults } from "@/lib/results/storage";
+import { getResults } from "@/lib/results/actions";
 import { StudentResult } from "@/lib/results/types";
 import { motion } from "framer-motion";
 import { Printer, ArrowLeft, Download, Share2, AlertCircle } from "lucide-react";
@@ -22,14 +22,14 @@ function MarkSheetContent() {
 
     if (symbol) {
       // Simulate loading delay
-      setTimeout(() => {
+      const fetchResult = async () => {
         // Note: We need to update getResultBySymbolNumber to support batch/examType
         // For now, we'll filter the results manually or update the storage function
         // Let's assume we update the storage function or use getResults().find()
         
         // Temporary fix: Fetch all and find match (since getResultBySymbolNumber might need update)
         // Ideally, update storage.ts
-        const allResults = getResults();
+        const allResults = await getResults();
         const found = allResults.find(r => 
           r.symbolNumber === symbol && 
           (!batch || r.batch === batch) &&
@@ -38,7 +38,8 @@ function MarkSheetContent() {
         
         setResult(found || null);
         setLoading(false);
-      }, 500);
+      };
+      fetchResult();
     } else {
       setLoading(false);
     }
