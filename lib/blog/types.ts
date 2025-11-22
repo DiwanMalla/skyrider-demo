@@ -12,6 +12,7 @@ export interface BlogSubmission {
   authorRole?: string;
   authorEmail?: string;
   readTime: string;
+  image?: string;
   status: SubmissionStatus;
   submittedAt: string;
 }

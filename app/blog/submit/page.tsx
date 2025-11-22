@@ -1,28 +1,29 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
   BookOpen,
   Edit3,
   Eye,
-  FileText,
+  Image as ImageIcon,
+  LayoutTemplate,
   Loader2,
-  Maximize2,
-  Minimize2,
+  Save,
+  Search,
   Send,
+  Settings,
   Sparkles,
   Type,
-  Users,
+  Upload,
   X,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import AuroraBackground from "@/components/blog/AuroraBackground";
 import TiptapEditor from "@/components/blog/TiptapEditor";
 import { saveSubmission } from "@/lib/blog/storage";
 import { BlogSubmission } from "@/lib/blog/types";
-import { createExcerpt, estimateReadTime } from "@/lib/blog/utils";
+import { createExcerpt, estimateReadTime, generateSlug } from "@/lib/blog/utils";
 import Link from "next/link";
 
 interface SubmissionFormState {
@@ -33,6 +34,7 @@ interface SubmissionFormState {
   category: string;
   tags: string;
   content: string;
+  coverImage: string | null;
 }
 
 const categories = [
@@ -51,9 +53,12 @@ const initialFormState: SubmissionFormState = {
   authorRole: "",
   authorEmail: "",
   category: "education",
-  tags: "learning, community",
+  tags: "",
   content: "",
+  coverImage: null,
 };
+
+const DRAFT_KEY = "skyrider_blog_draft_v1";
 
 export default function BlogSubmitPage() {
   const [formState, setFormState] =
@@ -63,21 +68,64 @@ export default function BlogSubmitPage() {
     type: "success" | "error";
     message: string;
   } | null>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
+  const [showSettings, setShowSettings] = useState(true);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
-  // Calculate stats from HTML content
+  // Load draft on mount
+  useEffect(() => {
+    const savedDraft = localStorage.getItem(DRAFT_KEY);
+    if (savedDraft) {
+      try {
+        const parsed = JSON.parse(savedDraft);
+        setFormState(parsed);
+        setLastSaved(new Date());
+      } catch (e) {
+        console.error("Failed to load draft", e);
+      }
+    }
+  }, []);
+
+  // Auto-save draft
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (JSON.stringify(formState) !== JSON.stringify(initialFormState)) {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(formState));
+        setLastSaved(new Date());
+      }
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  }, [formState]);
+
+  // Save on window close/refresh
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (JSON.stringify(formState) !== JSON.stringify(initialFormState)) {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(formState));
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [formState]);
+
+  // Calculate stats
   const getTextFromHTML = (html: string) => {
+    if (typeof document === "undefined") return "";
+    // Replace block endings with spaces to prevent concatenation
+    const htmlWithSpaces = html
+      .replace(/<\/p>/g, " </p>")
+      .replace(/<\/div>/g, " </div>")
+      .replace(/<br\s*\/?>/g, " ");
     const div = document.createElement("div");
-    div.innerHTML = html;
-    return div.textContent || div.innerText || "";
+    div.innerHTML = htmlWithSpaces;
+    return (div.textContent || div.innerText || "").trim();
   };
 
   const plainText =
     typeof window !== "undefined" ? getTextFromHTML(formState.content) : "";
   const wordCount = plainText.trim().split(/\s+/).filter(Boolean).length;
   const readTime = estimateReadTime(plainText);
-  const characterCount = plainText.length;
 
   const handleImageUpload = async (file: File): Promise<string> => {
     if (file.size > 5 * 1024 * 1024) {
@@ -104,23 +152,36 @@ export default function BlogSubmitPage() {
     });
   };
 
+  const handleCoverImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+        const base64 = await handleImageUpload(file);
+        setFormState((prev) => ({ ...prev, coverImage: base64 }));
+      } catch (error) {
+        // Error handled in handleImageUpload
+      }
+    }
+  };
+
   const handleFormChange = (
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-      | React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = event.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmitClick = (event: React.MouseEvent) => {
+  const handleSubmitClick = async (event: React.MouseEvent) => {
     event.preventDefault();
 
     if (!formState.title.trim() || !formState.content.trim()) {
       setToast({
         type: "error",
-        message: "Please provide a title and full article content.",
+        message: "Please provide a title and content.",
       });
       return;
     }
@@ -128,8 +189,9 @@ export default function BlogSubmitPage() {
     if (!formState.authorName.trim()) {
       setToast({
         type: "error",
-        message: "Let us know who is submitting the article.",
+        message: "Please provide author details.",
       });
+      setShowSettings(true);
       return;
     }
 
@@ -138,19 +200,12 @@ export default function BlogSubmitPage() {
       .map((tag) => tag.trim())
       .filter(Boolean);
 
-    if (tags.length === 0) {
-      setToast({
-        type: "error",
-        message: "Add at least one tag so readers can discover your post.",
-      });
-      return;
-    }
-
     setFormLoading(true);
 
     try {
       const submission: BlogSubmission = {
         id: crypto.randomUUID?.() ?? Date.now().toString(36),
+        slug: generateSlug(formState.title.trim()),
         title: formState.title.trim(),
         content: formState.content.trim(),
         excerpt: createExcerpt(formState.content),
@@ -160,15 +215,17 @@ export default function BlogSubmitPage() {
         authorRole: formState.authorRole.trim() || "Student Contributor",
         authorEmail: formState.authorEmail.trim() || undefined,
         readTime: estimateReadTime(formState.content),
+        image: formState.coverImage || undefined,
         status: "pending",
         submittedAt: new Date().toISOString(),
       };
 
       saveSubmission(submission);
+      localStorage.removeItem(DRAFT_KEY);
       setFormState(initialFormState);
       setToast({
         type: "success",
-        message: "Submission sent to admin for review. Redirecting...",
+        message: "Submission sent successfully!",
       });
 
       setTimeout(() => {
@@ -178,344 +235,303 @@ export default function BlogSubmitPage() {
       console.error("Failed to save submission", error);
       setToast({
         type: "error",
-        message: "Unable to submit right now. Please try again shortly.",
+        message: "Unable to submit. Please try again.",
       });
       setFormLoading(false);
     }
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white flex flex-col">
       <Navbar />
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white">
-        <div className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.08),rgba(255,255,255,1))] dark:bg-[radial-gradient(circle_at_top,rgba(251,191,36,0.08),rgba(2,6,23,1))]" />
-          <div className="relative z-10 px-4 sm:px-6 lg:px-8 pt-16 pb-12">
-            <div className="relative border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 backdrop-blur-xl p-8 overflow-hidden shadow-[0_15px_80px_rgba(15,23,42,0.1)] dark:shadow-[0_15px_80px_rgba(15,23,42,0.4)]">
-              <AuroraBackground />
-              <div className="relative z-10 max-w-3xl mx-auto text-center">
-                <Link
-                  href="/blog"
-                  className="inline-flex items-center gap-2 text-slate-600 dark:text-white/70 hover:text-slate-900 dark:hover:text-white transition mb-6"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  Back to blog
-                </Link>
-                <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 dark:bg-white/10 px-4 py-2 text-sm font-medium text-slate-700 dark:text-white/80 mb-6">
-                  <Sparkles className="w-4 h-4" />
-                  Submit Your Story
-                </div>
-                <h1 className="text-4xl sm:text-5xl font-semibold leading-tight">
-                  Share your voice.
-                  <span className="block text-blue-600 dark:text-amber-300 font-bold">
-                    Inspire the community.
+
+      {/* Top Bar */}
+      <div className="sticky top-16 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link
+              href="/blog"
+              className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Link>
+            <div className="h-6 w-px bg-slate-200 dark:bg-slate-700" />
+            <div className="flex items-center gap-2 text-sm text-slate-500">
+              {lastSaved ? (
+                <>
+                  <Save className="w-4 h-4" />
+                  <span>
+                    Saved{" "}
+                    {lastSaved.toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </span>
-                </h1>
-                <p className="mt-6 text-lg text-slate-600 dark:text-white/80">
-                  Your submission will be reviewed by our admin team. Once
-                  approved, your article will be published for the entire
-                  community to read.
-                </p>
-              </div>
+                </>
+              ) : (
+                <span>Unsaved changes</span>
+              )}
             </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsPreview(!isPreview)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+                isPreview
+                  ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                  : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              }`}
+            >
+              {isPreview ? (
+                <Edit3 className="w-4 h-4" />
+              ) : (
+                <Eye className="w-4 h-4" />
+              )}
+              {isPreview ? "Edit" : "Preview"}
+            </button>
+            <button
+              onClick={handleSubmitClick}
+              disabled={formLoading}
+              className="flex items-center gap-2 px-6 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-semibold hover:opacity-90 transition disabled:opacity-50"
+            >
+              {formLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Send className="w-4 h-4" />
+              )}
+              Publish
+            </button>
+            <button
+              onClick={() => setShowSettings(!showSettings)}
+              className={`p-2 rounded-lg transition ${
+                showSettings
+                  ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white"
+                  : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+            >
+              <LayoutTemplate className="w-5 h-5" />
+            </button>
           </div>
         </div>
+      </div>
 
-        <div className="relative -mt-12 bg-slate-50 dark:bg-slate-900 pb-24 pt-20">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Writing Interface */}
-            <div className="rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xl overflow-hidden">
-              {/* Header */}
-              <div className="border-b border-slate-200 dark:border-slate-700 p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-2 text-lg font-semibold text-slate-900 dark:text-white">
-                      <Edit3 className="w-5 h-5 text-amber-500" />
-                      Write Your Story
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-                      <span className="flex items-center gap-1">
-                        <FileText className="w-4 h-4" />
-                        {wordCount} words
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <BookOpen className="w-4 h-4" />
-                        {readTime}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Type className="w-4 h-4" />
-                        {characterCount} chars
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setIsPreview(!isPreview)}
-                      className={`p-2 rounded-lg transition ${
-                        isPreview
-                          ? "bg-amber-100 dark:bg-amber-900 text-amber-600 dark:text-amber-400"
-                          : "text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
-                      }`}
-                      title={isPreview ? "Edit mode" : "Preview mode"}
-                    >
-                      {isPreview ? (
-                        <Edit3 className="w-4 h-4" />
-                      ) : (
-                        <Eye className="w-4 h-4" />
-                      )}
-                    </button>
-                    <button
-                      onClick={() => setIsFullscreen(!isFullscreen)}
-                      className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
-                      title={
-                        isFullscreen ? "Exit fullscreen" : "Fullscreen writing"
-                      }
-                    >
-                      {isFullscreen ? (
-                        <Minimize2 className="w-4 h-4" />
-                      ) : (
-                        <Maximize2 className="w-4 h-4" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Content Area */}
-              <div
-                className={`transition-all duration-300 ${
-                  isFullscreen
-                    ? "fixed inset-0 z-50 bg-white dark:bg-slate-900 rounded-none"
-                    : ""
-                }`}
-              >
-                {isFullscreen && (
-                  <div className="absolute top-4 right-4 z-10">
-                    <button
-                      onClick={() => setIsFullscreen(false)}
-                      className="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  </div>
+      <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 mt-8">
+        <div className="flex gap-8">
+          {/* Main Editor Area */}
+          <motion.div
+            layout
+            className={`flex-1 min-w-0 space-y-8 ${
+              isPreview ? "max-w-4xl mx-auto" : ""
+            }`}
+          >
+            {isPreview ? (
+              <div className="prose prose-lg dark:prose-invert max-w-none bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+                {formState.coverImage && (
+                  <img
+                    src={formState.coverImage}
+                    alt="Cover"
+                    className="w-full h-64 object-cover rounded-xl mb-8"
+                  />
                 )}
-
-                <div
-                  className={`${
-                    isFullscreen ? "h-full p-8 overflow-y-auto" : "p-6"
-                  }`}
-                >
-                  {isPreview ? (
-                    // Preview Mode - Full Article View
-                    <div className="max-w-4xl mx-auto">
-                      <div className="prose prose-lg dark:prose-invert max-w-none">
-                        <h1 className="text-4xl font-bold mb-4">
-                          {formState.title || "Your Article Title"}
-                        </h1>
-                        <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-8 not-prose">
-                          <span>By {formState.authorName || "Your Name"}</span>
-                          {formState.authorRole && (
-                            <span>• {formState.authorRole}</span>
-                          )}
-                          <span>• {readTime}</span>
-                          <span>• {wordCount} words</span>
-                        </div>
-                        <div
-                          className="leading-relaxed text-base"
-                          dangerouslySetInnerHTML={{
-                            __html:
-                              formState.content ||
-                              "<p class='text-slate-400 dark:text-slate-500'>Your article content will appear here...</p>",
-                          }}
-                        />
-                        {formState.tags && (
-                          <div className="flex flex-wrap gap-2 mt-8 not-prose">
-                            {formState.tags.split(",").map((tag, idx) => (
-                              <span
-                                key={idx}
-                                className="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-sm text-slate-700 dark:text-slate-300"
-                              >
-                                #{tag.trim()}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    // Edit Mode - Tiptap Editor
-                    <div className="max-w-4xl mx-auto space-y-4">
-                      {/* Title Input */}
-                      <div>
-                        <input
-                          name="title"
-                          value={formState.title}
-                          onChange={handleFormChange}
-                          className="w-full text-3xl font-bold bg-transparent border-none outline-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 px-2 py-3"
-                          placeholder="Write a compelling title..."
-                        />
-                      </div>
-
-                      {/* Tiptap Editor */}
-                      <TiptapEditor
-                        content={formState.content}
-                        onChange={(html) =>
-                          setFormState((prev) => ({ ...prev, content: html }))
-                        }
-                        onImageUpload={handleImageUpload}
-                        placeholder="Start writing your story...
-
-Use the toolbar to format text, add links, and insert images. You can also:
-• Create headings with H1/H2 buttons
-• Add lists, quotes, and code blocks
-• Insert images with the image button or drag & drop
-• Undo/redo your changes
-
-Your content will be saved as rich HTML."
+                <h1>{formState.title || "Untitled Post"}</h1>
+                <div className="flex items-center gap-4 text-sm text-slate-500 not-prose mb-8">
+                  <span>{formState.authorName || "Anonymous"}</span>
+                  <span>• {readTime}</span>
+                  <span>• {formState.category}</span>
+                </div>
+                <div dangerouslySetInnerHTML={{ __html: formState.content }} />
+              </div>
+            ) : (
+              <>
+                {/* Cover Image Upload */}
+                <div className="group relative w-full h-48 sm:h-64 bg-slate-100 dark:bg-slate-900 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 overflow-hidden transition hover:border-slate-400 dark:hover:border-slate-600">
+                  {formState.coverImage ? (
+                    <>
+                      <img
+                        src={formState.coverImage}
+                        alt="Cover"
+                        className="w-full h-full object-cover"
                       />
-
-                      {/* Writing Stats */}
-                      <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400 pt-4 border-t border-slate-200 dark:border-slate-700">
-                        <span>
-                          {wordCount} words • {characterCount} characters
-                        </span>
-                        <span>Estimated read time: {readTime}</span>
-                      </div>
-                    </div>
+                      <button
+                        onClick={() =>
+                          setFormState((prev) => ({
+                            ...prev,
+                            coverImage: null,
+                          }))
+                        }
+                        className="absolute top-4 right-4 p-2 bg-white/90 dark:bg-black/50 rounded-full text-slate-700 dark:text-white opacity-0 group-hover:opacity-100 transition"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </>
+                  ) : (
+                    <label className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition">
+                      <ImageIcon className="w-8 h-8 mb-2" />
+                      <span className="font-medium">Add a cover image</span>
+                      <span className="text-xs mt-1 opacity-70">
+                        Recommended: 1200x630px
+                      </span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleCoverImageUpload}
+                      />
+                    </label>
                   )}
                 </div>
-              </div>
-            </div>
 
-            {/* Metadata Form - Collapsed when fullscreen */}
-            {!isFullscreen && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-6 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-lg"
-              >
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                  <Users className="w-5 h-5" />
-                  Publication Details
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                      Your Name *
-                    </label>
-                    <input
-                      name="authorName"
-                      value={formState.authorName}
-                      onChange={handleFormChange}
-                      className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-900 dark:text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-100 dark:focus:ring-amber-900"
-                      placeholder="John Doe"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                      Role / Grade
-                    </label>
-                    <input
-                      name="authorRole"
-                      value={formState.authorRole}
-                      onChange={handleFormChange}
-                      className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-900 dark:text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-100 dark:focus:ring-amber-900"
-                      placeholder="Grade 10, Science Club, etc."
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                      Email (optional)
-                    </label>
-                    <input
-                      name="authorEmail"
-                      value={formState.authorEmail}
-                      onChange={handleFormChange}
-                      type="email"
-                      className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-900 dark:text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-100 dark:focus:ring-amber-900"
-                      placeholder="We'll notify you about the decision"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                      Category *
-                    </label>
-                    <select
-                      name="category"
-                      value={formState.category}
-                      onChange={handleFormChange}
-                      className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-900 dark:text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-100 dark:focus:ring-amber-900"
-                      required
-                    >
-                      {categories.map((category) => (
-                        <option key={category.value} value={category.value}>
-                          {category.icon} {category.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                    Tags (comma separated) *
-                  </label>
-                  <input
-                    name="tags"
-                    value={formState.tags}
-                    onChange={handleFormChange}
-                    className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-900 dark:text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-100 dark:focus:ring-amber-900"
-                    placeholder="learning, community, education"
-                    required
+                {/* Title Input */}
+                <input
+                  name="title"
+                  value={formState.title}
+                  onChange={handleFormChange}
+                  placeholder="Article Title..."
+                  className="w-full text-4xl sm:text-5xl font-bold bg-transparent border-none outline-none placeholder-slate-300 dark:placeholder-slate-700 text-slate-900 dark:text-white leading-tight"
+                />
+
+                {/* Editor */}
+                <div className="min-h-[500px]">
+                  <TiptapEditor
+                    content={formState.content}
+                    onChange={(html) =>
+                      setFormState((prev) => ({ ...prev, content: html }))
+                    }
+                    onImageUpload={handleImageUpload}
+                    placeholder="Tell your story..."
                   />
                 </div>
-              </motion.div>
+              </>
             )}
+          </motion.div>
 
-            {/* Submit Section */}
-            {!isFullscreen && (
+          {/* Sidebar Settings */}
+          <AnimatePresence mode="popLayout">
+            {showSettings && !isPreview && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="mt-6 rounded-2xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 p-6"
+                initial={{ opacity: 0, x: 20, width: 0 }}
+                animate={{ opacity: 1, x: 0, width: 320 }}
+                exit={{ opacity: 0, x: 20, width: 0 }}
+                className="hidden lg:block shrink-0"
               >
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                  <div>
-                    <h4 className="font-semibold text-amber-900 dark:text-amber-100 mb-1">
-                      Ready to submit?
-                    </h4>
-                    <p className="text-sm text-amber-700 dark:text-amber-300">
-                      Your article will be reviewed by our admin team. Approved
-                      submissions are published immediately.
-                    </p>
+                <div className="sticky top-36 space-y-6 mt-16">
+                  {/* Publishing Details */}
+                  <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+                    <h3 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                      <Settings className="w-4 h-4" />
+                      Publishing Details
+                    </h3>
+
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-xs font-medium text-slate-500 uppercase mb-1">
+                          Author Name
+                        </label>
+                        <input
+                          name="authorName"
+                          value={formState.authorName}
+                          onChange={handleFormChange}
+                          className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition"
+                          placeholder="Your name"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-medium text-slate-500 uppercase mb-1">
+                          Role / Grade
+                        </label>
+                        <input
+                          name="authorRole"
+                          value={formState.authorRole}
+                          onChange={handleFormChange}
+                          className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition"
+                          placeholder="e.g. Grade 10"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-medium text-slate-500 uppercase mb-1">
+                          Category
+                        </label>
+                        <select
+                          name="category"
+                          value={formState.category}
+                          onChange={handleFormChange}
+                          className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition"
+                        >
+                          {categories.map((c) => (
+                            <option key={c.value} value={c.value}>
+                              {c.icon} {c.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-medium text-slate-500 uppercase mb-1">
+                          Tags
+                        </label>
+                        <input
+                          name="tags"
+                          value={formState.tags}
+                          onChange={handleFormChange}
+                          className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition"
+                          placeholder="comma, separated, tags"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <button
-                    onClick={handleSubmitClick}
-                    disabled={
-                      formLoading ||
-                      !formState.title.trim() ||
-                      !formState.content.trim() ||
-                      !formState.authorName.trim()
-                    }
-                    className="rounded-xl bg-slate-900 dark:bg-slate-100 px-6 py-3 text-sm font-semibold text-white dark:text-slate-900 shadow-lg shadow-slate-900/20 dark:shadow-slate-100/20 transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 flex items-center gap-2"
-                  >
-                    {formLoading ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        Submitting...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4" />
-                        Submit for Review
-                      </>
-                    )}
-                  </button>
+
+                  {/* SEO Preview */}
+                  <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+                    <h3 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                      <Search className="w-4 h-4" />
+                      Search Preview
+                    </h3>
+                    <div className="bg-white dark:bg-slate-950 p-4 rounded-lg font-sans border border-slate-100 dark:border-slate-800">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-sm font-bold text-slate-700 dark:text-slate-300">
+                          <span className="sr-only">Skyrider</span>
+                          S
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-sm text-slate-900 dark:text-slate-200 font-medium">
+                            Skyrider
+                          </span>
+                          <span className="text-xs text-slate-500 dark:text-slate-400">
+                            https://skyrider.com › blog › {formState.category}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="text-blue-600 dark:text-blue-400 text-xl font-medium hover:underline truncate cursor-pointer mb-1">
+                        {formState.title || "Your Article Title"}
+                      </div>
+                      <div className="text-slate-600 dark:text-slate-400 text-sm line-clamp-2 leading-relaxed">
+                        <span className="text-slate-400 dark:text-slate-500 text-xs mr-2">
+                          {new Date().toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })}{" "}
+                          —
+                        </span>
+                        {getTextFromHTML(formState.content).slice(0, 160) ||
+                          "Your article description will appear here. This preview shows how your post might appear in search engine results."}
+                        ...
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Stats */}
+                  <div className="text-xs text-slate-400 flex justify-between px-2">
+                    <span>{wordCount} words</span>
+                    <span>{readTime}</span>
+                  </div>
                 </div>
               </motion.div>
             )}
-          </div>
+          </AnimatePresence>
         </div>
       </div>
 
@@ -524,15 +540,15 @@ Your content will be saved as rich HTML."
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
-          className={`fixed bottom-6 right-6 z-50 rounded-2xl px-5 py-4 text-sm shadow-lg ${
+          className={`fixed bottom-6 right-6 z-50 rounded-xl px-4 py-3 text-sm shadow-lg font-medium ${
             toast.type === "success"
-              ? "bg-emerald-600 text-white"
+              ? "bg-emerald-500 text-white"
               : "bg-rose-500 text-white"
           }`}
         >
           {toast.message}
         </motion.div>
       )}
-    </>
+    </div>
   );
 }

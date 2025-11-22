@@ -43,7 +43,7 @@ export default function BlogPostPage() {
             },
             category: localPost.category,
             tags: localPost.tags,
-            image: "/images/blog/student-contribution.png",
+            image: localPost.image || "/images/blog/student-contribution.png",
             date: localPost.submittedAt,
             readTime: localPost.readTime,
             views: 0,
@@ -150,7 +150,15 @@ export default function BlogPostPage() {
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans selection:bg-blue-500/30 pb-20">
         {/* Hero Header */}
         <div className={`relative h-[50vh] min-h-[400px] w-full overflow-hidden bg-gradient-to-br ${getCategoryGradient(post.category)}`}>
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
+          {post.image && post.image !== "/images/blog/student-contribution.png" ? (
+            <img 
+              src={post.image} 
+              alt={post.title}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
           
           <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-12 max-w-5xl mx-auto">

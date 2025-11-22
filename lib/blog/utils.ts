@@ -7,7 +7,9 @@ export function estimateReadTime(content: string): string {
 }
 
 export function createExcerpt(content: string, length = 240): string {
-  const clean = content.replace(/\s+/g, " ").trim();
+  // Strip HTML tags
+  const stripped = content.replace(/<[^>]*>?/gm, "");
+  const clean = stripped.replace(/\s+/g, " ").trim();
   if (clean.length <= length) return clean;
   return `${clean.slice(0, length).trim()}…`;
 }

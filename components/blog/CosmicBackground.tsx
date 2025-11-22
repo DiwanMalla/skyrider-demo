@@ -45,11 +45,10 @@ function FloatingShape({
 function StarField() {
   const points = useMemo(() => {
     const positions = new Float32Array(1500 * 3);
-    const generator = new THREE.Random("skyrider-blog");
     for (let i = 0; i < positions.length; i += 3) {
-      positions[i] = (generator.nextFloat() - 0.5) * 20;
-      positions[i + 1] = (generator.nextFloat() - 0.5) * 12;
-      positions[i + 2] = -Math.abs(generator.nextFloat() * 15) - 4;
+      positions[i] = (Math.random() - 0.5) * 20;
+      positions[i + 1] = (Math.random() - 0.5) * 12;
+      positions[i + 2] = -Math.abs(Math.random() * 15) - 4;
     }
     return positions;
   }, []);
@@ -59,9 +58,7 @@ function StarField() {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={points.length / 3}
-          array={points}
-          itemSize={3}
+          args={[points, 3]}
         />
       </bufferGeometry>
       <pointsMaterial

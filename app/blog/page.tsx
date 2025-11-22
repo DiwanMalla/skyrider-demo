@@ -134,7 +134,7 @@ export default function BlogPage() {
             id: submission.id,
             slug: submission.slug || submission.id, // Fallback if slug missing
             title: submission.title,
-            excerpt: submission.excerpt,
+            excerpt: submission.excerpt.replace(/<[^>]*>?/gm, ""),
             content: submission.content,
             author: {
               name: submission.authorName,
@@ -142,7 +142,7 @@ export default function BlogPage() {
             },
             category: submission.category,
             tags: submission.tags,
-            image: "/images/blog/student-contribution.png",
+            image: submission.image || "/images/blog/student-contribution.png",
             date: submission.submittedAt,
             readTime: submission.readTime,
             views: 0,
@@ -304,7 +304,7 @@ export default function BlogPage() {
                   No stories found
                 </h3>
                 <p className="text-slate-500 dark:text-slate-400 max-w-md">
-                  We couldn't find any articles matching your search. Try
+                  We couldn&apos;t find any articles matching your search. Try
                   adjusting your filters or be the first to write about this
                   topic!
                 </p>
@@ -333,10 +333,20 @@ export default function BlogPage() {
                               post.category
                             )}`}
                           >
-                            <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                            {post.image && post.image !== "/images/blog/student-contribution.png" ? (
+                              <img 
+                                src={post.image} 
+                                alt={post.title}
+                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                              />
+                            ) : (
+                              <>
+                                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                              </>
+                            )}
 
-                            <div className="absolute top-4 left-4">
+                            <div className="absolute top-4 left-4 z-10">
                               <span className="inline-flex items-center rounded-full bg-white/20 backdrop-blur-md border border-white/20 px-3 py-1 text-xs font-semibold text-white shadow-sm">
                                 {post.category}
                               </span>
