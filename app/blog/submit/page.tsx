@@ -131,10 +131,10 @@ export default function BlogSubmitPage() {
   const readTime = estimateReadTime(plainText);
 
   const handleImageUpload = async (file: File): Promise<string> => {
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > 20 * 1024 * 1024) {
       setToast({
         type: "error",
-        message: `Image is too large. Please use images under 5MB.`,
+        message: `Image is too large. Please use images under 20MB.`,
       });
       throw new Error("Image too large");
     }
