@@ -30,9 +30,9 @@ export async function saveSubmission(submission: BlogSubmission) {
         id: submission.id,
         slug,
         title: data.title,
-        content: JSON.parse(JSON.stringify(data.content)), // Ensure it's treated as Json
+        content: data.content,
         excerpt: data.excerpt,
-        coverImage: data.image, // Map image to coverImage
+        coverImage: data.image || null, // Map image to coverImage
         author: authorData,     // Store structured author data as string
         category: data.category,
         tags: data.tags,
