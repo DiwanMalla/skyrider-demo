@@ -94,7 +94,32 @@ export default function ClassesPage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-20">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-20 relative">
+        {/* Not Available Overlay */}
+        <div className="absolute inset-0 z-40 flex items-start justify-center pt-32 bg-white/30 dark:bg-black/30 backdrop-blur-md">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="text-center px-6"
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              className="inline-block p-6 bg-gradient-to-br from-emerald-500 to-sky-500 rounded-3xl mb-6 shadow-2xl"
+            >
+              <GraduationCap className="w-16 h-16 text-white" />
+            </motion.div>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+              Not Available Right Now
+            </h2>
+            <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-md mx-auto">
+              This page is currently under maintenance. Please check back later.
+            </p>
+          </motion.div>
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Header */}
           <motion.div
