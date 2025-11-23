@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { motion } from "framer-motion";
 import {
@@ -12,63 +13,83 @@ import {
   BookOpen,
   Calendar,
 } from "lucide-react";
+import { getAdminStats, getRecentActivity } from "@/lib/admin/actions";
+
+interface DashboardStats {
+  admissions: {
+    total: number;
+    pending: number;
+    accepted: number;
+    rejected: number;
+  };
+  blogs: {
+    total: number;
+    pending: number;
+  };
+  results: {
+    total: number;
+  };
+}
+
+interface ActivityItem {
+  type: string;
+  title: string;
+  name: string;
+  time: string | Date;
+}
 
 export default function AdminDashboard() {
-  const stats = [
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [recentActivity, setRecentActivity] = useState<ActivityItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [statsData, activityData] = await Promise.all([
+          getAdminStats(),
+          getRecentActivity(),
+        ]);
+        setStats(statsData);
+        setRecentActivity(activityData);
+      } catch (error) {
+        console.error("Failed to fetch dashboard data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const statCards = [
     {
       title: "Total Applications",
-      value: "156",
-      change: "+12%",
+      value: stats?.admissions.total.toString() || "0",
+      change: "View all",
       icon: FileText,
       color: "from-blue-500 to-blue-600",
     },
     {
       title: "Pending Review",
-      value: "24",
+      value: stats?.admissions.pending.toString() || "0",
       change: "Review now",
       icon: Clock,
       color: "from-amber-500 to-amber-600",
     },
     {
       title: "Accepted",
-      value: "98",
-      change: "+8%",
+      value: stats?.admissions.accepted.toString() || "0",
+      change: `${stats?.admissions.total ? Math.round(((stats?.admissions.accepted || 0) / stats.admissions.total) * 100) : 0}% rate`,
       icon: CheckCircle,
       color: "from-emerald-500 to-emerald-600",
     },
     {
       title: "Rejected",
-      value: "34",
-      change: "-2%",
+      value: stats?.admissions.rejected.toString() || "0",
+      change: `${stats?.admissions.total ? Math.round(((stats?.admissions.rejected || 0) / stats.admissions.total) * 100) : 0}% rate`,
       icon: XCircle,
       color: "from-red-500 to-red-600",
-    },
-  ];
-
-  const recentActivity = [
-    {
-      type: "admission",
-      title: "New admission form submitted",
-      name: "John Doe",
-      time: "5 minutes ago",
-    },
-    {
-      type: "admission",
-      title: "Application approved",
-      name: "Jane Smith",
-      time: "1 hour ago",
-    },
-    {
-      type: "blog",
-      title: "Blog post pending review",
-      name: "Admin User",
-      time: "2 hours ago",
-    },
-    {
-      type: "event",
-      title: "New event published",
-      name: "Annual Sports Day",
-      time: "5 hours ago",
     },
   ];
 
@@ -87,7 +108,7 @@ export default function AdminDashboard() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat, index) => {
+          {statCards.map((stat, index) => {
             const Icon = stat.icon;
             return (
               <motion.div
@@ -108,7 +129,11 @@ export default function AdminDashboard() {
                   </span>
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
-                  {stat.value}
+                  {loading ? (
+                    <span className="inline-block w-8 h-8 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                  ) : (
+                    stat.value
+                  )}
                 </h3>
                 <p className="text-sm text-slate-600 dark:text-slate-400">
                   {stat.title}
@@ -180,30 +205,36 @@ export default function AdminDashboard() {
             </button>
           </div>
           <div className="space-y-4">
-            {recentActivity.map((activity, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
-              >
-                <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center shrink-0">
-                  <Users className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-                </div>
-                <div className="flex-1">
-                  <p className="font-medium text-slate-900 dark:text-white">
-                    {activity.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
-                    {activity.name}
-                  </p>
-                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
-                    {activity.time}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+            {loading ? (
+              <div className="text-center py-8 text-slate-500">Loading activity...</div>
+            ) : recentActivity.length === 0 ? (
+              <div className="text-center py-8 text-slate-500">No recent activity</div>
+            ) : (
+              recentActivity.map((activity, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                >
+                  <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center shrink-0">
+                    <Users className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-slate-900 dark:text-white">
+                      {activity.title}
+                    </p>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">
+                      {activity.name}
+                    </p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+                      {new Date(activity.time).toLocaleString()}
+                    </p>
+                  </div>
+                </motion.div>
+              ))
+            )}
           </div>
         </div>
       </div>

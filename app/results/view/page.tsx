@@ -1,18 +1,22 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, Suspense, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getResultBySymbolNumber } from "@/lib/results/actions";
 import { StudentResult } from "@/lib/results/types";
 import { motion } from "framer-motion";
-import { Printer, ArrowLeft, Download, Share2, AlertCircle } from "lucide-react";
+import { Printer, ArrowLeft, Download, Share2, AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 function MarkSheetContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [result, setResult] = useState<StudentResult | null>(null);
   const [loading, setLoading] = useState(true);
+  const [downloading, setDownloading] = useState(false);
+  const markSheetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const symbol = searchParams.get("symbol");
@@ -24,7 +28,7 @@ function MarkSheetContent() {
       const fetchResult = async () => {
         const found = await getResultBySymbolNumber(
           symbol, 
-          dob || undefined,
+          dob || "",
           batch || undefined,
           examType || undefined
         );
@@ -39,6 +43,39 @@ function MarkSheetContent() {
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleDownloadPDF = async () => {
+    if (!markSheetRef.current || !result) return;
+    
+    try {
+      setDownloading(true);
+      const canvas = await html2canvas(markSheetRef.current, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        backgroundColor: "#ffffff"
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const imgWidth = 210;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save(`${result.studentName.replace(/\s+/g, "_")}_Result.pdf`);
+    } catch (error) {
+      console.error("Failed to generate PDF:", error);
+      alert(`Failed to generate PDF: ${error instanceof Error ? error.message : "Unknown error"}`);
+    } finally {
+      setDownloading(false);
+    }
   };
 
   if (loading) {
@@ -94,9 +131,17 @@ function MarkSheetContent() {
               <Printer className="w-4 h-4 mr-2" />
               Print
             </button>
-            <button className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm shadow-blue-200 dark:shadow-none">
-              <Download className="w-4 h-4 mr-2" />
-              Download PDF
+            <button 
+              onClick={handleDownloadPDF}
+              disabled={downloading}
+              className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm shadow-blue-200 dark:shadow-none disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {downloading ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Download className="w-4 h-4 mr-2" />
+              )}
+              {downloading ? "Generating..." : "Download PDF"}
             </button>
           </div>
         </div>
@@ -105,8 +150,11 @@ function MarkSheetContent() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white text-slate-900 p-8 sm:p-12 rounded-2xl shadow-xl print:shadow-none print:rounded-none print:p-0 relative overflow-hidden"
         >
+          <div 
+            ref={markSheetRef}
+            className="bg-white text-slate-900 p-6 sm:p-12 rounded-2xl shadow-xl print:shadow-none print:rounded-none print:p-0 relative overflow-hidden"
+          >
           {/* Watermark */}
           <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none">
             <div className="transform -rotate-45 text-9xl font-black uppercase">
@@ -116,16 +164,20 @@ function MarkSheetContent() {
 
           {/* School Header */}
           <div className="relative z-10 text-center border-b-2 border-slate-900 pb-6 mb-8">
-            <div className="w-24 h-24 bg-slate-900 rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-3xl shadow-lg">
-              S
+            <div className="w-24 h-24 mx-auto mb-4 flex items-center justify-center">
+              <img 
+                src="/images/logo.png" 
+                alt="Skyrider High School Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
-            <h1 className="text-4xl font-black uppercase tracking-wider mb-2 font-serif">
-              Skyrider Academy
+            <h1 className="text-2xl sm:text-4xl font-black uppercase tracking-wider mb-2 font-serif text-slate-900">
+              Skyrider High School
             </h1>
             <p className="text-slate-600 font-medium text-lg">
-              Kathmandu, Nepal • Estd. 2024
+              Ratnanagar-13 (Tandi), Chitwan, Nepal
             </p>
-            <div className="mt-6 inline-block px-8 py-2 bg-slate-900 text-white text-sm font-bold uppercase tracking-[0.2em] rounded-full shadow-md">
+            <div className="mt-6 inline-block px-8 py-2 bg-slate-900 text-white text-sm font-bold uppercase tracking-[0.2em] rounded-full shadow-md print:bg-slate-900 print:text-white">
               Grade Sheet
             </div>
           </div>
@@ -170,8 +222,8 @@ function MarkSheetContent() {
           </div>
 
           {/* Marks Table */}
-          <div className="relative z-10 mb-8 overflow-hidden rounded-xl border border-slate-200 print:border-slate-900 print:rounded-none">
-            <table className="w-full text-sm border-collapse">
+          <div className="relative z-10 mb-8 overflow-x-auto rounded-xl border border-slate-200 print:border-slate-900 print:rounded-none">
+            <table className="w-full text-sm border-collapse min-w-[600px]">
               <thead>
                 <tr className="bg-slate-100 border-b-2 border-slate-900 print:bg-slate-100">
                   <th className="py-4 px-6 text-left font-bold uppercase text-slate-700">Subject</th>
@@ -232,6 +284,7 @@ function MarkSheetContent() {
           
           <div className="mt-8 text-center text-[10px] text-slate-400 print:hidden">
             This is a computer generated document. No signature required.
+          </div>
           </div>
         </motion.div>
       </div>

@@ -12,7 +12,7 @@ model Result {
   studentName    String
   symbolNumber   String
   grade          String
-  dob            String?
+  dob            String
   subjects       Json     // Storing subjects array as JSON
   totalObtained  Float
   totalFullMarks Float
@@ -44,4 +44,32 @@ model Blog {
   status      String   // "draft" | "published" | "archived"
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Admission {
+  id                String   @id @default(uuid())
+  firstName         String
+  lastName          String
+  email             String   @unique
+  phone             String
+  dateOfBirth       String
+  address           String
+  city              String
+  state             String
+  zipCode           String
+  country           String   @default("Nepal")
+  program           String
+  educationLevel    String
+  previousSchool    String?
+  guardianName      String
+  guardianPhone     String
+  guardianEmail     String
+  medicalConditions String?
+  emergencyContact  String
+  emergencyPhone    String
+  hearAboutUs       String?
+  additionalInfo    String?
+  status            String   @default("pending") // "pending" | "accepted" | "rejected"
+  submittedAt       DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }

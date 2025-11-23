@@ -1,194 +1,85 @@
 "use client";
 
-import { useState } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
-import {
-  Plus,
-  Search,
-  BookOpen,
-  Users,
-  ChevronRight,
-  GraduationCap,
-} from "lucide-react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import { courseLevels } from "@/lib/courseData";
+import { BookOpen, Lock } from "lucide-react";
 
 export default function CoursesPage() {
-  const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState("");
-
-  // Calculate total statistics
-  const totalStudents = courseLevels.reduce(
-    (sum, level) => sum + level.totalStudents,
-    0
-  );
-  const totalClasses = courseLevels.reduce(
-    (sum, level) => sum + level.totalClasses,
-    0
-  );
-
-  const handleLevelClick = (levelSlug: string) => {
-    router.push(`/admin/courses/${levelSlug}`);
-  };
-
   return (
     <AdminLayout>
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Course Management
-            </h1>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">
-              Manage education levels, classes, and subjects
-            </p>
-          </div>
-          <button className="flex items-center gap-2 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-            <Plus className="w-5 h-5" />
-            Add Level
-          </button>
-        </div>
-
-        {/* Stats Cards */}
-        <div className="grid gap-6 md:grid-cols-3">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Total Students
-                </p>
-                <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                  {totalStudents}
-                </p>
-              </div>
-              <div className="p-3 bg-linear-to-br from-blue-500 to-cyan-500 rounded-lg">
-                <Users className="w-8 h-8 text-white" />
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Total Classes
-                </p>
-                <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                  {totalClasses}
-                </p>
-              </div>
-              <div className="p-3 bg-linear-to-br from-purple-500 to-pink-500 rounded-lg">
-                <BookOpen className="w-8 h-8 text-white" />
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Education Levels
-                </p>
-                <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                  {courseLevels.length}
-                </p>
-              </div>
-              <div className="p-3 bg-linear-to-br from-orange-500 to-red-500 rounded-lg">
-                <GraduationCap className="w-8 h-8 text-white" />
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Search Bar */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search by level, class, or subject..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        {/* Course Levels List */}
-        <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-          {courseLevels.map((level, index) => (
-            <motion.div
-              key={level.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              onClick={() => handleLevelClick(level.level)}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 group"
-            >
-              {/* Level Header */}
-              <div
-                className={`p-6 bg-linear-to-br ${level.gradient} group-hover:opacity-95 transition-opacity`}
+      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
+          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+          transition={{ duration: 0.5 }}
+          className="max-w-2xl w-full"
+        >
+          <div className="relative bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+            {/* Blur overlay effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-100/50 to-slate-200/50 dark:from-slate-700/50 dark:to-slate-800/50 backdrop-blur-sm" />
+            
+            {/* Content */}
+            <div className="relative z-10 p-12 text-center">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="inline-block mb-6"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <span className="text-4xl">{level.icon}</span>
-                    <div>
-                      <h3 className="text-2xl font-bold text-white">
-                        {level.title}
-                      </h3>
-                      <p className="mt-1 text-white/80">{level.description}</p>
-                      <p className="mt-1 text-sm text-white/70">
-                        {level.gradeRange}
-                      </p>
-                    </div>
+                <div className="relative">
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
+                    <BookOpen className="w-12 h-12 text-white" />
                   </div>
-                  <ChevronRight className="w-8 h-8 text-white/80 group-hover:text-white transition-colors" />
+                  <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg">
+                    <Lock className="w-5 h-5 text-white" />
+                  </div>
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Level Stats */}
-              <div className="p-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {level.totalClasses}
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Classes
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {level.totalStudents}
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Students
-                    </p>
-                  </div>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400"
+              >
+                Course Management
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-xl text-slate-600 dark:text-slate-400 mb-8"
+              >
+                This feature is currently under development
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="inline-block"
+              >
+                <div className="px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold text-lg shadow-lg">
+                  🚧 Not Available Now
                 </div>
-                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                  <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
-                    Click to view classes and subjects
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="mt-8 text-sm text-slate-500 dark:text-slate-500"
+              >
+                We're working hard to bring you this feature soon. Stay tuned!
+              </motion.p>
+            </div>
+
+            {/* Decorative elements */}
+            <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl" />
+          </div>
+        </motion.div>
       </div>
     </AdminLayout>
   );

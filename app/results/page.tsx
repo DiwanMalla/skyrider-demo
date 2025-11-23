@@ -34,7 +34,6 @@ export default function ResultSearchPage() {
   const [dob, setDob] = useState("");
   const [loading, setLoading] = useState(false);
   const [topStudents, setTopStudents] = useState<StudentResult[]>([]);
-  const [selectedGrade, setSelectedGrade] = useState("Class 10");
   
   // Exam Selection
   const [examFolders, setExamFolders] = useState<{batch: string, examType: string}[]>([]);
@@ -69,11 +68,13 @@ export default function ResultSearchPage() {
 
   useEffect(() => {
     const loadTopStudents = async () => {
-      const students = await getTopStudents(selectedGrade, 5);
+      if (!selectedExam) return;
+      const [batch, examType] = selectedExam.split('|');
+      const students = await getTopStudents(batch, examType, 5);
       setTopStudents(students);
     };
     loadTopStudents();
-  }, [selectedGrade]);
+  }, [selectedExam]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,7 +111,7 @@ export default function ResultSearchPage() {
         <FloatingOrb className="top-1/2 left-1/2 w-64 h-64 bg-emerald-500/10 dark:bg-emerald-500/20" delay={1} />
       </div>
 
-      <div className="relative z-10 pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div className="relative z-10 pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center space-y-6 mb-16">
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
@@ -125,7 +126,7 @@ export default function ResultSearchPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-5xl md:text-7xl font-bold tracking-tight"
+            className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight"
           >
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-600 to-slate-900 dark:from-white dark:via-blue-100 dark:to-white">
               Check Your Results
@@ -217,6 +218,7 @@ export default function ResultSearchPage() {
                         value={dob}
                         onChange={(e) => setDob(e.target.value)}
                         className="w-full pl-14 pr-6 py-4 bg-slate-100 dark:bg-slate-900/50 border border-slate-300 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400 outline-none transition-all text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-900/70 [color-scheme:light] dark:[color-scheme:dark]"
+                        required
                       />
                     </div>
                   </div>
@@ -250,15 +252,11 @@ export default function ResultSearchPage() {
                   </div>
                   Top Performers
                 </h2>
-                <select
-                  value={selectedGrade}
-                  onChange={(e) => setSelectedGrade(e.target.value)}
-                  className="bg-slate-100 dark:bg-slate-900/50 border border-slate-300 dark:border-white/10 text-sm font-medium text-slate-700 dark:text-slate-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500/50 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-900/70 transition"
-                >
-                  <option value="Class 10">Class 10</option>
-                  <option value="Class 11">Class 11</option>
-                  <option value="Class 12">Class 12</option>
-                </select>
+                {selectedExam && (
+                  <span className="text-xs font-medium px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+                    {selectedExam.split('|')[1]}
+                  </span>
+                )}
               </div>
 
               <div className="space-y-4">

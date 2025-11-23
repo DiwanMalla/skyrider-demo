@@ -61,14 +61,13 @@ export function getResults(filter?: ResultFilter): StudentResult[] {
 
 export function getResultBySymbolNumber(
   symbolNumber: string,
-  dob?: string
+  dob: string
 ): StudentResult | null {
   const results = loadResults();
   return (
     results.find((r) => {
       const symbolMatch = r.symbolNumber === symbolNumber;
-      // If DOB is provided, check it. Otherwise just symbol number (less secure but easier for demo)
-      const dobMatch = dob ? r.dob === dob : true;
+      const dobMatch = r.dob === dob;
       return symbolMatch && dobMatch && r.published;
     }) || null
   );

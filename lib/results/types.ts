@@ -12,7 +12,7 @@ export interface StudentResult {
   studentName: string;
   symbolNumber: string;
   grade: string; // Class 10, Class 11, etc.
-  dob?: string; // YYYY-MM-DD
+  dob: string; // YYYY-MM-DD
   subjects: Subject[];
   totalObtained: number;
   totalFullMarks: number;

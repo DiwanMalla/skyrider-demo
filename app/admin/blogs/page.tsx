@@ -20,6 +20,7 @@ import {
   Filter,
   ArrowUpRight,
   MoreHorizontal,
+  RefreshCw,
 } from "lucide-react";
 import {
   loadSubmissions,
@@ -54,23 +55,28 @@ export default function BlogsPage() {
   const [selectedSubmission, setSelectedSubmission] =
     useState<BlogSubmission | null>(null);
   const [updatingKey, setUpdatingKey] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [toast, setToast] = useState<{
     type: "success" | "error";
     message: string;
   } | null>(null);
 
-  const fetchSubmissions = async () => {
+  const fetchSubmissions = async (showLoading = false) => {
+    if (showLoading) setIsRefreshing(true);
     const data = await loadSubmissions();
     setSubmissions(data);
+    if (showLoading) setIsRefreshing(false);
   };
 
   useEffect(() => {
-    fetchSubmissions();
-    
-    // Auto-refresh every 5 seconds
+    fetchSubmissions(true);
+
+    // Smart polling: Auto-refresh every 30 seconds, but only if the tab is visible
     const interval = setInterval(() => {
-      fetchSubmissions();
-    }, 5000);
+      if (!document.hidden) {
+        fetchSubmissions();
+      }
+    }, 30000);
 
     return () => clearInterval(interval);
   }, []);
@@ -184,6 +190,15 @@ export default function BlogsPage() {
               </p>
             </div>
             <div className="flex gap-3">
+              <button
+                onClick={() => fetchSubmissions(true)}
+                className="inline-flex items-center gap-2 rounded-xl bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+              >
+                <RefreshCw
+                  className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`}
+                />
+                Refresh
+              </button>
               <button className="inline-flex items-center gap-2 rounded-xl bg-slate-900 dark:bg-white px-4 py-2 text-sm font-semibold text-white dark:text-slate-900 shadow-lg shadow-slate-200/50 dark:shadow-none hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">
                 <FileText className="w-4 h-4" />
                 Export Report

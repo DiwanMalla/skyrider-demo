@@ -1,71 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-
-// Define the application interface
-interface Application {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  dateOfBirth: string;
-  address: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
-  program: string;
-  educationLevel: string;
-  previousSchool: string;
-  guardianName: string;
-  guardianPhone: string;
-  guardianEmail: string;
-  medicalConditions: string;
-  emergencyContact: string;
-  emergencyPhone: string;
-  hearAboutUs: string;
-  additionalInfo: string;
-  submittedAt: string;
-  status: "pending" | "reviewed" | "accepted" | "rejected";
-}
-
-// Path to store applications
-const APPLICATIONS_FILE = path.join(process.cwd(), "data", "applications.json");
-
-// Ensure data directory exists
-function ensureDataDirectory() {
-  const dataDir = path.join(process.cwd(), "data");
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-  }
-  if (!fs.existsSync(APPLICATIONS_FILE)) {
-    fs.writeFileSync(APPLICATIONS_FILE, JSON.stringify([], null, 2));
-  }
-}
-
-// Read applications from file
-function readApplications(): Application[] {
-  ensureDataDirectory();
-  try {
-    const data = fs.readFileSync(APPLICATIONS_FILE, "utf-8");
-    return JSON.parse(data);
-  } catch (error) {
-    console.error("Error reading applications:", error);
-    return [];
-  }
-}
-
-// Write applications to file
-function writeApplications(applications: Application[]) {
-  ensureDataDirectory();
-  try {
-    fs.writeFileSync(APPLICATIONS_FILE, JSON.stringify(applications, null, 2));
-  } catch (error) {
-    console.error("Error writing applications:", error);
-    throw new Error("Failed to save application");
-  }
-}
+import { prisma } from "@/lib/prisma";
 
 // Validate email format
 function isValidEmail(email: string): boolean {
@@ -150,13 +84,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Read existing applications
-    const applications = readApplications();
-
     // Check for duplicate email
-    const existingApplication = applications.find(
-      (app) => app.email.toLowerCase() === body.email.toLowerCase()
-    );
+    const existingApplication = await prisma.admission.findUnique({
+      where: { email: body.email.trim().toLowerCase() },
+    });
 
     if (existingApplication) {
       return NextResponse.json(
@@ -169,38 +100,32 @@ export async function POST(request: NextRequest) {
     }
 
     // Create new application
-    const newApplication: Application = {
-      id: `APP-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      firstName: body.firstName.trim(),
-      lastName: body.lastName.trim(),
-      email: body.email.trim().toLowerCase(),
-      phone: body.phone.trim(),
-      dateOfBirth: body.dateOfBirth.trim(),
-      address: body.address.trim(),
-      city: body.city.trim(),
-      state: body.state.trim(),
-      zipCode: body.zipCode.trim(),
-      country: body.country?.trim() || "Nepal",
-      program: body.program.trim(),
-      educationLevel: body.educationLevel.trim(),
-      previousSchool: body.previousSchool?.trim() || "",
-      guardianName: body.guardianName.trim(),
-      guardianPhone: body.guardianPhone.trim(),
-      guardianEmail: body.guardianEmail.trim().toLowerCase(),
-      medicalConditions: body.medicalConditions?.trim() || "",
-      emergencyContact: body.emergencyContact.trim(),
-      emergencyPhone: body.emergencyPhone.trim(),
-      hearAboutUs: body.hearAboutUs?.trim() || "",
-      additionalInfo: body.additionalInfo?.trim() || "",
-      submittedAt: new Date().toISOString(),
-      status: "pending",
-    };
-
-    // Add to applications array
-    applications.push(newApplication);
-
-    // Save to file
-    writeApplications(applications);
+    const newApplication = await prisma.admission.create({
+      data: {
+        firstName: body.firstName.trim(),
+        lastName: body.lastName.trim(),
+        email: body.email.trim().toLowerCase(),
+        phone: body.phone.trim(),
+        dateOfBirth: body.dateOfBirth.trim(),
+        address: body.address.trim(),
+        city: body.city.trim(),
+        state: body.state.trim(),
+        zipCode: body.zipCode.trim(),
+        country: body.country?.trim() || "Nepal",
+        program: body.program.trim(),
+        educationLevel: body.educationLevel.trim(),
+        previousSchool: body.previousSchool?.trim() || null,
+        guardianName: body.guardianName.trim(),
+        guardianPhone: body.guardianPhone.trim(),
+        guardianEmail: body.guardianEmail.trim().toLowerCase(),
+        medicalConditions: body.medicalConditions?.trim() || null,
+        emergencyContact: body.emergencyContact.trim(),
+        emergencyPhone: body.emergencyPhone.trim(),
+        hearAboutUs: body.hearAboutUs?.trim() || null,
+        additionalInfo: body.additionalInfo?.trim() || null,
+        status: "pending",
+      },
+    });
 
     // Return success response
     return NextResponse.json(
@@ -231,7 +156,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const applications = readApplications();
+    const applications = await prisma.admission.findMany({
+      orderBy: { submittedAt: "desc" },
+    });
 
     return NextResponse.json(
       {

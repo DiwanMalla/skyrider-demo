@@ -24,6 +24,7 @@ import {
   deleteResult,
   updateResult,
   getExamFolders,
+  publishExamResults,
 } from "@/lib/results/actions";
 import { StudentResult } from "@/lib/results/types";
 import EditResultModal from "./EditResultModal";
@@ -73,6 +74,17 @@ export default function ResultsDashboard() {
   const handlePublishToggle = async (result: StudentResult) => {
     await updateResult(result.id, { ...result, published: !result.published });
     loadData();
+  };
+
+  const handlePublishFolder = async (folder: ExamFolder) => {
+    if (
+      confirm(
+        `Are you sure you want to publish ALL results for ${folder.batch} - ${folder.examType}?`
+      )
+    ) {
+      await publishExamResults(folder.batch, folder.examType, true);
+      loadData();
+    }
   };
 
   const filteredResults = results.filter((r) => {
@@ -134,13 +146,24 @@ export default function ResultsDashboard() {
               )}
             </div>
           </div>
-          <Link
-            href="/admin/results/upload"
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm shadow-blue-200 dark:shadow-none"
-          >
-            <Upload className="w-4 h-4" />
-            Upload Results
-          </Link>
+          <div className="flex gap-2">
+            {currentFolder && (
+              <button
+                onClick={() => handlePublishFolder(currentFolder)}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium transition shadow-sm shadow-emerald-200 dark:shadow-none"
+              >
+                <Eye className="w-4 h-4" />
+                Publish All
+              </button>
+            )}
+            <Link
+              href="/admin/results/upload"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm shadow-blue-200 dark:shadow-none"
+            >
+              <Upload className="w-4 h-4" />
+              Upload Results
+            </Link>
+          </div>
         </div>
 
         {/* Folder View */}
@@ -175,7 +198,19 @@ export default function ResultsDashboard() {
                       Batch: {folder.batch}
                     </p>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-slate-300 ml-auto group-hover:text-blue-500 transition" />
+                  <div className="ml-auto flex items-center gap-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePublishFolder(folder);
+                      }}
+                      className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 rounded-full transition"
+                      title="Publish All"
+                    >
+                      <Eye className="w-5 h-5" />
+                    </button>
+                    <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-blue-500 transition" />
+                  </div>
                 </button>
               ))
             )}

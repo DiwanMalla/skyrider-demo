@@ -62,17 +62,17 @@ export async function getResults(filter?: ResultFilter) {
 
 export async function getResultBySymbolNumber(
   symbolNumber: string,
-  dob?: string,
+  dob: string,
   batch?: string,
   examType?: string
 ) {
   try {
     const where: any = {
       symbolNumber,
+      dob,
       published: true,
     };
 
-    if (dob) where.dob = dob;
     if (batch) where.batch = batch;
     if (examType) where.examType = examType;
 
@@ -120,23 +120,20 @@ export async function deleteResult(id: string) {
   }
 }
 
-export async function getTopStudents(grade: string, limit: number = 5) {
+export async function getTopStudents(batch: string, examType: string, limit: number = 5) {
   try {
     const results = await prisma.result.findMany({
       where: {
-        grade,
+        batch,
+        examType,
         published: true,
       },
       orderBy: {
-        gpa: "desc", // Note: GPA is string in DB, might need casting or store as float. 
-                     // For now assuming string sort works roughly or we rely on percentage
+        percentage: "desc", // Sort by percentage for better accuracy
       },
       take: limit,
     });
     
-    // Better to sort by percentage if GPA is string
-    results.sort((a, b) => b.percentage - a.percentage);
-
     return results as unknown as StudentResult[];
   } catch (error) {
     console.error("Failed to fetch top students:", error);
@@ -164,5 +161,24 @@ export async function getExamFolders() {
   } catch (error) {
     console.error("Failed to fetch exam folders:", error);
     return [];
+  }
+}
+
+export async function publishExamResults(batch: string, examType: string, published: boolean = true) {
+  try {
+    await prisma.result.updateMany({
+      where: {
+        batch,
+        examType,
+      },
+      data: {
+        published,
+      },
+    });
+    revalidatePath("/admin/results");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to publish exam results:", error);
+    return { success: false, error: "Failed to publish results" };
   }
 }
