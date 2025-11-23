@@ -101,6 +101,7 @@ export function parseCSV(csvText: string, batch: string, grade: string, examType
       batch,
       examType,
       uploadedAt: new Date().toISOString(),
+      dob: ""
     });
   }
 
