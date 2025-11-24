@@ -8,7 +8,6 @@ import {
   CheckCircle,
   Clock,
   XCircle,
-  TrendingUp,
   Users,
   BookOpen,
   Calendar,
@@ -25,9 +24,6 @@ interface DashboardStats {
   blogs: {
     total: number;
     pending: number;
-  };
-  results: {
-    total: number;
   };
 }
 
@@ -144,19 +140,13 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
             {
               title: "Review Admissions",
               icon: FileText,
               href: "/admin/admissions",
               color: "emerald",
-            },
-            {
-              title: "Publish Results",
-              icon: TrendingUp,
-              href: "/admin/results",
-              color: "blue",
             },
             {
               title: "Review Blogs",

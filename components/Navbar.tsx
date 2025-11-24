@@ -15,7 +15,6 @@ import {
   ChevronDown,
   Calendar,
   FileText,
-  GraduationCap,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
@@ -82,7 +81,6 @@ export function Navbar() {
       items: [
         { href: "/events", label: "Events", icon: Calendar },
         { href: "/blog", label: "Blog", icon: FileText },
-        { href: "/results", label: "Results", icon: GraduationCap },
       ],
     },
     { href: "/about", label: "About", icon: Info },

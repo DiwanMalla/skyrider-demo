@@ -93,22 +93,22 @@ export default function AboutPage() {
     {
       name: "Madan Puri",
       position: "Principal",
-      image: "/images/pres.jpg",
+      image: "/principal.jpg",
     },
     {
       name: "Durga Puri",
       position: "Chairman",
-      image: "/images/pres-2.jpg",
+      image: "/chairman.jpg",
     },
     {
       name: "Rabin Ghimire",
       position: "Head Of IT department",
-      image: "/images/teacher-1.jpg",
+      image: "/Head of IT Department.jpg",
     },
     {
       name: "Keshab Raj Pathak",
       position: "Vice Principal",
-      image: "/images/pres-3.jpg",
+      image: "/vice-principal.jpg",
     },
   ];
 
@@ -117,7 +117,7 @@ export default function AboutPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
+      <section className="relative pt-24 pb-12 overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-emerald-50 via-sky-50 to-indigo-50 dark:from-emerald-950/30 dark:via-sky-950/30 dark:to-indigo-950/30 opacity-50 transition-colors duration-300" />
         <div className="absolute top-20 right-0 w-96 h-96 bg-emerald-200/30 dark:bg-emerald-500/10 rounded-full blur-3xl transition-colors duration-300" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-sky-200/30 dark:bg-sky-500/10 rounded-full blur-3xl transition-colors duration-300" />
@@ -143,6 +143,160 @@ export default function AboutPage() {
               by holding top ranks with other remarkable positions, also
               spreading its fumes abroad.
             </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Leadership Messages */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-900 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto space-y-20">
+          {/* Principal's Message */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="flex flex-col lg:flex-row gap-12 items-center"
+          >
+            <div className="lg:w-1/3">
+              <div className="relative h-96 w-full rounded-2xl overflow-hidden shadow-xl ring-4 ring-emerald-100 dark:ring-emerald-900">
+                <Image
+                  src="/principal.jpg"
+                  alt="Madan Puri - Principal"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="mt-6 text-center">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+                  Madan Puri
+                </h3>
+                <p className="text-emerald-600 dark:text-emerald-400 font-medium">
+                  Principal
+                </p>
+              </div>
+            </div>
+            <div className="lg:w-2/3">
+              <h2 className="text-3xl font-bold mb-6 text-slate-900 dark:text-white flex items-center gap-3">
+                <span className="w-12 h-1 bg-emerald-500 rounded-full"></span>
+                Message From Principal
+              </h2>
+              <div className="space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
+                <p>
+                  Dear parents, students, and stakeholders,
+                </p>
+                <p>
+                  Today, the role of a school is not only to pursue academic
+                  excellence but also to motivate and empower its students to be
+                  lifelong learners, critical thinkers, and productive members of
+                  an ever-changing global society. For more than two decades, Sky
+                  Rider has recognized itself not only in its physical location
+                  but also in the hearts of our students, parents, guardians, and
+                  stakeholders.
+                </p>
+                <p>
+                  At Sky Rider, we provide an atmosphere for our students for
+                  versatile achievement where children are encouraged to initiate
+                  their efforts to reach their potential in the pursuit of
+                  excellence. This is possible only in a holistic,
+                  student-centric environment. The talents, skills, and abilities
+                  of each student need to be identified, nurtured, and encouraged
+                  to show that the student is able to reach greater heights.
+                </p>
+                <p>
+                  Students need to be provided with a platform to think, express,
+                  and exhibit their skills. It is necessary to empower them to
+                  negotiate several issues that confront them, with the teacher
+                  being a facilitator so that they can work out to solve the
+                  problems of their life skills by themselves. Sky Rider is
+                  striving hard to make the best possible efforts to inculcate
+                  strong values combining academic and extracurricular activities
+                  in the children. Transforming every individual into a
+                  self-reliant and independent citizen, the school provides an
+                  amazing array of scholastic and co-scholastic activities.
+                </p>
+                <p>
+                  While academic excellence is our major thrust, the school is
+                  also devoted to preparing the student for life, grooming them
+                  to face the challenges of tomorrow, and encouraging them to be
+                  socially relevant. We constantly endeavour to always live up to
+                  this ideology and inculcate this into everything we do with the
+                  aim that we will be able to ensure that the children grow to
+                  their full potential, while constantly being groomed to pass
+                  out as men and women competent to bear responsibility in all
+                  walks of life.
+                </p>
+                <p>
+                  The parents are the most strengthening power in moulding the
+                  future of children. Their constant support empowers us to do
+                  more and more. I pay my gratitude to them for their faith in
+                  us.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Chairman's Message */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="flex flex-col lg:flex-row-reverse gap-12 items-center"
+          >
+            <div className="lg:w-1/3">
+              <div className="relative h-96 w-full rounded-2xl overflow-hidden shadow-xl ring-4 ring-sky-100 dark:ring-sky-900">
+                <Image
+                  src="/chairman.jpg"
+                  alt="Durga Puri - Chairman"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="mt-6 text-center">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+                  Durga Puri
+                </h3>
+                <p className="text-sky-600 dark:text-sky-400 font-medium">
+                  Chairman
+                </p>
+              </div>
+            </div>
+            <div className="lg:w-2/3">
+              <h2 className="text-3xl font-bold mb-6 text-slate-900 dark:text-white flex items-center gap-3 lg:justify-end">
+                Message From Chairman
+                <span className="w-12 h-1 bg-sky-500 rounded-full"></span>
+              </h2>
+              <div className="space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed text-lg lg:text-right">
+                <p>
+                  We are delighted that you are considering the Sky Rider School
+                  for your children’s future. This institution has honed and
+                  fine-tuned learning academics together with life skills, that
+                  has been envied and benchmarked across Nepal for decades.
+                </p>
+                <p>
+                  An investment made in Sky Rider School education pays many
+                  dividends throughout life. From the moment one student enters
+                  the school gates, a child realizes who he is, and where his
+                  potential lies. Irrespective of his/her background or calibre,
+                  he/she is groomed and nurtured in a way that one can stride
+                  into the adult world, confidently, responsibly, and
+                  independently.
+                </p>
+                <p>
+                  Multiple generations of successful students are living proof
+                  that this unique learning system works, and works well. Yet, in
+                  today’s world, no institution of repute and quality can afford
+                  to sit on its laurels. So, a decisive shift has been managed
+                  for all the students at their convenience.
+                </p>
+                <p>
+                  Last, but not least, your choice for uplifting your child’s
+                  outlook Sky Rider will be an ultimate destination where every
+                  child will be carved as per the need of time.
+                </p>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -181,50 +335,6 @@ export default function AboutPage() {
               />
             </div>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Features Grid */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-br from-slate-50 to-white dark:from-slate-900/30 dark:to-slate-950 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white transition-colors duration-300">
-              Our Facilities
-            </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto transition-colors duration-300">
-              We provide world-class facilities to ensure holistic development
-              of our students
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="group p-6 rounded-2xl bg-white dark:bg-slate-800/50 border-2 border-slate-200 dark:border-slate-700 hover:border-emerald-400 dark:hover:border-emerald-500 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 dark:hover:shadow-emerald-500/20"
-              >
-                <div className="w-14 h-14 rounded-xl bg-linear-to-br from-emerald-500 to-sky-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <feature.icon className="w-7 h-7 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 transition-colors duration-300">
-                  {feature.title}
-                </h3>
-                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed transition-colors duration-300">
-                  {feature.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -270,6 +380,50 @@ export default function AboutPage() {
                 </h3>
                 <p className="text-emerald-600 dark:text-emerald-400 font-medium transition-colors duration-300">
                   {instructor.position}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-br from-slate-50 to-white dark:from-slate-900/30 dark:to-slate-950 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white transition-colors duration-300">
+              Our Facilities
+            </h2>
+            <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto transition-colors duration-300">
+              We provide world-class facilities to ensure holistic development
+              of our students
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="group p-6 rounded-2xl bg-white dark:bg-slate-800/50 border-2 border-slate-200 dark:border-slate-700 hover:border-emerald-400 dark:hover:border-emerald-500 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 dark:hover:shadow-emerald-500/20"
+              >
+                <div className="w-14 h-14 rounded-xl bg-linear-to-br from-emerald-500 to-sky-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <feature.icon className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 transition-colors duration-300">
+                  {feature.title}
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed transition-colors duration-300">
+                  {feature.description}
                 </p>
               </motion.div>
             ))}

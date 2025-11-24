@@ -7,29 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Result {
-  id             String   @id @default(uuid())
-  studentName    String
-  symbolNumber   String
-  grade          String
-  dob            String
-  subjects       Json     // Storing subjects array as JSON
-  totalObtained  Float
-  totalFullMarks Float
-  gpa            String
-  percentage     Float
-  rank           Int      @default(0)
-  status         String   // "passed" | "failed"
-  published      Boolean  @default(false)
-  batch          String
-  examType       String
-  uploadedAt     DateTime @default(now())
-
-  @@index([symbolNumber])
-  @@index([grade])
-  @@index([batch, examType])
-}
-
 model Blog {
   id          String   @id @default(uuid())
   title       String

@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import {
   LayoutDashboard,
   FileText,
-  Trophy,
   BookOpen,
   Calendar,
   Menu,
@@ -43,11 +42,6 @@ const menuItems = [
     title: "Admission Forms",
     href: "/admin/admissions",
     icon: FileText,
-  },
-  {
-    title: "Result Publish",
-    href: "/admin/results",
-    icon: Trophy,
   },
   {
     title: "Blog Review",

@@ -11,7 +11,6 @@ export async function getAdminStats() {
       rejectedAdmissions,
       totalBlogs,
       pendingBlogs,
-      totalResults,
     ] = await Promise.all([
       prisma.admission.count(),
       prisma.admission.count({ where: { status: "pending" } }),
@@ -19,7 +18,6 @@ export async function getAdminStats() {
       prisma.admission.count({ where: { status: "rejected" } }),
       prisma.blog.count(),
       prisma.blog.count({ where: { status: "draft" } }), // Assuming draft is pending review
-      prisma.result.count(),
     ]);
 
     return {
@@ -33,16 +31,12 @@ export async function getAdminStats() {
         total: totalBlogs,
         pending: pendingBlogs,
       },
-      results: {
-        total: totalResults,
-      },
     };
   } catch (error) {
     console.error("Failed to fetch admin stats:", error);
     return {
       admissions: { total: 0, pending: 0, accepted: 0, rejected: 0 },
       blogs: { total: 0, pending: 0 },
-      results: { total: 0 },
     };
   }
 }
