@@ -18,6 +18,11 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 export default function AboutPage() {
   const [formData, setFormData] = useState({
@@ -112,6 +117,37 @@ export default function AboutPage() {
     },
   ];
 
+  const messages = [
+    {
+      name: "Madan Puri",
+      position: "Principal",
+      image: "/principal.jpg",
+      title: "Message From Principal",
+      color: "emerald",
+      content: [
+        "Dear parents, students, and stakeholders,",
+        "Today, the role of a school is not only to pursue academic excellence but also to motivate and empower its students to be lifelong learners, critical thinkers, and productive members of an ever-changing global society. For more than two decades, Sky Rider has recognized itself not only in its physical location but also in the hearts of our students, parents, guardians, and stakeholders.",
+        "At Sky Rider, we provide an atmosphere for our students for versatile achievement where children are encouraged to initiate their efforts to reach their potential in the pursuit of excellence. This is possible only in a holistic, student-centric environment. The talents, skills, and abilities of each student need to be identified, nurtured, and encouraged to show that the student is able to reach greater heights.",
+        "Students need to be provided with a platform to think, express, and exhibit their skills. It is necessary to empower them to negotiate several issues that confront them, with the teacher being a facilitator so that they can work out to solve the problems of their life skills by themselves. Sky Rider is striving hard to make the best possible efforts to inculcate strong values combining academic and extracurricular activities in the children. Transforming every individual into a self-reliant and independent citizen, the school provides an amazing array of scholastic and co-scholastic activities.",
+        "While academic excellence is our major thrust, the school is also devoted to preparing the student for life, grooming them to face the challenges of tomorrow, and encouraging them to be socially relevant. We constantly endeavour to always live up to this ideology and inculcate this into everything we do with the aim that we will be able to ensure that the children grow to their full potential, while constantly being groomed to pass out as men and women competent to bear responsibility in all walks of life.",
+        "The parents are the most strengthening power in moulding the future of children. Their constant support empowers us to do more and more. I pay my gratitude to them for their faith in us.",
+      ],
+    },
+    {
+      name: "Durga Puri",
+      position: "Chairman",
+      image: "/chairman.jpg",
+      title: "Message From Chairman",
+      color: "sky",
+      content: [
+        "We are delighted that you are considering the Sky Rider School for your children’s future. This institution has honed and fine-tuned learning academics together with life skills, that has been envied and benchmarked across Nepal for decades.",
+        "An investment made in Sky Rider School education pays many dividends throughout life. From the moment one student enters the school gates, a child realizes who he is, and where his potential lies. Irrespective of his/her background or calibre, he/she is groomed and nurtured in a way that one can stride into the adult world, confidently, responsibly, and independently.",
+        "Multiple generations of successful students are living proof that this unique learning system works, and works well. Yet, in today’s world, no institution of repute and quality can afford to sit on its laurels. So, a decisive shift has been managed for all the students at their convenience.",
+        "Last, but not least, your choice for uplifting your child’s outlook Sky Rider will be an ultimate destination where every child will be carved as per the need of time.",
+      ],
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 transition-colors duration-300">
       <Navbar />
@@ -149,155 +185,58 @@ export default function AboutPage() {
 
       {/* Leadership Messages */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-900 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto space-y-20">
-          {/* Principal's Message */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="flex flex-col lg:flex-row gap-12 items-center"
+        <div className="max-w-7xl mx-auto">
+          <Swiper
+            modules={[Autoplay, Pagination, Navigation]}
+            spaceBetween={50}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 10000, disableOnInteraction: false }}
+            className="pb-12"
           >
-            <div className="lg:w-1/3">
-              <div className="relative h-96 w-full rounded-2xl overflow-hidden shadow-xl ring-4 ring-emerald-100 dark:ring-emerald-900">
-                <Image
-                  src="/principal.jpg"
-                  alt="Madan Puri - Principal"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="mt-6 text-center">
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  Madan Puri
-                </h3>
-                <p className="text-emerald-600 dark:text-emerald-400 font-medium">
-                  Principal
-                </p>
-              </div>
-            </div>
-            <div className="lg:w-2/3">
-              <h2 className="text-3xl font-bold mb-6 text-slate-900 dark:text-white flex items-center gap-3">
-                <span className="w-12 h-1 bg-emerald-500 rounded-full"></span>
-                Message From Principal
-              </h2>
-              <div className="space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
-                <p>
-                  Dear parents, students, and stakeholders,
-                </p>
-                <p>
-                  Today, the role of a school is not only to pursue academic
-                  excellence but also to motivate and empower its students to be
-                  lifelong learners, critical thinkers, and productive members of
-                  an ever-changing global society. For more than two decades, Sky
-                  Rider has recognized itself not only in its physical location
-                  but also in the hearts of our students, parents, guardians, and
-                  stakeholders.
-                </p>
-                <p>
-                  At Sky Rider, we provide an atmosphere for our students for
-                  versatile achievement where children are encouraged to initiate
-                  their efforts to reach their potential in the pursuit of
-                  excellence. This is possible only in a holistic,
-                  student-centric environment. The talents, skills, and abilities
-                  of each student need to be identified, nurtured, and encouraged
-                  to show that the student is able to reach greater heights.
-                </p>
-                <p>
-                  Students need to be provided with a platform to think, express,
-                  and exhibit their skills. It is necessary to empower them to
-                  negotiate several issues that confront them, with the teacher
-                  being a facilitator so that they can work out to solve the
-                  problems of their life skills by themselves. Sky Rider is
-                  striving hard to make the best possible efforts to inculcate
-                  strong values combining academic and extracurricular activities
-                  in the children. Transforming every individual into a
-                  self-reliant and independent citizen, the school provides an
-                  amazing array of scholastic and co-scholastic activities.
-                </p>
-                <p>
-                  While academic excellence is our major thrust, the school is
-                  also devoted to preparing the student for life, grooming them
-                  to face the challenges of tomorrow, and encouraging them to be
-                  socially relevant. We constantly endeavour to always live up to
-                  this ideology and inculcate this into everything we do with the
-                  aim that we will be able to ensure that the children grow to
-                  their full potential, while constantly being groomed to pass
-                  out as men and women competent to bear responsibility in all
-                  walks of life.
-                </p>
-                <p>
-                  The parents are the most strengthening power in moulding the
-                  future of children. Their constant support empowers us to do
-                  more and more. I pay my gratitude to them for their faith in
-                  us.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Chairman's Message */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="flex flex-col lg:flex-row-reverse gap-12 items-center"
-          >
-            <div className="lg:w-1/3">
-              <div className="relative h-96 w-full rounded-2xl overflow-hidden shadow-xl ring-4 ring-sky-100 dark:ring-sky-900">
-                <Image
-                  src="/chairman.jpg"
-                  alt="Durga Puri - Chairman"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="mt-6 text-center">
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  Durga Puri
-                </h3>
-                <p className="text-sky-600 dark:text-sky-400 font-medium">
-                  Chairman
-                </p>
-              </div>
-            </div>
-            <div className="lg:w-2/3">
-              <h2 className="text-3xl font-bold mb-6 text-slate-900 dark:text-white flex items-center gap-3 lg:justify-end">
-                Message From Chairman
-                <span className="w-12 h-1 bg-sky-500 rounded-full"></span>
-              </h2>
-              <div className="space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed text-lg lg:text-right">
-                <p>
-                  We are delighted that you are considering the Sky Rider School
-                  for your children’s future. This institution has honed and
-                  fine-tuned learning academics together with life skills, that
-                  has been envied and benchmarked across Nepal for decades.
-                </p>
-                <p>
-                  An investment made in Sky Rider School education pays many
-                  dividends throughout life. From the moment one student enters
-                  the school gates, a child realizes who he is, and where his
-                  potential lies. Irrespective of his/her background or calibre,
-                  he/she is groomed and nurtured in a way that one can stride
-                  into the adult world, confidently, responsibly, and
-                  independently.
-                </p>
-                <p>
-                  Multiple generations of successful students are living proof
-                  that this unique learning system works, and works well. Yet, in
-                  today’s world, no institution of repute and quality can afford
-                  to sit on its laurels. So, a decisive shift has been managed
-                  for all the students at their convenience.
-                </p>
-                <p>
-                  Last, but not least, your choice for uplifting your child’s
-                  outlook Sky Rider will be an ultimate destination where every
-                  child will be carved as per the need of time.
-                </p>
-              </div>
-            </div>
-          </motion.div>
+            {messages.map((msg, index) => (
+              <SwiperSlide key={index}>
+                <div className="flex flex-col lg:flex-row gap-12 items-center px-4 md:px-12">
+                  <div className="lg:w-1/3 shrink-0">
+                    <div
+                      className={`relative h-96 w-full rounded-2xl overflow-hidden shadow-xl ring-4 ring-${msg.color}-100 dark:ring-${msg.color}-900`}
+                    >
+                      <Image
+                        src={msg.image}
+                        alt={`${msg.name} - ${msg.position}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="mt-6 text-center">
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+                        {msg.name}
+                      </h3>
+                      <p
+                        className={`text-${msg.color}-600 dark:text-${msg.color}-400 font-medium`}
+                      >
+                        {msg.position}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="lg:w-2/3">
+                    <h2 className="text-3xl font-bold mb-6 text-slate-900 dark:text-white flex items-center gap-3">
+                      <span
+                        className={`w-12 h-1 bg-${msg.color}-500 rounded-full`}
+                      ></span>
+                      {msg.title}
+                    </h2>
+                    <div className="space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed text-lg max-h-[600px] overflow-y-auto pr-4 custom-scrollbar">
+                      {msg.content.map((paragraph, i) => (
+                        <p key={i}>{paragraph}</p>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </section>
 
